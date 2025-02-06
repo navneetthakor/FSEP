@@ -1,0 +1,47 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "WPS_worder_node_1",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/RegisterServer/register": {
+      "post": {
+        "tags": [
+          "RegisterServer"
+        ],
+        "parameters": [
+          {
+            "name": "Client_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Server_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Server_url",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

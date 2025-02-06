@@ -1,34 +1,22 @@
 
+using Microsoft.AspNetCore.Hosting;
+
 namespace WPS_worder_node_1
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            Startup startup = new Startup(builder.Configuration);
 
-            // Add services to the container.
+            startup.ConfigureServices(builder.Services);
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            WebApplication app = builder.Build();
 
-            var app = builder.Build();
+            startup.Configure(app, builder.Environment);
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
+            app.MapGet("/", () => "Hello World!");
 
             app.Run();
         }
