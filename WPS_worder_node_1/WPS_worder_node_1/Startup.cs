@@ -1,5 +1,5 @@
 ﻿using Hangfire;
-using Hangfire.MySql;
+using Hangfire.SqlServer;
 using WPS_worder_node_1.Repositories;
 namespace WPS_worder_node_1
 {
@@ -26,23 +26,28 @@ namespace WPS_worder_node_1
 
             string connectionString = "Server=localhost;Database=hangfire_db;Uid=root;Pwd=N@vneet2810;"; // Connection string to the database
 
-            // Add Hangfire services
-            services.AddHangfire(config =>
-                config.UseStorage(new MySqlStorage(connectionString, new MySqlStorageOptions
-                {
-                    TablesPrefix = "Hangfire", // Optional: Prefix for Hangfire tables
-                    QueuePollInterval = TimeSpan.FromSeconds(15) // Adjust polling interval
-                }))
-                ); // Use SQL Server in production
+            // 1. Configure Hangfire storage (e.g., SQL Server, Redis)
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"))); // Or UseRedisStorage, etc
+
             services.AddHangfireServer();
 
             //ServerListRepo configuration 
             services.AddSingleton<IServerListRepo, ServerListRepo>();
             services.AddSingleton<IMyJobServices, MyJobServices>();
+
+            
         }
 
-        public void Configure(WebApplication app, IWebHostEnvironment env)
+        public void Configure(WebApplication app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager)
         {
+            // Schedule a recurring job that pushes metrics
+            IMyJobServices job = app.Services.GetRequiredService<IMyJobServices>();
+            recurringJobManager.AddOrUpdate("Checking-health", () => job.InvokCheck(), Cron.Minutely);
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
@@ -52,8 +57,12 @@ namespace WPS_worder_node_1
             // Redirect HTTP requests to HTTPS
             app.UseHttpsRedirection();
 
+            // Enable Hangfire Dashboard (optional)
+            app.UseHangfireDashboard("/hangfire");
+
             // Map incoming requests to controller actions
             app.MapControllers();
+
 
             // End the request pipeline 
             app.Run();

@@ -1,5 +1,7 @@
 
+using Hangfire;
 using Microsoft.AspNetCore.Hosting;
+using WPS_worder_node_1.Repositories;
 
 namespace WPS_worder_node_1
 {
@@ -13,8 +15,9 @@ namespace WPS_worder_node_1
             startup.ConfigureServices(builder.Services);
 
             WebApplication app = builder.Build();
+            IRecurringJobManager recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
+            startup.Configure(app, builder.Environment,recurringJobManager);
 
-            startup.Configure(app, builder.Environment);
 
             app.MapGet("/", () => "Hello World!");
 
