@@ -363,6 +363,22 @@
           }
         }
       },
+      "Prometheus.Client.MetricPusher/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Prometheus.Client": "5.2.0"
+        },
+        "compile": {
+          "lib/net6.0/Prometheus.Client.MetricPusher.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Prometheus.Client.MetricPusher.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "RestSharp/112.1.0": {
         "type": "package",
         "compile": {
@@ -1509,6 +1525,25 @@
         "prometheus.client.abstractions.nuspec"
       ]
     },
+    "Prometheus.Client.MetricPusher/3.2.0": {
+      "sha512": "DWUdr8OEiT/Ug6nFkB+i3i59yiq+HSkWUS+t9uTMs1G+jSsUUdSXFYQ5UnGhlcoHx28SA2kYPM6GDCTeT5e0Ng==",
+      "type": "package",
+      "path": "prometheus.client.metricpusher/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net462/Prometheus.Client.MetricPusher.dll",
+        "lib/net462/Prometheus.Client.MetricPusher.xml",
+        "lib/net6.0/Prometheus.Client.MetricPusher.dll",
+        "lib/net6.0/Prometheus.Client.MetricPusher.xml",
+        "lib/netstandard2.0/Prometheus.Client.MetricPusher.dll",
+        "lib/netstandard2.0/Prometheus.Client.MetricPusher.xml",
+        "prometheus.client.metricpusher.3.2.0.nupkg.sha512",
+        "prometheus.client.metricpusher.nuspec"
+      ]
+    },
     "RestSharp/112.1.0": {
       "sha512": "bOUGNZqhhv/QeCXHTKEUil846yBjwWXpzPKjO67kFvaAOoF361z7jLY5BMnuZ6WD2WQRA750sNMcK7MSPCQ5Mg==",
       "type": "package",
@@ -2504,6 +2539,7 @@
       "Hangfire.MySqlStorage >= 2.0.3",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.21.0",
       "Prometheus.Client >= 5.2.0",
+      "Prometheus.Client.MetricPusher >= 3.2.0",
       "RestSharp >= 112.1.0",
       "Swashbuckle.AspNetCore >= 6.6.2"
     ]
@@ -2577,6 +2613,10 @@
           "Prometheus.Client": {
             "target": "Package",
             "version": "[5.2.0, )"
+          },
+          "Prometheus.Client.MetricPusher": {
+            "target": "Package",
+            "version": "[3.2.0, )"
           },
           "RestSharp": {
             "target": "Package",

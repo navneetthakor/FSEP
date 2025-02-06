@@ -29,6 +29,8 @@ namespace WPS_worder_node_1.BL
                     healthChecker.IsError = true;
                     healthChecker.ErrorMessage = response.ErrorException?.Message;
                 }
+                Console.WriteLine("rs: " + healthChecker.ResponseTime);
+                Console.WriteLine("st: " + healthChecker.StatusCode);
                 return healthChecker;
             }
             catch (Exception ex)

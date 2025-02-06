@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "CvvxzGCMDtw=",
+  "dgSpecHash": "WO7IbvjOJDY=",
   "success": true,
   "projectFilePath": "D:\\1\\Projects\\college\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj",
   "expectedPackageFiles": [
@@ -26,6 +26,7 @@
     "C:\\Users\\DELL\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\prometheus.client\\5.2.0\\prometheus.client.5.2.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\prometheus.client.abstractions\\5.2.0\\prometheus.client.abstractions.5.2.0.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\prometheus.client.metricpusher\\3.2.0\\prometheus.client.metricpusher.3.2.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\restsharp\\112.1.0\\restsharp.112.1.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",

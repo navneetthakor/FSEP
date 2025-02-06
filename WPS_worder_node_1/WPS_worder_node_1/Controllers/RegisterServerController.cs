@@ -14,6 +14,7 @@ namespace WPS_worder_node_1.Controllers
         public async Task<IActionResult> RegisterServer(int Client_id, int Server_id, string Server_url)
         {
             HealthCheckerModal healthChecker = await HealthChecker.CheckHealthAsync(Server_url);
+            MyMatricsPusher.PushMetrics(Client_id,Server_id, healthChecker);
             return Ok(healthChecker);
         }
     }

@@ -12,6 +12,8 @@
           "Hangfire.Core": "1.8.17",
           "Hangfire.MySqlStorage": "2.0.3",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.21.0",
+          "Prometheus.Client": "5.2.0",
+          "Prometheus.Client.MetricPusher": "3.2.0",
           "RestSharp": "112.1.0",
           "Swashbuckle.AspNetCore": "6.6.2"
         },
@@ -181,6 +183,36 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "11.0.0.0",
             "fileVersion": "11.0.2.21924"
+          }
+        }
+      },
+      "Prometheus.Client/5.2.0": {
+        "dependencies": {
+          "Prometheus.Client.Abstractions": "5.2.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Prometheus.Client.dll": {
+            "assemblyVersion": "5.2.0.0",
+            "fileVersion": "5.2.0.0"
+          }
+        }
+      },
+      "Prometheus.Client.Abstractions/5.2.0": {
+        "runtime": {
+          "lib/netstandard2.1/Prometheus.Client.Abstractions.dll": {
+            "assemblyVersion": "5.2.0.0",
+            "fileVersion": "5.2.0.0"
+          }
+        }
+      },
+      "Prometheus.Client.MetricPusher/3.2.0": {
+        "dependencies": {
+          "Prometheus.Client": "5.2.0"
+        },
+        "runtime": {
+          "lib/net6.0/Prometheus.Client.MetricPusher.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -516,6 +548,27 @@
       "sha512": "sha512-IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
       "path": "newtonsoft.json/11.0.2",
       "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
+    },
+    "Prometheus.Client/5.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9Wa4qzz9WtKmXr2Yii5sOwAaKCzxwwfMg27wrHqrejw54icwRuWRSX68QhvUFwJnCKqpXc7SpIS3kzzmcfrB8w==",
+      "path": "prometheus.client/5.2.0",
+      "hashPath": "prometheus.client.5.2.0.nupkg.sha512"
+    },
+    "Prometheus.Client.Abstractions/5.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ROwoYLSTmodSTQLQWrqVLNh4ZZyXAA+0wPGKM+1dhCGUPJQm5qjrKMhMVL8Fy6waEU1CFtf+0nLeIsvdDCUFAQ==",
+      "path": "prometheus.client.abstractions/5.2.0",
+      "hashPath": "prometheus.client.abstractions.5.2.0.nupkg.sha512"
+    },
+    "Prometheus.Client.MetricPusher/3.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DWUdr8OEiT/Ug6nFkB+i3i59yiq+HSkWUS+t9uTMs1G+jSsUUdSXFYQ5UnGhlcoHx28SA2kYPM6GDCTeT5e0Ng==",
+      "path": "prometheus.client.metricpusher/3.2.0",
+      "hashPath": "prometheus.client.metricpusher.3.2.0.nupkg.sha512"
     },
     "RestSharp/112.1.0": {
       "type": "package",
