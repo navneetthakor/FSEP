@@ -57,10 +57,15 @@ D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Prometheus.Client.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Prometheus.Client.Abstractions.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Prometheus.Client.MetricPusher.dll
-D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Hangfire.SqlServer.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\System.Data.SqlClient.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\runtimes\win-arm64\native\sni.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\runtimes\win-x64\native\sni.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\runtimes\win-x86\native\sni.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\runtimes\unix\lib\net8.0\System.Data.SqlClient.dll
 D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Data.SqlClient.dll
+D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Dapper.dll
+D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\Hangfire.MySql.dll
+D:\1\Projects\college\FSEP\WPS_worder_node_1\WPS_worder_node_1\bin\Debug\net8.0\MySqlConnector.dll

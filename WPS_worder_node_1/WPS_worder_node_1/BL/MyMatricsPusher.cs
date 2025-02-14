@@ -9,11 +9,11 @@ namespace WPS_worder_node_1.BL
 {
     public class MyMatricsPusher
     {
-        // ✅ Static registry & pusher (prevents memory leak)
+        // Static registry & pusher (prevents memory leak)
         private static readonly CollectorRegistry registry = new CollectorRegistry();
         private static readonly MetricFactory factory = new MetricFactory(registry);
-        private static readonly IHistogram jobExecutionDuration = factory.CreateHistogram(
-            "http_response_time_custom", "Response time in seconds"
+        private static readonly IGauge jobExecutionDuration = factory.CreateGauge(
+            "http_Gauge_response_time_custom", "Response time in seconds"
         );
         private static readonly IMetricFamily<ICounter, ValueTuple<String>> jobExecutionStatus = factory.CreateCounter(
             "http_status_code_custom", "Count of HTTP status codes", "status_code"
@@ -21,23 +21,23 @@ namespace WPS_worder_node_1.BL
 
         public static void PushMetrics(int Clinet_id, int Server_id, HealthCheckerModal healthCheckModal)
         {
-            // ✅ Move pusher here (after defining registry & metrics)
-            var pusher = new MetricPusher(new MetricPusherOptions
+            // Move pusher here (after defining registry & metrics)
+            MetricPusher pusher = new MetricPusher(new MetricPusherOptions
             {
                 Endpoint = "http://localhost:9091",
                 Job = $"{Clinet_id}",
                 Instance = $"{Server_id}",
-                CollectorRegistry = registry  // ✅ Attach registry
+                CollectorRegistry = registry
             });
 
-            // ✅ Push collected metrics
-            jobExecutionDuration.Observe(healthCheckModal.ResponseTime);
+            // Push collected metrics
+            jobExecutionDuration.Set(healthCheckModal.ResponseTime);
             jobExecutionStatus.WithLabels(healthCheckModal.StatusCode.ToString()).Inc();
 
-            // ✅ Await PushAsync to ensure data is sent before method exits
+            //PushAsync to make current thread available for other task
+            //insted of waiting for data push completion
             pusher.PushAsync().GetAwaiter().GetResult();
-
-            Console.WriteLine("Response time & status code pushed successfully!");
+            Console.WriteLine("Metrics pushed");
         }
     }
 }

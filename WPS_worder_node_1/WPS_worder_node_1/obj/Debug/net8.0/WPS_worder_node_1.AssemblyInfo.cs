@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WPS_worder_node_1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6214e2060d53ea202bb99922055e7505f5483656")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81f4d23214ca9a83c2e05491f6ad30c1e584d887")]
 [assembly: System.Reflection.AssemblyProductAttribute("WPS_worder_node_1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WPS_worder_node_1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

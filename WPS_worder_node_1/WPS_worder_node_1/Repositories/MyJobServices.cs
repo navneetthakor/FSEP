@@ -19,7 +19,6 @@ namespace WPS_worder_node_1.Repositories
                 HealthCheckerModal healthCheckModal = HealthChecker.CheckHealthAsync(server.Server_url).GetAwaiter().GetResult();
                 MyMatricsPusher.PushMetrics(server.Client_id, server.Server_id, healthCheckModal);
             }
-            Console.WriteLine("Invoking Health Check");
         }
     }
 }

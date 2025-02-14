@@ -1,6 +1,7 @@
 ﻿using Hangfire;
-using Hangfire.SqlServer;
+using Hangfire.MySql;
 using WPS_worder_node_1.Repositories;
+
 namespace WPS_worder_node_1
 {
     /// <summary>
@@ -20,18 +21,19 @@ namespace WPS_worder_node_1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            string connectionString = "Server=localhost;Database=hangfire_db;Uid=root;Pwd=N@vneet2810;"; // Connection string to the database
+            string connectionString = "server=localhost;database=hangfire_db;uid=root;pwd=N@vneet2810;Allow User Variables=True"; // Connection string to the database
 
             // 1. Configure Hangfire storage (e.g., SQL Server, Redis)
             services.AddHangfire(configuration => configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
-                .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"))); // Or UseRedisStorage, etc
+                .UseStorage(
+                new MySqlStorage(connectionString, new MySqlStorageOptions())));
 
             services.AddHangfireServer();
 
