@@ -17,5 +17,10 @@
         /// </summary>
         public string Server_url { get; set; }
 
+        ///<summary>
+        /// status of the server
+        /// </summary>
+        public ServerStatus Status { get; set; }
+
     }
 }

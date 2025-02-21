@@ -1,5 +1,25 @@
 [
   {
+    "ContainingType": "WPS_worder_node_1.Controllers.KafkaTesterController",
+    "Method": "ProduceData",
+    "RelativePath": "api/KafkaTester/produceData",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "WPS_worder_node_1.Modal.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "WPS_worder_node_1.Controllers.RegisterServerController",
     "Method": "RegisterServer",
     "RelativePath": "api/RegisterServer/register",

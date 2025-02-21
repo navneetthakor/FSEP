@@ -36,7 +36,7 @@ namespace WPS_worder_node_1.BL
 
             //PushAsync to make current thread available for other task
             //insted of waiting for data push completion
-            pusher.PushAsync().GetAwaiter().GetResult();
+            pusher.PushAsync().GetAwaiter();
             Console.WriteLine("Metrics pushed");
         }
     }

@@ -16,7 +16,8 @@ namespace WPS_worder_node_1.Controllers
         public async Task<Response> RegisterServer(IServerListRepo serverListRepo ,int Client_id, int Server_id, string Server_url)
         {
             // add clentServer to serverListRepo
-            serverListRepo.AddServer(new ServerModal { Client_id = Client_id, Server_id = Server_id, Server_url = Server_url });
+            ServerModal serverModal = new ServerModal { Client_id = Client_id, Server_id = Server_id, Server_url = Server_url, Status = ServerStatus.Running };
+            serverListRepo.AddServer(serverModal);
 
             //check it's health first 
             HealthCheckerModal healthChecker = await HealthChecker.CheckHealthAsync(Server_url);
@@ -26,6 +27,15 @@ namespace WPS_worder_node_1.Controllers
 
             //if error then,
             //send notification to alerting system.
+            if (healthChecker.IsError)
+            {
+                MyKafkaProducer.NotifyKafka(serverModal, healthChecker, false);
+            }
+            // testing notification
+            else
+            {
+                MyKafkaProducer.NotifyKafka(serverModal, healthChecker, true);
+            }
 
             //preparing Response 
             Response response = new Response()

@@ -1,14 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "aeiEPwdTIlY=",
+  "dgSpecHash": "KcVROdr1nbE=",
   "success": true,
   "projectFilePath": "D:\\1\\Projects\\college\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\DELL\\.nuget\\packages\\confluent.kafka\\2.8.0\\confluent.kafka.2.8.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\dapper\\1.50.5\\dapper.1.50.5.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\hangfire.aspnetcore\\1.8.17\\hangfire.aspnetcore.1.8.17.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\hangfire.core\\1.8.17\\hangfire.core.1.8.17.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\hangfire.mysqlstorage\\2.0.3\\hangfire.mysqlstorage.2.0.3.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\hangfire.netcore\\1.8.17\\hangfire.netcore.1.8.17.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\librdkafka.redist\\2.8.0\\librdkafka.redist.2.8.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\8.0.13\\microsoft.aspnetcore.jsonpatch.8.0.13.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\8.0.13\\microsoft.aspnetcore.mvc.newtonsoftjson.8.0.13.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

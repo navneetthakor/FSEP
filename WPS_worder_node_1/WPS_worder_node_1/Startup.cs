@@ -54,7 +54,7 @@ namespace WPS_worder_node_1
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            }   
 
             // Redirect HTTP requests to HTTPS
             app.UseHttpsRedirection();
