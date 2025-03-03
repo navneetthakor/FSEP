@@ -1,0 +1,28 @@
+[
+  {
+    "ContainingType": "wps_master_pod_1.Controllers.GateWayController",
+    "Method": "RegisterApi",
+    "RelativePath": "api/GateWay/RegisterApi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serverModal",
+        "Type": "wps_master_pod_1.Modal.ServerModal",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "wps_master_pod_1.Modal.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "1BhxQJeNKTLdNgNewWVm8AB3oLdyaTCmnM7ZaLrVqQ0=",
+  "Source": "wps_master_pod_1",
+  "BasePath": "_content/wps_master_pod_1",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
