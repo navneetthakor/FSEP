@@ -31,7 +31,9 @@ create table wps02(
     S02F03 varchar(50),
     
     -- server_status
-    S02F04 varchar(10)
+    S02F04 varchar(10),
+    
+    foreign key (S02F02) references wps01(S01F01)
 );
 
 
