@@ -28,19 +28,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Client_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Server_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Server_url",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "serverModal",
+        "Type": "WPS_worder_node_1.Modal.ServerModal",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [

@@ -21,5 +21,10 @@
         /// Response time
         /// </summary>
         public int ResponseTime { get; set; }
+
+        /// <summary>
+        /// body part
+        /// </summary>
+        public string? Body { get; set; }
     }
 }

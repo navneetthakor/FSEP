@@ -1,6 +1,4 @@
-﻿
-
-using Confluent.Kafka;
+﻿using Confluent.Kafka;
 using Newtonsoft.Json;
 using WPS_worder_node_1.Modal;
 

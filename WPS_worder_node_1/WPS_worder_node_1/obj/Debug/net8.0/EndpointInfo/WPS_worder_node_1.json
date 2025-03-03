@@ -39,31 +39,30 @@
         "tags": [
           "RegisterServer"
         ],
-        "parameters": [
-          {
-            "name": "Client_id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Server_id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Server_url",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -253,6 +252,22 @@
           3,
           32,
           64
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "CheckFrequency": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ],
         "type": "integer",
         "format": "int32"
@@ -2123,6 +2138,69 @@
         "type": "integer",
         "format": "int32"
       },
+      "ServerModal": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "server_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "method": {
+            "type": "string",
+            "nullable": true
+          },
+          "server_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ServerStatus"
+          },
+          "typeOFCheck": {
+            "$ref": "#/components/schemas/TypeOFCheck"
+          },
+          "checkFrequency": {
+            "$ref": "#/components/schemas/CheckFrequency"
+          },
+          "keyword": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusCodes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ServerStatus": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "SortVersion": {
         "type": "object",
         "properties": {
@@ -2903,6 +2981,17 @@
           }
         },
         "additionalProperties": false
+      },
+      "TypeOFCheck": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
       }
     }
   }

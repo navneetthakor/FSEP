@@ -1,5 +1,6 @@
 ﻿using WPS_worder_node_1.BL;
 using WPS_worder_node_1.Modal;
+using WPS_worder_node_1.Modal.Enums;
 
 namespace WPS_worder_node_1.Repositories
 {
@@ -17,19 +18,19 @@ namespace WPS_worder_node_1.Repositories
             foreach (ServerModal server in _serverListRepo.ListOfServer)
             {
                 //check if this server is already under recovery 
-                if(server.Status == ServerStatus.Push)
+                if(server.Status == ServerStatus.P)
                 {
                     continue;
                 }
 
                 //check it's health
-                HealthCheckerModal healthCheckModal = HealthChecker.CheckHealthAsync(server.Server_url).GetAwaiter().GetResult();
+                HealthCheckerModal healthCheckModal = HealthChecker.CheckHealthAsync(server).GetAwaiter().GetResult();
 
                 //if error then notify to kafka 
                 if(healthCheckModal.IsError)
                 {
                     MyKafkaProducer.NotifyKafka(server, healthCheckModal,false);
-                    server.Status = ServerStatus.Push;
+                    server.Status = ServerStatus.P;
                 }
 
                 // if no error then push metrics to pushgateway
