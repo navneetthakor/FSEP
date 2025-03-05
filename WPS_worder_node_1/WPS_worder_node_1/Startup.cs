@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Hangfire.MySql;
 using WPS_worder_node_1.Repositories;
+using WPS_worder_node_1.Repositories.Interface;
 
 namespace WPS_worder_node_1
 {
@@ -40,7 +41,7 @@ namespace WPS_worder_node_1
             //ServerListRepo configuration 
             services.AddSingleton<IServerListRepo, ServerListRepo>();
             services.AddSingleton<IMyJobServices, MyJobServices>();
-
+            services.AddSingleton<IHeartBitService, HeartBitService>();
             
         }
 
@@ -49,6 +50,10 @@ namespace WPS_worder_node_1
             // Schedule a recurring job that pushes metrics
             IMyJobServices job = app.Services.GetRequiredService<IMyJobServices>();
             recurringJobManager.AddOrUpdate("Checking-health", () => job.InvokCheck(), Cron.Minutely);
+
+            //Schedule a recurring job that sends a heartbeat
+            IHeartBitService heartBitService = app.Services.GetRequiredService<IHeartBitService>();
+            recurringJobManager.AddOrUpdate("HeartBit", () => heartBitService.HeartBit(), Cron.MinuteInterval(2));
 
             if (env.IsDevelopment())
             {

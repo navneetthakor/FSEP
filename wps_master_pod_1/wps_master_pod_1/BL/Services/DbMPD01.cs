@@ -8,7 +8,7 @@ using wps_master_pod_1.BL.Interface;
 
 namespace wps_master_pod_1.BL.Services
 {
-    public class DbUptimeWorker : IDbUptimeWorker
+    public class DbMPD01 : IDbUptimeWorker
     {
         /// <summary>
         /// Database connection
@@ -19,7 +19,7 @@ namespace wps_master_pod_1.BL.Services
         /// Constructor for the DbUptimeWorker class
         /// </summary>
         /// <param name="dbService"></param>
-        public DbUptimeWorker([FromServices] IDataBaseService dbService)
+        public DbMPD01([FromServices] IDataBaseService dbService)
         {
             _dbConnection = dbService.db;
         }

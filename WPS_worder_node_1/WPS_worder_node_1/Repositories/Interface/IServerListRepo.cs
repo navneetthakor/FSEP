@@ -1,7 +1,6 @@
-﻿
-using WPS_worder_node_1.Modal;
+﻿using WPS_worder_node_1.Modal;
 
-namespace WPS_worder_node_1.Repositories
+namespace WPS_worder_node_1.Repositories.Interface
 {
     public interface IServerListRepo
     {

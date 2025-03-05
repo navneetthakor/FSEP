@@ -12,7 +12,7 @@ namespace WPS_worder_node_1.Modal
         /// <summary>
         /// Does it have Error
         /// </summary>
-        public bool IsError { get; set; }
+        public bool IsError { get; set; } = false;
 
         /// <summary>
         /// Message provided
@@ -22,6 +22,6 @@ namespace WPS_worder_node_1.Modal
         /// <summary>
         /// status code
         /// </summary>
-        public int StatusCode { get; set; }
+        public int StatusCode { get; set; } = 200;
     }
 }

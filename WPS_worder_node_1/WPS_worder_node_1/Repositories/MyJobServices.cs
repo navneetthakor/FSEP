@@ -1,6 +1,7 @@
 ﻿using WPS_worder_node_1.BL;
 using WPS_worder_node_1.Modal;
 using WPS_worder_node_1.Modal.Enums;
+using WPS_worder_node_1.Repositories.Interface;
 
 namespace WPS_worder_node_1.Repositories
 {

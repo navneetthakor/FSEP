@@ -41,8 +41,8 @@ namespace wps_master_pod_1
 
             //registering database service 
             services.AddScoped<IDataBaseService, DataBaseService>();
-            services.AddScoped<IDbUptimeWorker ,DbUptimeWorker>();
-
+            services.AddScoped<IDbUptimeWorker ,DbMPD01>();
+            services.AddSingleton<IStackStore, StackStore>();
 
 
         }

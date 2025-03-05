@@ -1,4 +1,5 @@
 ﻿using WPS_worder_node_1.Modal;
+using WPS_worder_node_1.Repositories.Interface;
 
 namespace WPS_worder_node_1.Repositories
 {

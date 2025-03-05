@@ -32,6 +32,22 @@ namespace wps_master_pod_1.BL.Services
 
         public static Response RemoveServer(int client_id, int server_id)
         {
+            //create restClient
+            RestClient client = new RestClient("http://localhost:5004/");
+
+            //preparing request to remove server
+            RestRequest request = new RestRequest($"api/RegisterServer/remove?client_id={client_id}&server_id={server_id}", Method.Delete);
+
+            //send request 
+            RestResponse rr = client.Execute(request);
+
+            // if error occured
+            if (!rr.IsSuccessStatusCode)
+            {
+                return new Response() { Data = null, IsError = true, ErrorMessage = "Worker pod is not available", StatusCode = 500 };
+            }
+
+            return new Response() { Data = null, IsError = false, ErrorMessage = "successfull", StatusCode = 200 };
 
         }
     }

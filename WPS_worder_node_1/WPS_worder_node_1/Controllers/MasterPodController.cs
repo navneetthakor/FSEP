@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using WPS_worder_node_1.BL;
 using WPS_worder_node_1.Modal;
-using WPS_worder_node_1.Repositories;
 using System.Data;
+using WPS_worder_node_1.Repositories.Interface;
 
 namespace WPS_worder_node_1.Controllers
 {
@@ -13,7 +13,7 @@ namespace WPS_worder_node_1.Controllers
     {
         [HttpPost]
         [Route("register")]
-        public async Task<Response> RegisterServer(IServerListRepo serverListRepo, ServerModal serverModal)
+        public async Task<Response> RegisterServer(IServerListRepo serverListRepo, [FromBody] ServerModal serverModal)
         {
             try
             {
@@ -70,6 +70,8 @@ namespace WPS_worder_node_1.Controllers
         }
 
 
+        [HttpDelete]
+        [Route("remove/{client_id}/{server_id}")]
         public Response RemoveServer(IServerListRepo serverlistRepo, int client_id, int server_id)
         {
             try
@@ -98,4 +100,10 @@ namespace WPS_worder_node_1.Controllers
                 return response;
             }
         }
+
+        public Response GetHeartBit()
+        {
+            return new Response() { IsError = false };
+        }
+    }
 }
