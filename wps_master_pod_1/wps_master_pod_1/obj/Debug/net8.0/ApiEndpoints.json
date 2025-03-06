@@ -24,5 +24,62 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "wps_master_pod_1.Controllers.GateWayController",
+    "Method": "RemoveServer",
+    "RelativePath": "api/GateWay/RemoveServer",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "client_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "server_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "wps_master_pod_1.Modal.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "wps_master_pod_1.Controllers.WorkerPodController",
+    "Method": "HeartBeat",
+    "RelativePath": "api/WorkerPod/HeartBeat",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "worker_id",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "wps_master_pod_1.Modal.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

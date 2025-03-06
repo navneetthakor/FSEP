@@ -31,7 +31,7 @@ namespace wps_master_pod_1.Controllers
                 }
 
                 // adding entry to database 
-                Response dbResponse = dbUptimeWorker.AddServer(serverModal.Client_id, serverModal.Server_id, "worker_1");
+                Response dbResponse = dbUptimeWorker.AddServer(serverModal.Client_id, serverModal.Server_id, "00000001");
 
                 //if error occured
                 if (dbResponse.IsError)
@@ -50,7 +50,8 @@ namespace wps_master_pod_1.Controllers
 
         }
 
-
+        [HttpDelete]
+        [Route("RemoveServer")]
         public Response RemoveServer(int client_id, int server_id, [FromServices] IDbUptimeWorker dbUptimeWorker)
         {
             //forward it to the worker pod

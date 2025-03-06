@@ -1,5 +1,5 @@
-﻿using ServiceStack.Messaging;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using wps_master_pod_1.Modal.Enums;
 
 namespace wps_master_pod_1.Modal.POCOS
@@ -9,7 +9,7 @@ namespace wps_master_pod_1.Modal.POCOS
         /// <summary>
         /// worker_id
         /// </summary>
-        [StringLength(20)]
+        [MaxLength(20), NotNull]
         public string D02F01;
 
         /// <summary>

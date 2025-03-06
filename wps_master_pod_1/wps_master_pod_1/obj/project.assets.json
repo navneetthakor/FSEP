@@ -278,20 +278,17 @@
           }
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2": {
+      "Microsoft.Extensions.DependencyInjection.Abstractions/3.0.0": {
         "type": "package",
         "compile": {
-          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
         }
       },
       "Microsoft.Extensions.FileProviders.Abstractions/3.0.0": {
@@ -329,23 +326,17 @@
           }
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/8.0.2": {
+      "Microsoft.Extensions.Logging.Abstractions/3.0.0": {
         "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
-        },
         "compile": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
             "related": ".xml"
           }
-        },
-        "build": {
-          "buildTransitive/net6.0/Microsoft.Extensions.Logging.Abstractions.targets": {}
         }
       },
       "Microsoft.Extensions.Primitives/3.0.0": {
@@ -475,19 +466,15 @@
           }
         }
       },
-      "MySqlConnector/2.4.0": {
+      "MySqlConnector/1.0.0": {
         "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
-          "Microsoft.Extensions.Logging.Abstractions": "8.0.2"
-        },
         "compile": {
-          "lib/net8.0/MySqlConnector.dll": {
+          "lib/net5.0/MySqlConnector.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/MySqlConnector.dll": {
+          "lib/net5.0/MySqlConnector.dll": {
             "related": ".xml"
           }
         }
@@ -569,11 +556,11 @@
           }
         }
       },
-      "ServiceStack.Common/8.6.0": {
+      "ServiceStack.Common/8.5.2": {
         "type": "package",
         "dependencies": {
-          "ServiceStack.Interfaces": "8.6.0",
-          "ServiceStack.Text": "8.6.0",
+          "ServiceStack.Interfaces": "8.5.2",
+          "ServiceStack.Text": "8.5.2",
           "System.Memory": "4.6.0"
         },
         "compile": {
@@ -587,7 +574,7 @@
           }
         }
       },
-      "ServiceStack.Interfaces/8.6.0": {
+      "ServiceStack.Interfaces/8.5.2": {
         "type": "package",
         "compile": {
           "lib/net8.0/ServiceStack.Interfaces.dll": {}
@@ -596,10 +583,10 @@
           "lib/net8.0/ServiceStack.Interfaces.dll": {}
         }
       },
-      "ServiceStack.OrmLite/8.6.0": {
+      "ServiceStack.OrmLite/8.5.2": {
         "type": "package",
         "dependencies": {
-          "ServiceStack.Common": "8.6.0",
+          "ServiceStack.Common": "8.5.2",
           "System.Collections.NonGeneric": "4.3.0",
           "System.ComponentModel.Annotations": "5.0.0",
           "System.ComponentModel.Primitives": "4.3.0",
@@ -620,14 +607,14 @@
           }
         }
       },
-      "ServiceStack.OrmLite.MySql/8.6.0": {
+      "ServiceStack.OrmLite.MySql/8.5.2": {
         "type": "package",
         "dependencies": {
           "Mysql.Data": "9.1.0",
-          "ServiceStack.Common": "8.6.0",
-          "ServiceStack.Interfaces": "8.6.0",
-          "ServiceStack.OrmLite": "8.6.0",
-          "ServiceStack.Text": "8.6.0"
+          "ServiceStack.Common": "8.5.2",
+          "ServiceStack.Interfaces": "8.5.2",
+          "ServiceStack.OrmLite": "8.5.2",
+          "ServiceStack.Text": "8.5.2"
         },
         "compile": {
           "lib/net8.0/ServiceStack.OrmLite.MySql.dll": {
@@ -640,25 +627,7 @@
           }
         }
       },
-      "ServiceStack.OrmLite.MySqlConnector/8.6.0": {
-        "type": "package",
-        "dependencies": {
-          "MySqlConnector": "2.4.0",
-          "ServiceStack.Common": "8.6.0",
-          "ServiceStack.OrmLite": "8.6.0"
-        },
-        "compile": {
-          "lib/net8.0/ServiceStack.OrmLite.MySqlConnector.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/ServiceStack.OrmLite.MySqlConnector.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "ServiceStack.Text/8.6.0": {
+      "ServiceStack.Text/8.5.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -2080,36 +2049,17 @@
         "microsoft.extensions.configuration.abstractions.nuspec"
       ]
     },
-    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2": {
-      "sha512": "3iE7UF7MQkCv1cxzCahz+Y/guQbTqieyxyaWKhrRO91itI9cOKO76OHeQDahqG4MmW5umr3CcCvGmK92lWNlbg==",
+    "Microsoft.Extensions.DependencyInjection.Abstractions/3.0.0": {
+      "sha512": "ofQRroDlzJ0xKOtzNuaVt6QKNImFkhkG0lIMpGl7PtXnIf5SuLWBeiQZAP8DNSxDBJJdcsPkiJiMYK2WA5H8dQ==",
       "type": "package",
-      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.2",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/3.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
-        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
-        "microsoft.extensions.dependencyinjection.abstractions.nuspec",
-        "useSharedDesignerContext.txt"
+        "microsoft.extensions.dependencyinjection.abstractions.3.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.nuspec"
       ]
     },
     "Microsoft.Extensions.FileProviders.Abstractions/3.0.0": {
@@ -2142,77 +2092,17 @@
         "microsoft.extensions.hosting.abstractions.nuspec"
       ]
     },
-    "Microsoft.Extensions.Logging.Abstractions/8.0.2": {
-      "sha512": "nroMDjS7hNBPtkZqVBbSiQaQjWRDxITI8Y7XnDs97rqG3EbzVTNLZQf7bIeUJcaHOV8bca47s1Uxq94+2oGdxA==",
+    "Microsoft.Extensions.Logging.Abstractions/3.0.0": {
+      "sha512": "+PsosTYZn+omucI0ff9eywo9QcPLwcbIWf7dz7ZLM1zGR8gVZXJ3wo6+tkuIedUNW5iWENlVJPEvrGjiVeoNNQ==",
       "type": "package",
-      "path": "microsoft.extensions.logging.abstractions/8.0.2",
+      "path": "microsoft.extensions.logging.abstractions/3.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "analyzers/dotnet/roslyn3.11/cs/Microsoft.Extensions.Logging.Generators.dll",
-        "analyzers/dotnet/roslyn3.11/cs/cs/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/de/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/es/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/fr/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/it/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/ja/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/ko/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/pl/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/pt-BR/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/ru/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/tr/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/zh-Hans/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn3.11/cs/zh-Hant/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/Microsoft.Extensions.Logging.Generators.dll",
-        "analyzers/dotnet/roslyn4.0/cs/cs/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/de/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/es/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/fr/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/it/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/ja/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/ko/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/pl/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/pt-BR/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/ru/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/tr/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/zh-Hans/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.0/cs/zh-Hant/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/Microsoft.Extensions.Logging.Generators.dll",
-        "analyzers/dotnet/roslyn4.4/cs/cs/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/de/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/es/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/fr/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/it/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/ja/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/ko/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/pl/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/pt-BR/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/ru/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/tr/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/zh-Hans/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "analyzers/dotnet/roslyn4.4/cs/zh-Hant/Microsoft.Extensions.Logging.Generators.resources.dll",
-        "buildTransitive/net461/Microsoft.Extensions.Logging.Abstractions.targets",
-        "buildTransitive/net462/Microsoft.Extensions.Logging.Abstractions.targets",
-        "buildTransitive/net6.0/Microsoft.Extensions.Logging.Abstractions.targets",
-        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Logging.Abstractions.targets",
-        "buildTransitive/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.targets",
-        "lib/net462/Microsoft.Extensions.Logging.Abstractions.dll",
-        "lib/net462/Microsoft.Extensions.Logging.Abstractions.xml",
-        "lib/net6.0/Microsoft.Extensions.Logging.Abstractions.dll",
-        "lib/net6.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "lib/net7.0/Microsoft.Extensions.Logging.Abstractions.dll",
-        "lib/net7.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll",
-        "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
-        "microsoft.extensions.logging.abstractions.nuspec",
-        "useSharedDesignerContext.txt"
+        "microsoft.extensions.logging.abstractions.3.0.0.nupkg.sha512",
+        "microsoft.extensions.logging.abstractions.nuspec"
       ]
     },
     "Microsoft.Extensions.Primitives/3.0.0": {
@@ -2429,32 +2319,33 @@
         "runtimes/win-x64/native/krbcc64.dll"
       ]
     },
-    "MySqlConnector/2.4.0": {
-      "sha512": "78M+gVOjbdZEDIyXQqcA7EYlCGS3tpbUELHvn6638A2w0pkPI625ixnzsa5staAd3N9/xFmPJtkKDYwsXpFi/w==",
+    "MySqlConnector/1.0.0": {
+      "sha512": "7meR9elqyw/cF67N19MCKYzZjtyMJBlaCvjOC53XbrRQcvzER1sICpzcHwpsZF7sTxhHDZk6b3J25IOvSJaj6A==",
       "type": "package",
-      "path": "mysqlconnector/2.4.0",
+      "path": "mysqlconnector/1.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "README.md",
-        "lib/net462/MySqlConnector.dll",
-        "lib/net462/MySqlConnector.xml",
+        "lib/net45/MySqlConnector.dll",
+        "lib/net45/MySqlConnector.xml",
+        "lib/net461/MySqlConnector.dll",
+        "lib/net461/MySqlConnector.xml",
         "lib/net471/MySqlConnector.dll",
         "lib/net471/MySqlConnector.xml",
-        "lib/net48/MySqlConnector.dll",
-        "lib/net48/MySqlConnector.xml",
-        "lib/net6.0/MySqlConnector.dll",
-        "lib/net6.0/MySqlConnector.xml",
-        "lib/net8.0/MySqlConnector.dll",
-        "lib/net8.0/MySqlConnector.xml",
-        "lib/net9.0/MySqlConnector.dll",
-        "lib/net9.0/MySqlConnector.xml",
+        "lib/net5.0/MySqlConnector.dll",
+        "lib/net5.0/MySqlConnector.xml",
+        "lib/netcoreapp2.1/MySqlConnector.dll",
+        "lib/netcoreapp2.1/MySqlConnector.xml",
+        "lib/netcoreapp3.0/MySqlConnector.dll",
+        "lib/netcoreapp3.0/MySqlConnector.xml",
+        "lib/netstandard1.3/MySqlConnector.dll",
+        "lib/netstandard1.3/MySqlConnector.xml",
         "lib/netstandard2.0/MySqlConnector.dll",
         "lib/netstandard2.0/MySqlConnector.xml",
         "lib/netstandard2.1/MySqlConnector.dll",
         "lib/netstandard2.1/MySqlConnector.xml",
         "logo.png",
-        "mysqlconnector.2.4.0.nupkg.sha512",
+        "mysqlconnector.1.0.0.nupkg.sha512",
         "mysqlconnector.nuspec"
       ]
     },
@@ -2597,10 +2488,10 @@
         "version.txt"
       ]
     },
-    "ServiceStack.Common/8.6.0": {
-      "sha512": "jWzL+t6n7d/ztPITrYXvAWP90Xxn3PN0xZsp4TgWmXF3ES6QkQtDNzz42WyOsl+lV1JrYY4vzQt4tYRfPlIrMw==",
+    "ServiceStack.Common/8.5.2": {
+      "sha512": "aQkz9t7C4acywNALn/xuUDfx6iFfHdnDK1mtTfZogZAguR+fUK040r5oGC/jhQPZ0M56ScPYZ3eeAdHQ8wHsUw==",
       "type": "package",
-      "path": "servicestack.common/8.6.0",
+      "path": "servicestack.common/8.5.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2612,14 +2503,14 @@
         "lib/net8.0/ServiceStack.Common.xml",
         "lib/netstandard2.0/ServiceStack.Common.dll",
         "lib/netstandard2.0/ServiceStack.Common.xml",
-        "servicestack.common.8.6.0.nupkg.sha512",
+        "servicestack.common.8.5.2.nupkg.sha512",
         "servicestack.common.nuspec"
       ]
     },
-    "ServiceStack.Interfaces/8.6.0": {
-      "sha512": "qD9l9/JZa+O33NJ2638220BdcPAqv/4qSYe6UItf/fEwZXDKwJwO22w6tJ8iLA+PLQvpq+F5laYp77e1QXPibw==",
+    "ServiceStack.Interfaces/8.5.2": {
+      "sha512": "NYRqs1Nais8oH+QDln1gJzEYUD+3CYcyERZzqohofoLhA5XP4NSDwBjojCRpDIUNcRvoTbA8HKVThA+bK0j7sw==",
       "type": "package",
-      "path": "servicestack.interfaces/8.6.0",
+      "path": "servicestack.interfaces/8.5.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2627,14 +2518,14 @@
         "lib/net6.0/ServiceStack.Interfaces.dll",
         "lib/net8.0/ServiceStack.Interfaces.dll",
         "lib/netstandard2.0/ServiceStack.Interfaces.dll",
-        "servicestack.interfaces.8.6.0.nupkg.sha512",
+        "servicestack.interfaces.8.5.2.nupkg.sha512",
         "servicestack.interfaces.nuspec"
       ]
     },
-    "ServiceStack.OrmLite/8.6.0": {
-      "sha512": "SSuTFTLliM0iV3lcfL0ZFuB9qnfkTTOXurzE9Ar/1wzbaSHWLiK4N6lhQZo/TZwDaBGqpd0OZ5weyThxHNPyaQ==",
+    "ServiceStack.OrmLite/8.5.2": {
+      "sha512": "+LDzJnHuAfpojy/hKQqs6bqKNB58vT92+DifEeu7kcRcUEAp93WkSa7WiHOCG7MQMKdSPVembOvFQLi2nIcoKQ==",
       "type": "package",
-      "path": "servicestack.ormlite/8.6.0",
+      "path": "servicestack.ormlite/8.5.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2646,14 +2537,14 @@
         "lib/net8.0/ServiceStack.OrmLite.xml",
         "lib/netstandard2.0/ServiceStack.OrmLite.dll",
         "lib/netstandard2.0/ServiceStack.OrmLite.xml",
-        "servicestack.ormlite.8.6.0.nupkg.sha512",
+        "servicestack.ormlite.8.5.2.nupkg.sha512",
         "servicestack.ormlite.nuspec"
       ]
     },
-    "ServiceStack.OrmLite.MySql/8.6.0": {
-      "sha512": "ByUsMMsf9QVFu0G4U4afDcEqHFWu6er6uX43mJ5oZj/aX89z4xZkqXiq/bh9RMy44imCrCWUvT/kGPm5YBQazQ==",
+    "ServiceStack.OrmLite.MySql/8.5.2": {
+      "sha512": "WqC1pRTKdLj3CU995Qw3HKK9ohbT42l14bqQLNFndciSIPKGqXWS3ERJzFR6oCRtPWlhMInHPPoja1ZUs0DGig==",
       "type": "package",
-      "path": "servicestack.ormlite.mysql/8.6.0",
+      "path": "servicestack.ormlite.mysql/8.5.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2665,33 +2556,14 @@
         "lib/net8.0/ServiceStack.OrmLite.MySql.xml",
         "lib/netstandard2.0/ServiceStack.OrmLite.MySql.dll",
         "lib/netstandard2.0/ServiceStack.OrmLite.MySql.xml",
-        "servicestack.ormlite.mysql.8.6.0.nupkg.sha512",
+        "servicestack.ormlite.mysql.8.5.2.nupkg.sha512",
         "servicestack.ormlite.mysql.nuspec"
       ]
     },
-    "ServiceStack.OrmLite.MySqlConnector/8.6.0": {
-      "sha512": "Y3OLo3cd3NhKChpgmCYfNDlM2QipEegXSk+nvh3wdIEsNpEL782mRCF+rdkT77wUdVtADOvOBrI8/H2uUJnaHg==",
+    "ServiceStack.Text/8.5.2": {
+      "sha512": "BHSJMxh+rIv7cgAqDHXl3FJM3xoY+SCN8CqiKjR5+AUb1ZK9lrJtGjzKYIo+5AQSD0lQDBjWxhYXcqE8ST+Rbw==",
       "type": "package",
-      "path": "servicestack.ormlite.mysqlconnector/8.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net472/ServiceStack.OrmLite.MySqlConnector.dll",
-        "lib/net472/ServiceStack.OrmLite.MySqlConnector.xml",
-        "lib/net6.0/ServiceStack.OrmLite.MySqlConnector.dll",
-        "lib/net6.0/ServiceStack.OrmLite.MySqlConnector.xml",
-        "lib/net8.0/ServiceStack.OrmLite.MySqlConnector.dll",
-        "lib/net8.0/ServiceStack.OrmLite.MySqlConnector.xml",
-        "lib/netstandard2.0/ServiceStack.OrmLite.MySqlConnector.dll",
-        "lib/netstandard2.0/ServiceStack.OrmLite.MySqlConnector.xml",
-        "servicestack.ormlite.mysqlconnector.8.6.0.nupkg.sha512",
-        "servicestack.ormlite.mysqlconnector.nuspec"
-      ]
-    },
-    "ServiceStack.Text/8.6.0": {
-      "sha512": "Ek2s5lUhG5MaI9Y1a7vZvfTHcavR7MWxJMMzFCyfZbcGedFM9Pm+34sOZw7GhT3xBtNIgNIKD/w7j5I30P1bFg==",
-      "type": "package",
-      "path": "servicestack.text/8.6.0",
+      "path": "servicestack.text/8.5.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2703,7 +2575,7 @@
         "lib/net8.0/ServiceStack.Text.xml",
         "lib/netstandard2.0/ServiceStack.Text.dll",
         "lib/netstandard2.0/ServiceStack.Text.xml",
-        "servicestack.text.8.6.0.nupkg.sha512",
+        "servicestack.text.8.5.2.nupkg.sha512",
         "servicestack.text.nuspec"
       ]
     },
@@ -5165,9 +5037,8 @@
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 8.0.13",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.21.0",
       "RestSharp >= 112.1.0",
-      "ServiceStack.OrmLite >= 8.6.0",
-      "ServiceStack.OrmLite.MySql >= 8.6.0",
-      "ServiceStack.OrmLite.MySqlConnector >= 8.6.0",
+      "ServiceStack.OrmLite >= 8.5.2",
+      "ServiceStack.OrmLite.MySql >= 8.5.2",
       "Swashbuckle.AspNetCore >= 6.6.2"
     ]
   },
@@ -5243,15 +5114,11 @@
           },
           "ServiceStack.OrmLite": {
             "target": "Package",
-            "version": "[8.6.0, )"
+            "version": "[8.5.2, )"
           },
           "ServiceStack.OrmLite.MySql": {
             "target": "Package",
-            "version": "[8.6.0, )"
-          },
-          "ServiceStack.OrmLite.MySqlConnector": {
-            "target": "Package",
-            "version": "[8.6.0, )"
+            "version": "[8.5.2, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

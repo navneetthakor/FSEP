@@ -11,7 +11,7 @@ namespace wps_master_pod_1.Controllers
     public class WorkerPodController : ControllerBase
     {
         private DbMPD02 _dbConnection;
-        WorkerPodController([FromServices] IDataBaseService dataBaseSevice)
+        public WorkerPodController([FromServices] IDataBaseService dataBaseSevice)
         {
             _dbConnection = new DbMPD02(dataBaseSevice);
         }

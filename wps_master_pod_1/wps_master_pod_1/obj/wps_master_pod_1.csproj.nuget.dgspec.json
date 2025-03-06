@@ -72,15 +72,11 @@
             },
             "ServiceStack.OrmLite": {
               "target": "Package",
-              "version": "[8.6.0, )"
+              "version": "[8.5.2, )"
             },
             "ServiceStack.OrmLite.MySql": {
               "target": "Package",
-              "version": "[8.6.0, )"
-            },
-            "ServiceStack.OrmLite.MySqlConnector": {
-              "target": "Package",
-              "version": "[8.6.0, )"
+              "version": "[8.5.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

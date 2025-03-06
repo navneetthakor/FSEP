@@ -101,6 +101,8 @@ namespace WPS_worder_node_1.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getHeartBit")]
         public Response GetHeartBit()
         {
             return new Response() { IsError = false };

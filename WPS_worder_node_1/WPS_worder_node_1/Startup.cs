@@ -53,7 +53,7 @@ namespace WPS_worder_node_1
 
             //Schedule a recurring job that sends a heartbeat
             IHeartBitService heartBitService = app.Services.GetRequiredService<IHeartBitService>();
-            recurringJobManager.AddOrUpdate("HeartBit", () => heartBitService.HeartBit(), Cron.MinuteInterval(2));
+            //recurringJobManager.AddOrUpdate("HeartBit", () => heartBitService.HeartBit(), Cron.Minutely);
 
             if (env.IsDevelopment())
             {

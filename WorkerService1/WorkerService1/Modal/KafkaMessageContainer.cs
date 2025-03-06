@@ -12,7 +12,7 @@ namespace WorkerService1.Modal
         /// <summary>
         /// server modal
         /// </summary>
-        public ServerModal serverModal { get; set; }
+        public ServerModal? serverModal { get; set; }
 
         /// <summary>
         /// health checker modal

@@ -117,6 +117,7 @@ namespace wps_master_pod_1.BL.Services
             try
             {
                 //create POCO object
+                //_dbConnection.CreateTableIfNotExists<MPD03>();
                 Response preSaveResponse = PreSave(worker_id);
 
                 // if error occured
@@ -201,10 +202,10 @@ namespace wps_master_pod_1.BL.Services
                 //check wheather client have entry for this server before 
                 //if yes then return error
                 //if no then return success
-                MPD02? oldEntry = _dbConnection.Single<MPD02>(x => x.D02F01 == MPD02.D02F01 );
+                List<MPD02>? oldEntry = _dbConnection.Select<MPD02>(x => x.D02F01 == MPD02.D02F01 );
 
                 // if entry found then return error
-                if (oldEntry != null)
+                if (oldEntry.Count == 0)
                 {
                     return new Response() { Data = null, IsError = true, ErrorMessage = "Entry for worker exists in the table", StatusCode = 400 };
                 }
