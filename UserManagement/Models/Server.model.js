@@ -1,0 +1,97 @@
+const mongoose = requrie('mongoose');
+const {Schema} = mongoose;
+
+const ServerSchema = new Schema({
+    user_id : {
+        type: mongoose.Schema.Type.ObjectId,
+        ref: 'user',
+        required: true,
+    },
+
+    method: {
+        type: String,
+        enum: ['GET','POST','PUT','DELETE'],
+        required: true
+    },
+
+    server_url: {
+        type: String,
+        required: true
+    },
+
+    Headers: [
+        {
+            key: {
+                type: String,
+                required: true
+            },
+            values: {
+                type: String,
+                required: true
+            }
+        }
+    ],
+
+    body: {
+        type: String,
+    },
+
+    status: {
+        type: String,
+
+        //U : unkonwn, R: Running, P: Pushed, 'D': Destroyed
+        enum: ['U', 'R', 'P', 'D'],
+        required: true
+    },
+
+    type_of_check: {
+        type: String,
+
+        /*
+            UBU: url becomes unavailable
+            URHSCOT: url returns http status code other than
+            UCK: url contains keyword
+            UNCK: url not contains keyword
+            URTGT: url response time greater then
+        */
+        enum: ['UBU', 'URHSCOT', 'UCK', 'UNCK', 'URTGT'],
+        required: true
+    },
+
+    // if : 
+    desired_response_time: {
+        type: Number,
+    },
+
+    check_frequency: {
+        type: String,
+
+        /*
+            TS : Thirty seconds
+            FFS: fifty five seconds
+            OM: one Minute
+            TWOM: two minutes
+            THRM: three minutes
+            FIVM: five minutes
+            TENM: ten minutes
+            FIFM: fifteen minutes
+            HAFH: half minutes
+            OH: one Hours
+        */
+        enum: ['TS', 'FFS', 'OM', 'TWOM', 'THRM', 'FIVM', 'TENM', 'FIFM', 'HAFH', 'OH'],
+        required: true
+    },
+
+    // keyword related operations
+    keyword: {
+        type: String,
+    },
+
+    //if status code requried then
+    status_codes: [Number]
+
+});
+
+const Server = mongoose.model('server', UserSchema)
+
+module.exports = User
