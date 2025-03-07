@@ -3,7 +3,7 @@
 const jwt = require('jsonwebtoken');
 const jwt_secret = process.env.JWT_SECRET;
 
-const fetchCustomer = async (req,res,next) =>{
+const fetchUser = async (req,res,next) =>{
     try{
 
     // get token from request header 
@@ -25,4 +25,4 @@ const fetchCustomer = async (req,res,next) =>{
     }
 }
 
-module.exports = fetchCustomer;
+module.exports = fetchUser;

@@ -47,4 +47,8 @@ fetchUser,
 upload.single('image'),
 updateUser);
 
+// ------------------------- Route:5 to update password (through OTP) ----------------------------
+
+// -------------------------Route:6 addding other ocmmunication medium -----------------------
+
 module.exports = router;

@@ -1,11 +1,16 @@
-const mongoose = requrie('mongoose');
+const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const ServerSchema = new Schema({
     user_id : {
-        type: mongoose.Schema.Type.ObjectId,
-        ref: 'user',
+        type: mongoose.Schema.Types.ObjectId,  // Reference to User
+        ref: 'User',
         required: true,
+    },
+
+    server_name: {
+        type: String,
+        required: true
     },
 
     method: {
@@ -92,6 +97,6 @@ const ServerSchema = new Schema({
 
 });
 
-const Server = mongoose.model('server', UserSchema)
+const Server = mongoose.model('Server', ServerSchema)
 
-module.exports = User
+module.exports = Server
