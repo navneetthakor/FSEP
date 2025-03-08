@@ -1,0 +1,120 @@
+version: "3.8"
+
+services:
+  ## Pushgateway (For Pushing Metrics)
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: pushgateway
+    restart: always
+    networks:
+      - monitoring
+    ports:
+      - "9093:9091"  # Expose Pushgateway UI
+
+  ## Prometheus Instance 1 (Scrapes Pushgateway)
+  prometheus-1:
+    image: prom/prometheus:v2.47.2
+    container_name: prometheus-1
+    restart: always
+    volumes:
+      - ./prometheus-1.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.listen-address=0.0.0.0:9090
+    networks:
+      - monitoring
+    ports:
+      - "9091:9090"
+
+  ## Prometheus Instance 2 (Scrapes Pushgateway)
+  prometheus-2:
+    image: prom/prometheus:v2.47.2
+    container_name: prometheus-2
+    restart: always
+    volumes:
+      - ./prometheus-2.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.listen-address=0.0.0.0:9090
+    networks:
+      - monitoring
+    ports:
+      - "9092:9090"
+
+  ## Thanos Sidecar for Prometheus 1
+  thanos-sidecar-1:
+    image: quay.io/thanos/thanos:v0.34.0
+    container_name: thanos-sidecar-1
+    restart: always
+    depends_on:
+      - prometheus-1
+    command:
+      - sidecar
+      - --tsdb.path=/prometheus
+      - --prometheus.url=http://host.docker.internal:9091
+    networks:
+      - monitoring
+    ports:
+      - "10901:10901"
+
+  ## Thanos Sidecar for Prometheus 2
+  thanos-sidecar-2:
+    image: quay.io/thanos/thanos:v0.34.0
+    container_name: thanos-sidecar-2
+    restart: always
+    depends_on:
+      - prometheus-2
+    command:
+      - sidecar
+      - --tsdb.path=/prometheus
+      - --prometheus.url=http://host.docker.internal:9092
+    networks:
+      - monitoring
+    ports:
+      - "10902:10901"
+
+  ## Thanos Query (Federated Querying Layer)
+  thanos-query:
+    image: quay.io/thanos/thanos:v0.34.0
+    container_name: thanos-query
+    restart: always
+    depends_on:
+      - thanos-sidecar-1
+      - thanos-sidecar-2
+    command:
+      - query
+      - --http-address=0.0.0.0:9090
+      - --store=host.docker.internal:10901
+      - --store=host.docker.internal:10902
+    networks:
+      - monitoring
+    ports:
+      - "19090:9090"
+
+  ## Grafana (for Visualization)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    depends_on:
+      - thanos-query
+    networks:
+      - monitoring
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  grafana-data:
