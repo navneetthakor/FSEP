@@ -31,9 +31,11 @@ const Navbar = () => {
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Documentation
             </a>
+            <Link to={"/dashboard"}>
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               About Us
             </a>
+            </Link>
           </div>
 
           {/* Auth Buttons */}

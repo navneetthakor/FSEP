@@ -11,7 +11,7 @@ import CTASection from "./components/sections/CTASection";
 
 function Home() {
     return (
-      <ThemeProvider defaultTheme="dark" storageKey="webpulse-theme">
+
         <div className="min-h-screen bg-background text-foreground flex flex-col">
           <Navbar />
           <main className="flex-grow">
@@ -24,7 +24,6 @@ function Home() {
           </main>
           <Footer />
         </div>
-      </ThemeProvider>
     );
   }
   
