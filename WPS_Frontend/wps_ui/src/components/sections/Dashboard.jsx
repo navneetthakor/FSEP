@@ -3,8 +3,11 @@ import React from 'react';
 import { Search, Plus, AlertCircle, Clock } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+  // used for navigation 
+  const navigate = useNavigate();
   return (
     <div className="flex-1 overflow-auto">
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
@@ -18,7 +21,7 @@ const Dashboard = () => {
               className="pl-10 w-64"
             />
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate("/dashboard/createMonitor")}>
             <Plus className="h-4 w-4 mr-2" />
             Create monitor
           </Button>

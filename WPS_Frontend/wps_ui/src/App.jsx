@@ -5,18 +5,20 @@ import LoginPage from './Login';
 import SignupPage from './SignupPage';
 import Temp from './Temp';
 import { ThemeProvider } from './components/ui/theme-provider';
+import CreateMonitorForm from './components/sections/MonitoringForm';
 
 function App() {
 
   return (
     <>
-      <ThemeProvider defaultTheme="dark" storageKey="webpulse-theme">
+      <ThemeProvider defaultTheme="light" storageKey="webpulse-theme">
         <Routes>
           <Route path='/' element={<RootLayout />} >
             <Route index element={<Home />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<SignupPage />} />
-            <Route path='/dashboard' element={<Temp />} />
+            <Route path='/dashboard/:rightAria' element={<Temp />} />
+            <Route path='/createMonitorForm' element={<CreateMonitorForm />} />
           </Route>
         </Routes>
 </ThemeProvider>

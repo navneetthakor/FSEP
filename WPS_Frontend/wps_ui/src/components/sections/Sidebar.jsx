@@ -1,6 +1,7 @@
 // src/components/Sidebar.jsx
 import React from 'react';
 import { BarChart2, Clock, AlertCircle, FileText, Link2, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (

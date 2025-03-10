@@ -31,7 +31,7 @@ const Navbar = () => {
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Documentation
             </a>
-            <Link to={"/dashboard"}>
+            <Link to={"/dashboard/monitor"}>
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               About Us
             </a>
