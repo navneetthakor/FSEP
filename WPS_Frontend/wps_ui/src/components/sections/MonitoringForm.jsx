@@ -81,7 +81,7 @@ const CreateMonitorForm = () => {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
-      <Card className="w-full">
+      <Card className="w-full bg-transparent border dark:border-gray-700 ">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Create monitor</CardTitle>
           <CardDescription>
@@ -90,7 +90,7 @@ const CreateMonitorForm = () => {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-2 mb-6">
+            <TabsList className="grid grid-cols-2 mb-6 bg-white">
               <TabsTrigger value="basic">Basic Settings</TabsTrigger>
               <TabsTrigger value="advanced">Advanced Settings</TabsTrigger>
             </TabsList>
@@ -109,7 +109,7 @@ const CreateMonitorForm = () => {
                         <FormItem>
                           <FormLabel>URL</FormLabel>
                           <FormControl>
-                            <Input placeholder="https://example.com" {...field} />
+                            <Input className="dark:border-gray-700 " placeholder="https://example.com" {...field} />
                           </FormControl>
                           <FormDescription>
                             Enter the URL of the website or API you want to monitor
@@ -126,12 +126,13 @@ const CreateMonitorForm = () => {
                         <FormItem>
                           <FormLabel>Alert options</FormLabel>
                           <Select 
+                          
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select alert type" />
+                                <SelectValue  placeholder="Select alert type"/>
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -170,7 +171,7 @@ const CreateMonitorForm = () => {
                   <Collapsible
                     open={advancedSettingsOpen}
                     onOpenChange={setAdvancedSettingsOpen}
-                    className="border rounded-md p-4"
+                    className="border rounded-md p-4 dark:border-gray-700"
                   >
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-semibold">Advanced settings</h3>

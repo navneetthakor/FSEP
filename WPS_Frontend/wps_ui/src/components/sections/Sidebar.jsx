@@ -4,8 +4,9 @@ import { BarChart2, Clock, AlertCircle, FileText, Link2, Users } from 'lucide-re
 import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
+  
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col h-full">
+    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col h-screen position-fixed">
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
         <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-white mr-3">
           <span className="text-lg font-bold">W</span>
@@ -40,8 +41,8 @@ const Sidebar = () => {
 
 const SidebarItem = ({ icon, label, active = false, hasChildren = false, badge }) => {
   return (
-    <a
-      href="#"
+    <Link
+      to={"/dashboard/monitor"}
       className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${
         active
           ? 'bg-gray-100 text-blue-600 dark:bg-gray-700 dark:text-blue-400'
@@ -56,7 +57,7 @@ const SidebarItem = ({ icon, label, active = false, hasChildren = false, badge }
         </span>
       )}
       {hasChildren && <span className="ml-auto">›</span>}
-    </a>
+    </Link>
   );
 };
 
