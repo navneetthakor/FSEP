@@ -489,7 +489,7 @@ const RequestFlowCanvas = () => {
         <TabsContent value="design" className="h-full">
           <div 
             ref={canvasRef}
-            className="bg-gray-50 h-full w-full relative overflow-auto"
+            className="bg-gray-50 dark:bg-gray-800 h-full w-full relative overflow-auto"
             onClick={handleCanvasClick}
             onMouseMove={handleNodeDrag}
             onMouseUp={handleNodeDragEnd}

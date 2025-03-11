@@ -7,6 +7,7 @@ import Temp from './Temp';
 import { ThemeProvider } from './components/ui/theme-provider';
 import CreateMonitorForm from './components/sections/MonitoringForm';
 import WebPulseRequestFlowPage from './Canva';
+import WebPulseFlowGenerator from './scenes/WebFlowGenerator';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
             <Route path='/dashboard/:rightAria' element={<Temp />} />
             <Route path='/createMonitorForm' element={<CreateMonitorForm />} />
             <Route path='/requestFlow' element={<WebPulseRequestFlowPage />} />
+            <Route path='/requestFlow2' element={<WebPulseFlowGenerator />} />
           </Route>
         </Routes>
 </ThemeProvider>
