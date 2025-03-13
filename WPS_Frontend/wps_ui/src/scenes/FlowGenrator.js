@@ -192,7 +192,7 @@ export class WebPulseFlowGenerator {
         code += `  try {\n`;
       }
       
-      const safeNodeId = node.id.replace(/-/g, '_');
+      const safeNodeId = node.id.replace('-', '_');
       
       switch (node.type) {
         case 'REQUEST':

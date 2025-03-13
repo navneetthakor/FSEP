@@ -73,7 +73,7 @@ const RequestFlowCanvas = () => {
   const addNode = (type, position) => {
     const nodeType = NODE_TYPES[type];
     const newNode = {
-      id: `node-${Date.now()}`,
+      id: `node_${Date.now()}`,
       type,
       name: `${nodeType.name} ${nodes.length + 1}`,
       position,
