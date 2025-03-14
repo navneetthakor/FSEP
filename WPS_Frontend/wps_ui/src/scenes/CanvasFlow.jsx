@@ -13,6 +13,7 @@ import {
 import { Input } from '../components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import RequestForm from './RequestForm';
 
 // Node types with their configurations
 const NODE_TYPES = {
@@ -77,8 +78,9 @@ const RequestFlowCanvas = () => {
       type,
       name: `${nodeType.name} ${nodes.length + 1}`,
       position,
-      properties: {}
+      properties: nodeConfig.properties
     };
+    console.log(newNode);
     setNodes([...nodes, newNode]);
     return newNode;
   };
@@ -548,41 +550,7 @@ const RequestFlowCanvas = () => {
             
             {/* Dynamic properties based on node type */}
             {nodeConfig.type === 'REQUEST' && (
-              <>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <label htmlFor="url" className="text-right">URL:</label>
-                  <Input
-                    id="url"
-                    className="col-span-3"
-                    value={nodeConfig.properties.url || ''}
-                    onChange={(e) => setNodeConfig({
-                      ...nodeConfig,
-                      properties: {...nodeConfig.properties, url: e.target.value}
-                    })}
-                    placeholder="https://api.example.com/endpoint"
-                  />
-                </div>
-                
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <label htmlFor="method" className="text-right">Method:</label>
-                  <Select 
-                    value={nodeConfig.properties.method || 'GET'} 
-                    onValueChange={(value) => setNodeConfig({
-                      ...nodeConfig,
-                      properties: {...nodeConfig.properties, method: value}
-                    })}
-                  >
-                    <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder="HTTP Method" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {['GET', 'POST', 'PUT', 'DELETE', 'PATCH'].map(method => (
-                        <SelectItem key={method} value={method}>{method}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </>
+              <RequestForm nodeConfig={nodeConfig} />
             )}
             
             {nodeConfig.type === 'CONDITION' && (
@@ -660,3 +628,39 @@ const RequestFlowCanvas = () => {
 };
 
 export default RequestFlowCanvas;
+
+            // <>
+              //   <div className="grid grid-cols-4 items-center gap-4">
+              //     <label htmlFor="url" className="text-right">URL:</label>
+              //     <Input
+              //       id="url"
+              //       className="col-span-3"
+              //       value={nodeConfig.properties.url || ''}
+              //       onChange={(e) => setNodeConfig({
+              //         ...nodeConfig,
+              //         properties: {...nodeConfig.properties, url: e.target.value}
+              //       })}
+              //       placeholder="https://api.example.com/endpoint"
+              //     />
+              //   </div>
+                
+              //   <div className="grid grid-cols-4 items-center gap-4">
+              //     <label htmlFor="method" className="text-right">Method:</label>
+              //     <Select 
+              //       value={nodeConfig.properties.method || 'GET'} 
+              //       onValueChange={(value) => setNodeConfig({
+              //         ...nodeConfig,
+              //         properties: {...nodeConfig.properties, method: value}
+              //       })}
+              //     >
+              //       <SelectTrigger className="col-span-3">
+              //         <SelectValue placeholder="HTTP Method" />
+              //       </SelectTrigger>
+              //       <SelectContent>
+              //         {['GET', 'POST', 'PUT', 'DELETE', 'PATCH'].map(method => (
+              //           <SelectItem key={method} value={method}>{method}</SelectItem>
+              //         ))}
+              //       </SelectContent>
+              //     </Select>
+              //   </div>
+              // </>
