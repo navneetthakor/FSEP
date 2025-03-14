@@ -22,7 +22,6 @@ function App() {
             <Route path='/dashboard/:rightAria' element={<Temp />} />
             <Route path='/createMonitorForm' element={<CreateMonitorForm />} />
             <Route path='/requestFlow' element={<WebPulseRequestFlowPage />} />
-            <Route path='/requestFlow2' element={<WebPulseFlowGenerator />} />
           </Route>
         </Routes>
 </ThemeProvider>
