@@ -32,7 +32,7 @@ const RequestForm = (props) => {
 
     nodeConfig.properties.headers = newHeaders;
   };
-  
+
   const updateHeaderKey = (index, value) => {
     const newHeaders = [...headers];
     newHeaders[index].key = value;
@@ -116,11 +116,11 @@ const RequestForm = (props) => {
       };
 
       const response = await fetch(url, requestOptions);
-      
+
       // Handle response
       const contentType = response.headers.get('content-type');
       let responseData;
-      
+
       if (contentType && contentType.includes('application/json')) {
         responseData = await response.json();
       } else {
@@ -152,9 +152,10 @@ const RequestForm = (props) => {
             {/* URL and Method Row */}
             <div className="flex gap-2">
               <div className="w-1/5">
-                <Select value={method} onValueChange={(e) => {
+                <Select value={method} onValueChange={(e) =>  {
                   setMethod(e);
-                 console.log(e);}}>
+                  nodeConfig.properties.method = e;
+                  }}>
                   <SelectTrigger>
                     <SelectValue placeholder="Method" />
                   </SelectTrigger>
@@ -170,12 +171,12 @@ const RequestForm = (props) => {
                 </Select>
               </div>
               <div className="flex-1">
-                <Input 
-                  placeholder="Enter URL" 
-                  value={url} 
+                <Input
+                  placeholder="Enter URL"
+                  value={url}
                   onChange={(e) => {
                     setUrl(e.target.value);
-                    nodeConfig.properties.url = e.target.value;  
+                    nodeConfig.properties.url = e.target.value;
                   }}
                   required
                 />
@@ -184,7 +185,7 @@ const RequestForm = (props) => {
                 {loading ? 'Sending...' : 'Send'}
               </Button>
             </div>
-            
+
             {/* Headers Section */}
             <div className="mt-4">
               <h3 className="text-lg font-medium mb-2">Headers</h3>
@@ -202,27 +203,27 @@ const RequestForm = (props) => {
                     onChange={(e) => updateHeaderValue(index, e.target.value)}
                     className="w-1/2"
                   />
-                  <Button 
-                    type="button" 
-                    variant="ghost" 
-                    size="icon" 
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
                     onClick={() => removeHeader(index)}
                   >
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
               ))}
-              <Button 
-                type="button" 
-                variant="outline" 
-                size="sm" 
-                onClick={addHeader} 
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addHeader}
                 className="mt-2"
               >
                 <Plus className="h-4 w-4 mr-2" /> Add Header
               </Button>
             </div>
-            
+
             {/* Request Body Section - Shown only for non-GET methods */}
             {method !== 'GET' && method !== 'HEAD' && (
               <div className="mt-4">
@@ -245,10 +246,10 @@ const RequestForm = (props) => {
                 </div>
                 <Textarea
                   placeholder={
-                    bodyType === 'json' 
-                      ? '{"key": "value"}' 
-                      : bodyType === 'formData' 
-                        ? 'key1=value1&key2=value2' 
+                    bodyType === 'json'
+                      ? '{"key": "value"}'
+                      : bodyType === 'formData'
+                        ? 'key1=value1&key2=value2'
                         : bodyType === 'urlencoded'
                           ? 'key1=value1&key2=value2'
                           : 'Enter your request body'
@@ -277,7 +278,7 @@ const RequestForm = (props) => {
           </form>
         </CardContent>
       </Card>
-      
+
       {/* Response Section */}
       {error && (
         <Card className="mb-6 border-red-300">
@@ -289,7 +290,7 @@ const RequestForm = (props) => {
           </CardContent>
         </Card>
       )}
-      
+
       {response && (
         <Card>
           <CardHeader className="pb-2">
@@ -307,8 +308,8 @@ const RequestForm = (props) => {
               </TabsList>
               <TabsContent value="response" className="mt-2">
                 <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm font-mono">
-                  {typeof response.data === 'object' 
-                    ? JSON.stringify(response.data, null, 2) 
+                  {typeof response.data === 'object'
+                    ? JSON.stringify(response.data, null, 2)
                     : response.data}
                 </pre>
               </TabsContent>

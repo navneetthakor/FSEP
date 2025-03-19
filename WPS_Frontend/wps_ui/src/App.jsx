@@ -7,7 +7,6 @@ import Temp from './Temp';
 import { ThemeProvider } from './components/ui/theme-provider';
 import CreateMonitorForm from './components/sections/MonitoringForm';
 import WebPulseRequestFlowPage from './Canva';
-import WebPulseFlowGenerator from './scenes/WebFlowGenerator';
 
 function App() {
 
