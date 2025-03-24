@@ -1,4 +1,3 @@
-// WebPulseFlowGenerator.js - Enhanced version with data referencing capabilities
 export class WebPulseFlowGenerator {
   constructor() {
     this.nodes = [];
@@ -25,7 +24,6 @@ export class WebPulseFlowGenerator {
       includeComments = true,
       includeExampleUsage = true,
       functionName = 'executeRequestFlow',
-      errorHandling = 'basic',
     } = options;
     
     // Sort nodes to ensure dependencies are processed in correct order
@@ -41,9 +39,10 @@ export class WebPulseFlowGenerator {
     
     // Start function definition
     code += `async function ${functionName}(initialData = {}) {\n`;
-    code += `  // Initialize data store\n`;
+    code += `  // Initialize data store and request queue\n`;
     code += `  const dataStore = { ...initialData };\n`;
-    code += `  let currentStep = null;\n\n`;
+    code += `  const requestQueue = [];\n`;
+    code += `  const executedNodes = new Set();\n\n`;
 
     // Add data reference utility function
     code += `  // Utility function to reference data from previous steps\n`;
@@ -51,26 +50,106 @@ export class WebPulseFlowGenerator {
     code += `    return extractDataByPath(dataStore, path);\n`;
     code += `  };\n\n`;
     
-    // Generate node execution code
+    // Generate node registration code
+    code += `  // Register all nodes in the flow\n`;
     sortedNodes.forEach(node => {
       if (includeComments) {
-        code += `  // ${node.name} (${node.id})\n`;
+        code += `  // Register ${node.name} (${node.id})\n`;
       }
       
-      code += this._generateNodeCode(node, errorHandling);
+      code += this._generateNodeRegistration(node);
     });
     
-    // Add flow control logic if there are edges
-    if (this.edges.length > 0) {
-      if (includeComments) {
-        code += `  // Define the flow logic\n`;
-      }
-      
-      code += this._generateFlowLogic();
-    }
+    // Add main execution loop
+    code += `\n  // Execute the request flow\n`;
+    code += `  async function executeFlow() {\n`;
+    code += `    let nextNodeId = findStartNode();\n`;
+    code += `    const maxSteps = 100; // Prevent infinite loops\n`;
+    code += `    let steps = 0;\n\n`;
+    
+    code += `    while (nextNodeId && steps < maxSteps) {\n`;
+    code += `      steps++;\n`;
+    code += `      const currentNode = requestQueue.find(n => n.id === nextNodeId);\n`;
+    code += `      if (!currentNode || executedNodes.has(nextNodeId)) break;\n\n`;
+    
+    code += `      try {\n`;
+    code += `        console.log(\`Executing node: \${currentNode.name} (\${currentNode.type})\`);\n`;
+    code += `        await currentNode.execute();\n`;
+    code += `        executedNodes.add(nextNodeId);\n`;
+    
+    code += `        // Determine next node based on the execution result\n`;
+    code += `        nextNodeId = determineNextNode(nextNodeId);\n`;
+    code += `      } catch (error) {\n`;
+    code += `        console.error(\`Error executing \${currentNode.name}:\`, error);\n`;
+    code += `        dataStore[\`\${nextNodeId}_error\`] = error;\n`;
+    code += `        if (errorHandling === 'continue') {\n`;
+    code += `          nextNodeId = determineNextNode(nextNodeId);\n`;
+    code += `        } else {\n`;
+    code += `          break;\n`;
+    code += `        }\n`;
+    code += `      }\n`;
+    code += `    }\n`;
+    code += `  }\n\n`;
+    
+    // Add flow control logic
+    code += `  // Find the starting node in the flow\n`;
+    code += `  function findStartNode() {\n`;
+    code += `    // Find nodes that aren't targets of any edges\n`;
+    code += `    const targetNodeIds = new Set(${JSON.stringify(this.edges.map(e => e.target))});\n`;
+    code += `    const potentialStartNodes = requestQueue.filter(node => !targetNodeIds.has(node.id));\n`;
+    code += `    return potentialStartNodes.length > 0 ? potentialStartNodes[0].id : requestQueue[0]?.id;\n`;
+    code += `  }\n\n`;
+    
+    code += `  // Determine the next node to execute based on the current node and its result\n`;
+    code += `  function determineNextNode(currentNodeId) {\n`;
+    code += `    const edges = ${JSON.stringify(this.edges)};\n`;
+    code += `    const relevantEdges = edges.filter(edge => edge.source === currentNodeId);\n\n`;
+    
+    code += `    if (relevantEdges.length === 0) return null;\n\n`;
+    
+    code += `    // For condition nodes, use the result to determine which path to take\n`;
+    code += `    const currentNode = requestQueue.find(n => n.id === currentNodeId);\n`;
+    code += `    if (currentNode && currentNode.type === 'CONDITION') {\n`;
+    code += `      const result = dataStore[\`\${currentNodeId}_result\`];\n`;
+    code += `      console.log(\`Condition result: \${result}\`);\n`;
+    code += `      \n`;
+    code += `      // Find the edge that matches the condition result\n`;
+    code += `      const sourcePort = result ? 'true' : 'false';\n`;
+    code += `      const matchingEdge = relevantEdges.find(e => e.sourcePort === sourcePort);\n`;
+    code += `      \n`;
+    code += `      if (matchingEdge) {\n`;
+    code += `        console.log(\`Taking \${sourcePort} path to node: \${matchingEdge.target}\`);\n`;
+    code += `        return matchingEdge.target;\n`;
+    code += `      } else {\n`;
+    code += `        console.log(\`No matching edge found for condition result: \${sourcePort}\`);\n`;
+    code += `        return null;\n`;
+    code += `      }\n`;
+    code += `    }\n\n`;
+    
+    // For transform nodes, check if there are conditional edges
+    code += `    // For transform nodes, check if there are specific output paths\n`;
+    code += `    if (currentNode && currentNode.type === 'TRANSFORM') {\n`;
+    code += `      const transformResult = dataStore[\`\${currentNodeId}_output\`];\n`;
+    code += `      \n`;
+    code += `      // Check if any edge has a sourcePort that matches a transform output path\n`;
+    code += `      const outputEdge = relevantEdges.find(e => e.sourcePort && e.sourcePort === transformResult?.path);\n`;
+    code += `      if (outputEdge) {\n`;
+    code += `        console.log(\`Taking transform output path: \${outputEdge.sourcePort} to node: \${outputEdge.target}\`);\n`;
+    code += `        return outputEdge.target;\n`;
+    code += `      }\n`;
+    code += `    }\n`;
+    
+    code += `    // For other nodes, take the first available edge\n`;
+    code += `    return relevantEdges[0]?.target || null;\n`;
+    code += `  }\n\n`;
+    
+    // Call the flow execution
+    code += `  // Execute the flow\n`;
+    code += `  await executeFlow();\n\n`;
     
     // Return data store
     code += `  // Return the final data store\n`;
+    code += `  console.dir(dataStore);`;
     code += `  return dataStore;\n`;
     code += `}\n\n`;
 
@@ -91,10 +170,11 @@ export class WebPulseFlowGenerator {
     code += `  const keys = path.match(/\\[([^\\[\\]]*?)\\]|([^\\[\\]\\.]+)/g) || [];\n`;
     code += `  let current = obj;\n\n`;
     code += `  for (let key of keys) {\n`;
-    code += `    // Remove brackets if present\n`;
-    code += `    key = key.replace(/^\\[([^\\]]+)\\]$/, '$1').replace(/^\\["([^"]+)"\\]$/, '$1').replace(/^\\['([^']+)'\\]$/, '$1');\n`;
-    code += `    // Remove leading dots if present\n`;
-    code += `    key = key.replace(/^\\./g, '');\n\n`;
+    code += `    // Clean up the key by removing brackets and quotes\n`;
+    code += `    key = key.replace(/^\\[([^\\]]+)\\]$/, '$1')\n`;
+    code += `           .replace(/^\\["([^"]+)"\\]$/, '$1')\n`;
+    code += `           .replace(/^\\['([^']+)'\\]$/, '$1')\n`;
+    code += `           .replace(/^\\./g, '');\n\n`;
     code += `    if (current === null || current === undefined) {\n`;
     code += `      return undefined;\n`;
     code += `    }\n\n`;
@@ -102,73 +182,8 @@ export class WebPulseFlowGenerator {
     code += `  }\n\n`;
     code += `  return current;\n`;
     code += `}\n\n`;
-    
-    // Add example usage
-    if (includeExampleUsage) {
-      code += `// Example usage:\n`;
-      code += `// ${functionName}().then(result => console.log(result));\n`;
-    }
-    
-    return code;
-  }
 
-  /**
-   * Generate a self-contained module that can be imported
-   * @param {Object} options - Module generation options
-   * @returns {string} Generated module code
-   */
-  generateModule(options = {}) {
-    const {
-      moduleType = 'esm', // 'esm' or 'commonjs'
-      includeUtils = true,
-    } = options;
-    
-    let code = '';
-    
-    // Add imports based on module type
-    if (moduleType === 'esm') {
-      code += `// WebPulse Flow - Generated Module\n\n`;
-      if (includeUtils) {
-        code += `import { handleResponse, evaluateCondition, extractDataByPath } from './webpulse-utils.js';\n\n`;
-      }
-    } else {
-      code += `// WebPulse Flow - Generated Module\n\n`;
-      if (includeUtils) {
-        code += `const { handleResponse, evaluateCondition, extractDataByPath } = require('./webpulse-utils');\n\n`;
-      }
-    }
-    
-    // Add utility functions if needed and not imported
-    if (!includeUtils) {
-      code += this._generateUtilityFunctions();
-    }
-    
-    // Add the main execution function
-    code += this.generateCode({
-      includeComments: true,
-      includeExampleUsage: false,
-      functionName: 'executeFlow',
-      errorHandling: 'advanced',
-    });
-    
-    // Export the function based on module type
-    if (moduleType === 'esm') {
-      code += `export default executeFlow;\n`;
-    } else {
-      code += `module.exports = executeFlow;\n`;
-    }
-    
-    return code;
-  }
-
-  /**
-   * Generate utility functions for the flow
-   * @returns {string} Utility functions code
-   */
-  _generateUtilityFunctions() {
-    let code = `// Utility functions\n\n`;
-    
-    // Response handler
+    // Add handler for HTTP responses
     code += `/**\n`;
     code += ` * Process HTTP response and extract data\n`;
     code += ` * @param {Response} response - Fetch API Response object\n`;
@@ -193,110 +208,58 @@ export class WebPulseFlowGenerator {
     code += `  };\n`;
     code += `}\n\n`;
     
-    // Condition evaluator
-    code += `/**\n`;
-    code += ` * Safely evaluate a condition with access to data store\n`;
-    code += ` * @param {string} condition - Condition expression to evaluate\n`;
-    code += ` * @param {Object} dataStore - Current data store\n`;
-    code += ` * @returns {boolean} Result of condition evaluation\n`;
-    code += ` */\n`;
-    code += `function evaluateCondition(condition, dataStore) {\n`;
-    code += `  try {\n`;
-    code += `    // Create a safe evaluation function\n`;
-    code += `    const evalFunc = new Function('dataStore', 'getDataRef', \`return \${condition};\`);\n`;
-    code += `    // Create data reference function\n`;
-    code += `    const getDataRef = (path) => extractDataByPath(dataStore, path);\n`;
-    code += `    return !!evalFunc(dataStore, getDataRef);\n`;
-    code += `  } catch (error) {\n`;
-    code += `    console.error('Error evaluating condition:', error);\n`;
-    code += `    return false;\n`;
-    code += `  }\n`;
-    code += `}\n\n`;
-
-    // Data extraction utility - Don't repeat this since it's already in the main function
-    code += `/**\n`;
-    code += ` * Extract data from an object using a dot or bracket notation path\n`;
-    code += ` * @param {Object} obj - The object to extract data from\n`;
-    code += ` * @param {string} path - Path using dot or bracket notation (e.g., "user.profile.name" or "responses[0].body.id")\n`;
-    code += ` * @returns {any} The extracted value or undefined if not found\n`;
-    code += ` */\n`;
-    code += `function extractDataByPath(obj, path) {\n`;
-    code += `  if (!obj || !path) return undefined;\n\n`;
-    code += `  // Handle special template syntax for data references\n`;
-    code += `  if (path.startsWith('\${') && path.endsWith('}')) {\n`;
-    code += `    path = path.slice(2, -1).trim();\n`;
-    code += `  }\n\n`;
-    code += `  // Split the path by dots or bracket notation\n`;
-    code += `  const keys = path.match(/\\[([^\\[\\]]*?)\\]|([^\\[\\]\\.]+)/g) || [];\n`;
-    code += `  let current = obj;\n\n`;
-    code += `  for (let key of keys) {\n`;
-    code += `    // Remove brackets if present\n`;
-    code += `    key = key.replace(/^\\[([^\\]]+)\\]$/, '$1').replace(/^\\["([^"]+)"\\]$/, '$1').replace(/^\\['([^']+)'\\]$/, '$1');\n`;
-    code += `    // Remove leading dots if present\n`;
-    code += `    key = key.replace(/^\\./g, '');\n\n`;
-    code += `    if (current === null || current === undefined) {\n`;
-    code += `      return undefined;\n`;
-    code += `    }\n\n`;
-    code += `    current = current[key];\n`;
-    code += `  }\n\n`;
-    code += `  return current;\n`;
-    code += `}\n\n`;
+    // Add example usage
+    if (includeExampleUsage) {
+      code += `// Example usage:\n`;
+      // code += ` ${functionName}().then(result => console.log(result));\n`;
+      code += ` ${functionName}().then(result => result);\n`;
+    }
     
     return code;
   }
 
   /**
-   * Generate code for a specific node
+   * Generate code for node registration
    * @param {Object} node - The node object
-   * @param {string} errorHandling - Error handling strategy ('basic' or 'advanced')
-   * @returns {string} Generated node code
+   * @returns {string} Generated registration code
    */
-  _generateNodeCode(node, errorHandling) {
-    let code = `  currentStep = '${node.id}';\n`;
-    
-    if (errorHandling === 'advanced') {
-      code += `  try {\n`;
-    }
-    
-    const safeNodeId = node.id.replace(/-/g, '_'); // Fix: replace all hyphens
-    
+  _generateNodeRegistration(node) {
+    let code = `  requestQueue.push({\n`;
+    code += `    id: '${node.id}',\n`;
+    code += `    name: '${node.name}',\n`;
+    code += `    type: '${node.type}',\n`;
+
     switch (node.type) {
       case 'REQUEST':
-        code += this._generateRequestNodeCode(node, safeNodeId);
+        code += this._generateRequestNodeRegistration(node);
         break;
         
       case 'CONDITION':
-        code += this._generateConditionNodeCode(node, safeNodeId);
+        code += this._generateConditionNodeRegistration(node);
         break;
         
       case 'TRANSFORM':
-        code += this._generateTransformNodeCode(node, safeNodeId);
+        code += this._generateTransformNodeRegistration(node);
         break;
         
       default:
-        code += `    // Unknown node type: ${node.type}\n`;
+        code += `    execute: async function() {\n`;
+        code += `      console.warn('Unknown node type: ${node.type}');\n`;
+        code += `    }\n`;
     }
     
-    if (errorHandling === 'advanced') {
-      code += `  } catch (error) {\n`;
-      code += `    dataStore.${node.id}_error = error;\n`;
-      code += `    console.error('Error in ${node.name}:', error);\n`;
-      code += `  }\n\n`;
-    } else {
-      code += `\n`;
-    }
-    
+    code += `  });\n`;
     return code;
   }
 
   /**
-   * Generate code for a request node
+   * Generate registration code for a request node
    * @param {Object} node - The request node
-   * @param {string} safeNodeId - Safe version of node ID for variable names
    * @returns {string} Generated code
    */
-  _generateRequestNodeCode(node, safeNodeId) {
-    let code = `    console.log('Executing HTTP request: ${node.name}');\n`;
+  _generateRequestNodeRegistration(node) {
+    let code = `    properties: ${JSON.stringify(node.properties, null, 6)},\n`;
+    code += `    execute: async function() {\n`;
     
     // Handle dynamic URL with support for data references
     const url = node.properties.url || 'https://example.com';
@@ -304,19 +267,17 @@ export class WebPulseFlowGenerator {
     let urlCode;
     
     if (hasTemplateVars) {
-      // Process template variables for data references
       urlCode = this._processTemplate(url);
     } else {
       urlCode = JSON.stringify(url);
     }
     
-    // Handle headers with potential for dynamic content and data references
+    // Handle headers with potential dynamic content
     const headers = node.properties.headers || {};
     let headersCode;
     
     if (typeof headers === 'string') {
       if (headers.includes('${')) {
-        // Dynamic headers as string template with data references
         headersCode = this._processTemplate(headers);
       } else {
         headersCode = headers;
@@ -325,16 +286,13 @@ export class WebPulseFlowGenerator {
       // Object with some dynamic values
       headersCode = '{\n';
       Object.entries(headers).forEach(([key, value]) => {
-        console.log("key",key);
-        console.log("value",value);
         if (typeof value === 'string' && value.includes('${')) {
-          // Process template for data references - Fix: Use proper backticks
-          headersCode += `        "${key}": ${this._processTemplate(value)},\n`;
+          headersCode += `          "${key}": ${this._processTemplate(value)},\n`;
         } else {
-          headersCode += `        "${key}": ${JSON.stringify(value)},\n`;
+          headersCode += `          "${key}": ${JSON.stringify(value)},\n`;
         }
       });
-      headersCode += '      }';
+      headersCode += '        }';
     } else {
       // Static headers
       headersCode = JSON.stringify(headers, null, 6);
@@ -349,58 +307,131 @@ export class WebPulseFlowGenerator {
       
       if (typeof body === 'string') {
         if (body.includes('${')) {
-          // Template string body with data references
           bodyCode = this._processTemplate(body);
         } else {
-          // Regular string body
           try {
-            // Check if it's a JSON string
             JSON.parse(body);
             bodyCode = body;
           } catch (e) {
-            // Not JSON, use as is
             console.log(e);
             bodyCode = JSON.stringify(body);
           }
         }
       } else if (typeof body === 'object') {
-        // Check if any values contain data references
         const containsDataRefs = this._objectContainsDataRefs(body);
         
         if (containsDataRefs) {
-          // Generate code to process data references in object
           bodyCode = this._generateDynamicObjectCode(body);
         } else {
-          // Static object
           bodyCode = JSON.stringify(body);
         }
       }
     }
     
-    code += `    const response_${safeNodeId} = await fetch(\n`;
-    code += `      ${urlCode},\n`;
-    code += `      {\n`;
-    code += `        method: ${JSON.stringify(method)},\n`;
-    code += `        headers: ${headersCode},\n`;
+    code += `      const url = ${urlCode};\n`;
+    code += `      const headers = ${headersCode};\n`;
     
-    if (method !== 'GET' && method !== 'HEAD') {
-      if (bodyCode !== 'undefined') {
-        const contentType = (headers && (headers['Content-Type'] || headers['content-type']));
-        
-        if (contentType && contentType.includes('application/json')) {
-          code += `        body: JSON.stringify(${bodyCode}),\n`;
-        } else {
-          code += `        body: ${bodyCode},\n`;
-        }
+    if (method !== 'GET' && method !== 'HEAD' && bodyCode !== 'undefined') {
+      code += `      let body = ${bodyCode};\n`;
+      const contentType = (headers && (headers['Content-Type'] || headers['content-type']));
+      
+      if (contentType && contentType.includes('application/json')) {
+        code += `      const requestBody = JSON.stringify(body);\n`;
+      } else {
+        code += `      const requestBody = body;\n`;
       }
     }
     
-    code += `      }\n`;
-    code += `    );\n\n`;
+    code += `\n      const response = await fetch(\n`;
+    code += `        url,\n`;
+    code += `        {\n`;
+    code += `          method: ${JSON.stringify(method)},\n`;
+    code += `          headers: headers,\n`;
     
-    // Process response
-    code += `    const processedResponse = await handleResponse(response_${safeNodeId});\n`;
-    code += `    dataStore.${node.id} = processedResponse;\n`;
+    if (method !== 'GET' && method !== 'HEAD' && bodyCode !== 'undefined') {
+      code += `          body: requestBody,\n`;
+    }
+    
+    code += `        }\n`;
+    code += `      );\n\n`;
+    
+    code += `      const processedResponse = await handleResponse(response);\n`;
+    code += `      dataStore['${node.id}'] = processedResponse;\n`;
+    code += `      return processedResponse;\n`;
+    code += `    }\n`;
+    
+    return code;
+  }
+
+  /**
+   * Generate registration code for a condition node
+   * @param {Object} node - The condition node
+   * @returns {string} Generated code
+   */
+  _generateConditionNodeRegistration(node) {
+    let code = `    properties: ${JSON.stringify(node.properties, null, 6)},\n`;
+    code += `    execute: async function() {\n`;
+    
+    const condition = node.properties.condition || 'false';
+    
+    // Enhance condition to support data references
+    const enhancedCondition = condition.replace(/dataStore\[`([^`]+)`\]\.body\.([a-zA-Z0-9_]+)/g, 
+      'getDataRef(`$1.body.$2`)');
+    
+    code += `      try {\n`;
+    code += `        // Create a safe evaluation function\n`;
+    code += `        const evalFunc = new Function('dataStore', 'getDataRef', \`return \${${JSON.stringify(enhancedCondition)}};\`);\n`;
+    code += `        const result = !!evalFunc(dataStore, getDataRef);\n`;
+    code += `        console.log(\`Condition evaluated to: \${result}\`);\n`;
+    code += `        dataStore['${node.id}_result'] = result;\n`;
+    code += `        return result;\n`;
+    code += `      } catch (error) {\n`;
+    code += `        console.error('Error evaluating condition:', error);\n`;
+    code += `        dataStore['${node.id}_error'] = error;\n`;
+    code += `        return false;\n`;
+    code += `      }\n`;
+    code += `    }\n`;
+    
+    return code;
+  }
+
+  /**
+   * Generate registration code for a transform node
+   * @param {Object} node - The transform node
+   * @returns {string} Generated code
+   */
+  _generateTransformNodeRegistration(node) {
+    let code = `    properties: ${JSON.stringify(node.properties, null, 6)},\n`;
+    code += `    execute: async function() {\n`;
+    
+    const transform = node.properties.transform || '// No transform specified\nreturn dataStore;';
+    
+    code += `      try {\n`;
+    code += `        const transformFn = new Function('dataStore', 'getDataRef', \`\n`;
+    
+    // Split transform code into lines and add proper indentation
+    const transformLines = transform.split('\n');
+    transformLines.forEach(line => {
+      code += `          ${line}\n`;
+    });
+    
+    code += `        \`);\n`;
+    code += `        const result = transformFn(dataStore, getDataRef);\n`;
+    code += `        dataStore['${node.id}_output'] = result;\n`;
+    
+    // Add support for transform nodes that need to direct the flow
+    code += `        // Check if the transform result specifies a path to follow\n`;
+    code += `        if (result && typeof result === 'object' && result.path) {\n`;
+    code += `          console.log(\`Transform returned path directive: \${result.path}\`);\n`;
+    code += `        }\n`;
+    
+    code += `        return result;\n`;
+    code += `      } catch (e) {\n`;
+    code += `        console.error('Error in transform:', e);\n`;
+    code += `        dataStore['${node.id}_error'] = e;\n`;
+    code += `        return null;\n`;
+    code += `      }\n`;
+    code += `    }\n`;
     
     return code;
   }
@@ -411,14 +442,10 @@ export class WebPulseFlowGenerator {
    * @returns {string} Processed template with proper data reference code
    */
   _processTemplate(template) {
-    // Fix: Use backticks properly for JavaScript template literals
-    // Replace ${...} data references with proper function calls
     const processedTemplate = template.replace(/\${([^}]+)}/g, (match, path) => {
-      // If the path appears to be a direct dataStore reference, keep it
       if (path.startsWith('dataStore.')) {
         return '${' + path + '}';
       }
-      // Otherwise, wrap it with getDataRef function
       return '${getDataRef(`' + path.replace(/`/g, '\\`') + '`)}';
     });
     
@@ -451,14 +478,10 @@ export class WebPulseFlowGenerator {
   _generateDynamicObjectCode(obj) {
     if (!obj) return 'undefined';
     
-    // Use JSON.stringify with a replacer function to handle data references
     let json = JSON.stringify(obj, null, 2);
     
-    // Fix: Better handling of template literals in JSON
-    // Look for strings that might contain template expressions
     const stringPattern = /"([^"]*\${[^"}]*[^"]*)""/g;
     json = json.replace(stringPattern, (match, templateContent) => {
-      // Return as a template literal
       return '`' + templateContent.replace(/\\"/g, '"') + '`';
     });
     
@@ -468,116 +491,6 @@ export class WebPulseFlowGenerator {
     }
     
     return json;
-  }
-
-  /**
-   * Generate code for a condition node
-   * @param {Object} node - The condition node
-   * @param {string} safeNodeId - Safe version of node ID for variable names
-   * @returns {string} Generated code
-   */
-  _generateConditionNodeCode(node, safeNodeId) {
-    let code = `    console.log('Evaluating condition: ${node.name}');\n`;
-    
-    const condition = node.properties.condition || 'false';
-    
-    // Enhance condition to support data references
-    const enhancedCondition = condition.replace(/dataStore\[`([^`]+)`\]\.body\.([a-zA-Z0-9_]+)/g, 
-      'getDataRef(`$1.body.$2`)');
-    
-    code += `    const condition_${safeNodeId} = evaluateCondition(\n`;
-    code += `      ${JSON.stringify(enhancedCondition)},\n`;
-    code += `      dataStore\n`;
-    code += `    );\n`;
-    code += `    dataStore.${node.id}_result = condition_${safeNodeId};\n`;
-    
-    return code;
-  }
-
-  /**
-   * Generate code for a transform node
-   * @param {Object} node - The transform node
-   * @param {string} safeNodeId - Safe version of node ID for variable names
-   * @returns {string} Generated code
-   */
-  _generateTransformNodeCode(node, safeNodeId) {
-    let code = `    console.log('Executing transform: ${node.name}');\n`;
-    
-    const transform = node.properties.transform || '// No transform specified\nreturn dataStore;';
-    
-    // Enhance transform function with access to data reference utility
-    code += `    const transform_${safeNodeId} = ((dataStore, getDataRef) => {\n`;
-    code += `      try {\n`;
-    
-    // Split transform code into lines and add proper indentation
-    const transformLines = transform.split('\n');
-    transformLines.forEach(line => {
-      code += `        ${line}\n`;
-    });
-    
-    code += `      } catch (e) {\n`;
-    code += `        console.error('Error in transform:', e);\n`;
-    code += `        return null;\n`;
-    code += `      }\n`;
-    code += `    })(dataStore, getDataRef);\n`;
-    code += `    dataStore.${node.id}_output = transform_${safeNodeId};\n`;
-    
-    return code;
-  }
-
-  /**
-   * Generate flow control logic based on edges
-   * @returns {string} Generated flow logic code
-   */
-  _generateFlowLogic() {
-    let code = `  const flowLogic = {\n`;
-    
-    // Group edges by source node
-    const edgesBySource = {};
-    
-    this.edges.forEach(edge => {
-      if (!edgesBySource[edge.source]) {
-        edgesBySource[edge.source] = {};
-      }
-      edgesBySource[edge.source][edge.sourcePort] = edge.target;
-    });
-    
-    // Add grouped edges to the flow logic
-    Object.entries(edgesBySource).forEach(([sourceId, ports]) => {
-      code += `    '${sourceId}': {\n`;
-      
-      Object.entries(ports).forEach(([port, targetId]) => {
-        code += `      '${port}': '${targetId}',\n`;
-      });
-      
-      code += `    },\n`;
-    });
-    
-    code += `  };\n\n`;
-    
-    // Add flow execution logic
-    code += `  // Execute flow based on conditions\n`;
-    code += `  let nextNode = Object.keys(flowLogic)[0]; // Start with first node\n`;
-    code += `  const maxSteps = 100; // Prevent infinite loops\n`;
-    code += `  let steps = 0;\n\n`;
-    
-    code += `  while (nextNode && steps < maxSteps) {\n`;
-    code += `    steps++;\n`;
-    code += `    const node = flowLogic[nextNode];\n`;
-    code += `    if (!node) break;\n\n`;
-    
-    code += `    // Determine next step based on condition results\n`;
-    code += `    if (dataStore[nextNode + '_result'] !== undefined) {\n`;
-    code += `      // Handle condition nodes\n`;
-    code += `      const result = dataStore[nextNode + '_result'] ? 'true' : 'false';\n`;
-    code += `      nextNode = node[result];\n`;
-    code += `    } else {\n`;
-    code += `      // Handle other node types\n`;
-    code += `      nextNode = node['response'] || node['output'] || null;\n`;
-    code += `    }\n`;
-    code += `  }\n\n`;
-    
-    return code;
   }
 
   /**
@@ -631,89 +544,74 @@ export class WebPulseFlowGenerator {
   }
 
   /**
-   * Generate utility module file
-   * @param {string} type - Module type ('esm' or 'commonjs')
+   * Generate a module of utility functions
+   * @param {string} moduleType - 'esm' or 'commonjs'
    * @returns {string} Utility module code
    */
-  generateUtilsModule(type = 'esm') {
+  generateUtilsModule(moduleType = 'esm') {
     let code = `// WebPulse Flow Utilities\n\n`;
     
-    // Add utility function implementations
-    code += this._generateUtilityFunctions();
+    // Add utility functions implementations
+    code += `/**\n`;
+    code += ` * Extract data from an object using a dot or bracket notation path\n`;
+    code += ` * @param {Object} obj - The object to extract data from\n`;
+    code += ` * @param {string} path - Path using dot or bracket notation\n`;
+    code += ` * @returns {any} The extracted value or undefined if not found\n`;
+    code += ` */\n`;
+    code += `function extractDataByPath(obj, path) {\n`;
+    code += `  if (!obj || !path) return undefined;\n\n`;
+    code += `  // Handle special template syntax for data references\n`;
+    code += `  if (path.startsWith('\${') && path.endsWith('}')) {\n`;
+    code += `    path = path.slice(2, -1).trim();\n`;
+    code += `  }\n\n`;
+    code += `  // Split the path by dots or bracket notation\n`;
+    code += `  const keys = path.match(/\\[([^\\[\\]]*?)\\]|([^\\[\\]\\.]+)/g) || [];\n`;
+    code += `  let current = obj;\n\n`;
+    code += `  for (let key of keys) {\n`;
+    code += `    // Clean up the key\n`;
+    code += `    key = key.replace(/^\\[([^\\]]+)\\]$/, '$1')\n`;
+    code += `           .replace(/^\\["([^"]+)"\\]$/, '$1')\n`;
+    code += `           .replace(/^\\['([^']+)'\\]$/, '$1')\n`;
+    code += `           .replace(/^\\./g, '');\n\n`;
+    code += `    if (current === null || current === undefined) {\n`;
+    code += `      return undefined;\n`;
+    code += `    }\n\n`;
+    code += `    current = current[key];\n`;
+    code += `  }\n\n`;
+    code += `  return current;\n`;
+    code += `}\n\n`;
+    
+    code += `/**\n`;
+    code += ` * Process HTTP response and extract data\n`;
+    code += ` * @param {Response} response - Fetch API Response object\n`;
+    code += ` * @returns {Object} Processed response data\n`;
+    code += ` */\n`;
+    code += `async function handleResponse(response) {\n`;
+    code += `  const contentType = response.headers.get('content-type') || '';\n`;
+    code += `  let body;\n\n`;
+    code += `  if (contentType.includes('application/json')) {\n`;
+    code += `    body = await response.json();\n`;
+    code += `  } else if (contentType.includes('text/')) {\n`;
+    code += `    body = await response.text();\n`;
+    code += `  } else {\n`;
+    code += `    body = await response.arrayBuffer();\n`;
+    code += `  }\n\n`;
+    code += `  return {\n`;
+    code += `    status: response.status,\n`;
+    code += `    statusText: response.statusText,\n`;
+    code += `    headers: Object.fromEntries(response.headers.entries()),\n`;
+    code += `    body,\n`;
+    code += `    raw: response\n`;
+    code += `  };\n`;
+    code += `}\n\n`;
     
     // Export based on module type
-    if (type === 'esm') {
-      code += `export { handleResponse, evaluateCondition, extractDataByPath };\n`;
+    if (moduleType === 'esm') {
+      code += `export { extractDataByPath, handleResponse };\n`;
     } else {
-      code += `module.exports = { handleResponse, evaluateCondition, extractDataByPath };\n`;
+      code += `module.exports = { extractDataByPath, handleResponse };\n`;
     }
     
     return code;
   }
 }
-
-// Example usage with data references
-// 
-// const generator = new WebPulseFlowGenerator();
-// generator.importFlow({
-//   nodes: [
-//     {
-//       id: 'auth-request',
-//       type: 'REQUEST',
-//       name: 'Authentication Request',
-//       position: { x: 100, y: 100 },
-//       properties: {
-//         url: 'https://api.example.com/auth',
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: {
-//           username: 'testuser',
-//           password: 'password123'
-//         }
-//       }
-//     },
-//     {
-//       id: 'get-user',
-//       type: 'REQUEST',
-//       name: 'Get User Data',
-//       position: { x: 300, y: 100 },
-//       properties: {
-//         url: 'https://api.example.com/users/profile',
-//         method: 'GET',
-//         headers: {
-//           'Authorization': 'Bearer ${auth-request.body.token}'
-//         }
-//       }
-//     },
-//     {
-//       id: 'check-status',
-//       type: 'CONDITION',
-//       name: 'Check Status',
-//       position: { x: 500, y: 100 },
-//       properties: {
-//         condition: 'getDataRef(`get-user.status`) === 200'
-//       }
-//     }
-//   ],
-//   edges: [
-//     {
-//       id: 'edge-1',
-//       source: 'auth-request',
-//       sourcePort: 'response',
-//       target: 'get-user',
-//       targetPort: 'request'
-//     },
-//     {
-//       id: 'edge-2',
-//       source: 'get-user',
-//       sourcePort: 'response',
-//       target: 'check-status',
-//       targetPort: 'condition'
-//     }
-//   ]
-// });
-// 
-// const code = generator.generateCode();
-// console.log(code);

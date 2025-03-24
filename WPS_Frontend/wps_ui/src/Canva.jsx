@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from './components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
+// import RequestFlowCanvas from './scenes/CanvasFlow';
 import RequestFlowCanvas from './scenes/CanvasFlow';
 import { WebPulseFlowGenerator } from './scenes/FlowGenrator';
 
@@ -81,7 +82,7 @@ const WebPulseRequestFlowPage = () => {
   };
   
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
+    <div className="container flex flex-col h-screen mx-auto px-4 py-8">
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">WebPulse Request Flow Designer</h1>
         <p className="text-gray-600">
@@ -89,7 +90,7 @@ const WebPulseRequestFlowPage = () => {
         </p>
       </div>
       
-      <Tabs value={currentTab} onValueChange={setCurrentTab} className="flex-1 flex flex-col">
+      <Tabs value={currentTab} onValueChange={setCurrentTab} className="flex flex-1 flex-col">
         <div className="flex justify-between items-center mb-4">
           <TabsList>
             <TabsTrigger value="design">Design Canvas</TabsTrigger>
@@ -111,7 +112,7 @@ const WebPulseRequestFlowPage = () => {
             {currentTab === 'code' && (
               <>
                 <select 
-                  className="border rounded p-2"
+                  className="border p-2 rounded"
                   value={codeFormat}
                   onChange={(e) => setCodeFormat(e.target.value)}
                 >
@@ -151,13 +152,13 @@ const WebPulseRequestFlowPage = () => {
         </div>
         
         <TabsContent value="design" className="flex-1">
-          <div className="h-full border rounded-md overflow-hidden">
+          <div className="border h-full rounded-md overflow-hidden">
             <RequestFlowCanvas onUpdate={handleFlowUpdate} />
           </div>
         </TabsContent>
         
         <TabsContent value="code" className="flex-1">
-          <div className="h-full border rounded-md overflow-hidden bg-gray-50 p-4">
+          <div className="bg-gray-50 border h-full p-4 rounded-md overflow-hidden">
             <pre className="h-full overflow-auto">
               {generatedCode}
             </pre>
