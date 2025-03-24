@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FaGoogle, FaGithub, FaMicrosoft } from "react-icons/fa";
+import Navbar from "@/components/sections/Navbar";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -18,28 +19,10 @@ export default function LoginPage() {
   };
   
   return (
+    <>
+  
+    <Navbar />
     <div className="container mx-auto px-4 py-8">
-      <nav className="flex justify-between items-center py-6">
-        <Link to="/" className="flex text-2xl font-bold gap-2 items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-6 text-indigo-600 w-6"
-          >
-            <rect width="18" height="18" x="3" y="3" rx="2" />
-            <path d="M7 7h10" />
-            <path d="M7 12h10" />
-            <path d="M7 17h10" />
-          </svg>
-          WebPulse Stack
-        </Link>
-      </nav>
-      
       <div className="flex justify-center items-center min-h-[80vh]">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center space-y-1">
@@ -80,7 +63,7 @@ export default function LoginPage() {
                     Remember me
                   </Label>
                 </div>
-                <Link to="/forgot-password" className="text-indigo-600 text-sm font-medium hover:text-indigo-500">
+                <Link to="/forgotPassword" className="text-indigo-600 text-sm font-medium hover:text-indigo-500">
                   Forgot password?
                 </Link>
               </div>
@@ -114,7 +97,7 @@ export default function LoginPage() {
           <CardFooter className="flex justify-center">
             <p className="text-gray-500 text-sm">
               Don't have an account?{" "}
-              <Link to="/signup" className="text-indigo-600 font-medium hover:text-indigo-500">
+              <Link to="/register" className="text-indigo-600 font-medium hover:text-indigo-500">
                 Sign up
               </Link>
             </p>
@@ -122,5 +105,6 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
+    </>
   );
 }
