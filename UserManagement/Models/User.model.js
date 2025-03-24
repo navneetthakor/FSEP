@@ -28,12 +28,11 @@ const UserSchema = new Schema({
         type: String
     },
 
-    date:{
-        type: Date,
-        default: Date.now 
-    }
+    // used for password reset
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 
-})
+}, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema)
 

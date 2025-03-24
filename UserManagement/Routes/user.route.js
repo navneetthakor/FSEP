@@ -16,6 +16,8 @@ const createUser = require('../Controllers/user/createUser.controller.js');
 const userLogin = require('../Controllers/user/userLogin.controller.js');
 const userAuthtokenLogin = require('../Controllers/user/userAuthtokenLogin.controller.js');
 const updateUser = require('../Controllers/user/updateUser.controller.js');
+const forgotPassword = require('../Controllers/user/forgotPassword.controller.js');
+const resetPassword = require('../Controllers/user/passwordReset.controller.js');
 
 
 // --------------------------ROUTE:1 create user account ----------------------------------------------------------
@@ -47,8 +49,16 @@ fetchUser,
 upload.single('image'),
 updateUser);
 
-// ------------------------- Route:5 to update password (through OTP) ----------------------------
+// ------------------------- Route:5 to forgot password (send rest link) ----------------------------
+router.post('/forgotPassword',
+forgotPassword
+);
 
-// -------------------------Route:6 addding other ocmmunication medium -----------------------
+// ------------------------- Route:6 to rest password (get token sent through email) ----------------------------
+router.post('/resetPassword',
+resetPassword
+);
+
+// -------------------------Route:7 addding other ocmmunication medium -----------------------
 
 module.exports = router;
