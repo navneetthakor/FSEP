@@ -13,8 +13,8 @@ import {
 import { Input } from '../components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import RequestForm from './RequestForm';
-import { WebPulseFlowGenerator } from './FlowGenrator';
+import RequestForm from '../components/sections/RequestForm';
+import { WebPulseFlowGenerator } from '../lib/FlowGenrator';
 
 // Node types with their configurations
 const NODE_TYPES = {

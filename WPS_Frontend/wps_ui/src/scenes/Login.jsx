@@ -20,7 +20,7 @@ export default function LoginPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <nav className="flex justify-between items-center py-6">
-        <Link to="/" className="flex items-center gap-2 text-2xl font-bold">
+        <Link to="/" className="flex text-2xl font-bold gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -29,7 +29,7 @@ export default function LoginPage() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="w-6 h-6 text-indigo-600"
+            className="h-6 text-indigo-600 w-6"
           >
             <rect width="18" height="18" x="3" y="3" rx="2" />
             <path d="M7 7h10" />
@@ -42,7 +42,7 @@ export default function LoginPage() {
       
       <div className="flex justify-center items-center min-h-[80vh]">
         <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1 text-center">
+          <CardHeader className="text-center space-y-1">
             <CardTitle className="text-2xl font-bold">Log in to WebPulse</CardTitle>
             <CardDescription>
               Welcome back! Please enter your details.
@@ -73,14 +73,14 @@ export default function LoginPage() {
                 />
               </div>
               
-              <div className="flex items-center justify-between">
+              <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">
                   <Checkbox id="remember" />
                   <Label htmlFor="remember" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                     Remember me
                   </Label>
                 </div>
-                <Link to="/forgot-password" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                <Link to="/forgot-password" className="text-indigo-600 text-sm font-medium hover:text-indigo-500">
                   Forgot password?
                 </Link>
               </div>
@@ -90,31 +90,31 @@ export default function LoginPage() {
               </Button>
             </form>
             
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-gray-200" />
+            <div className="my-6 relative">
+              <div className="flex absolute inset-0 items-center">
+                <span className="border-gray-200 border-t w-full" />
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">or</span>
+              <div className="flex justify-center text-sm relative">
+                <span className="bg-white text-gray-500 px-2">or</span>
               </div>
             </div>
             
             <div className="grid grid-cols-3 gap-3">
               <Button variant="outline" className="w-full">
-                <FaGoogle className="mr-2 h-4 w-4" />
+                <FaGoogle className="h-4 w-4 mr-2" />
               </Button>
               <Button variant="outline" className="w-full">
-                <FaGithub className="mr-2 h-4 w-4" />
+                <FaGithub className="h-4 w-4 mr-2" />
               </Button>
               <Button variant="outline" className="w-full">
-                <FaMicrosoft className="mr-2 h-4 w-4" />
+                <FaMicrosoft className="h-4 w-4 mr-2" />
               </Button>
             </div>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-gray-500 text-sm">
               Don't have an account?{" "}
-              <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link to="/signup" className="text-indigo-600 font-medium hover:text-indigo-500">
                 Sign up
               </Link>
             </p>

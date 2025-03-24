@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { PlusCircle, Trash2, Code, Save, Play, ArrowRight, Database, FileJson, Server } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/card';
+import { PlusCircle, Trash2, Code, Database, FileJson, Server } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Card, CardHeader, CardContent, CardTitle } from '../ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter
-} from '../components/ui/dialog';
-import { Input } from '../components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+} from '../ui/dialog';
+import { Input } from '../ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import RequestForm from './RequestForm';
-import { WebPulseFlowGenerator } from './FlowGenrator';
+import { WebPulseFlowGenerator } from '../../lib/FlowGenrator';
 
 // Node types with their configurations
 const NODE_TYPES = {

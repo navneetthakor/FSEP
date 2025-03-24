@@ -653,66 +653,66 @@ export class WebPulseFlowGenerator {
   
   // Example usage with data references
   // 
-  // const generator = new WebPulseFlowGenerator();
-  // generator.importFlow({
-  //   nodes: [
-  //     {
-  //       id: 'auth-request',
-  //       type: 'REQUEST',
-  //       name: 'Authentication Request',
-  //       position: { x: 100, y: 100 },
-  //       properties: {
-  //         url: 'https://api.example.com/auth',
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: {
-  //           username: 'testuser',
-  //           password: 'password123'
-  //         }
-  //       }
-  //     },
-  //     {
-  //       id: 'get-user',
-  //       type: 'REQUEST',
-  //       name: 'Get User Data',
-  //       position: { x: 300, y: 100 },
-  //       properties: {
-  //         url: 'https://api.example.com/users/profile',
-  //         method: 'GET',
-  //         headers: {
-  //           'Authorization': 'Bearer ${auth-request.body.token}'
-  //         }
-  //       }
-  //     },
-  //     {
-  //       id: 'check-status',
-  //       type: 'CONDITION',
-  //       name: 'Check Status',
-  //       position: { x: 500, y: 100 },
-  //       properties: {
-  //         condition: 'getDataRef("get-user.status") === 200'
-  //       }
-  //     }
-  //   ],
-  //   edges: [
-  //     {
-  //       id: 'edge-1',
-  //       source: 'auth-request',
-  //       sourcePort: 'response',
-  //       target: 'get-user',
-  //       targetPort: 'request'
-  //     },
-  //     {
-  //       id: 'edge-2',
-  //       source: 'get-user',
-  //       sourcePort: 'response',
-  //       target: 'check-status',
-  //       targetPort: 'condition'
-  //     }
-  //   ]
-  // });
-  // 
-  // const code = generator.generateCode();
-  // console.log(code);
+  const generator = new WebPulseFlowGenerator();
+  generator.importFlow({
+    nodes: [
+      {
+        id: 'auth-request',
+        type: 'REQUEST',
+        name: 'Authentication Request',
+        position: { x: 100, y: 100 },
+        properties: {
+          url: 'https://api.example.com/auth',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            username: 'testuser',
+            password: 'password123'
+          }
+        }
+      },
+      {
+        id: 'get-user',
+        type: 'REQUEST',
+        name: 'Get User Data',
+        position: { x: 300, y: 100 },
+        properties: {
+          url: 'https://api.example.com/users/profile',
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ${auth-request.body.token}'
+          }
+        }
+      },
+      {
+        id: 'check-status',
+        type: 'CONDITION',
+        name: 'Check Status',
+        position: { x: 500, y: 100 },
+        properties: {
+          condition: 'getDataRef("get-user.status") === 200'
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'edge-1',
+        source: 'auth-request',
+        sourcePort: 'response',
+        target: 'get-user',
+        targetPort: 'request'
+      },
+      {
+        id: 'edge-2',
+        source: 'get-user',
+        sourcePort: 'response',
+        target: 'check-status',
+        targetPort: 'condition'
+      }
+    ]
+  });
+  
+  const code = generator.generateCode();
+  console.log(code);
