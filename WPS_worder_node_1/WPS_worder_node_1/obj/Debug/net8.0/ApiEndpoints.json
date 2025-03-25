@@ -95,5 +95,21 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "WPS_worder_node_1.Controllers.RequestFlowController",
+    "Method": "ExecuteFlow",
+    "RelativePath": "api/RequestFlow/execute",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "flowConfig",
+        "Type": "WPS_worder_node_1.Controllers.FlowConfiguration",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

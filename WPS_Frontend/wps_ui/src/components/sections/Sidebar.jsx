@@ -6,32 +6,29 @@ import { Link } from 'react-router-dom';
 const Sidebar = () => {
   
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col h-screen position-fixed">
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
-        <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-white mr-3">
+    <div className="flex flex-col bg-white border-gray-200 border-r h-screen position-fixed w-64 dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex border-b border-gray-200 p-4 dark:border-gray-700 items-center">
+        <div className="flex bg-blue-600 h-8 justify-center rounded-md text-white w-8 items-center mr-3">
           <span className="text-lg font-bold">W</span>
         </div>
-        <h1 className="text-xl font-bold text-gray-800 dark:text-white">WebPulse Stack</h1>
+        <h1 className="text-gray-800 text-xl dark:text-white font-bold">WebPulse Stack</h1>
       </div>
       
       <nav className="flex-1 px-2 py-4 space-y-1">
-        <SidebarItem icon={<BarChart2 className="w-5 h-5" />} label="Monitors" active />
-        <SidebarItem icon={<Clock className="w-5 h-5" />} label="Heartbeats" />
-        <SidebarItem icon={<Users className="w-5 h-5" />} label="Who's on-call?" />
-        <SidebarItem icon={<AlertCircle className="w-5 h-5" />} label="Incidents" badge="2" />
-        <SidebarItem icon={<FileText className="w-5 h-5" />} label="Status pages" />
-        <SidebarItem icon={<FileText className="w-5 h-5" />} label="Escalation policies" />
-        <SidebarItem icon={<Link2 className="w-5 h-5" />} label="Integrations" hasChildren />
-        <SidebarItem icon={<BarChart2 className="w-5 h-5" />} label="Reporting" />
+        <SidebarItem icon={<BarChart2 className="h-5 w-5" />} label="Monitors" active />
+        <SidebarItem icon={<Clock className="h-5 w-5" />} label="API Flows" />
+        <SidebarItem icon={<AlertCircle className="h-5 w-5" />} label="Incidents" badge="2" />
+        <SidebarItem icon={<Link2 className="h-5 w-5" />} label="Integrations" hasChildren />
+        <SidebarItem icon={<BarChart2 className="h-5 w-5" />} label="Reporting" />
       </nav>
       
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+      <div className="border-gray-200 border-t p-4 dark:border-gray-700">
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+          <div className="flex bg-blue-600 h-8 justify-center rounded-full text-white w-8 items-center">
             <span className="text-sm font-bold">N</span>
           </div>
           <div className="ml-3">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">NAVNEETKUMAR</p>
+            <p className="text-gray-700 text-sm dark:text-gray-300 font-medium">NAVNEETKUMAR</p>
           </div>
         </div>
       </div>
@@ -52,7 +49,7 @@ const SidebarItem = ({ icon, label, active = false, hasChildren = false, badge }
       <span className="mr-3">{icon}</span>
       <span className="flex-1">{label}</span>
       {badge && (
-        <span className="ml-auto bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-xs">
+        <span className="bg-gray-200 rounded-full text-gray-800 text-xs dark:bg-gray-700 dark:text-gray-300 ml-auto px-2 py-0.5">
           {badge}
         </span>
       )}

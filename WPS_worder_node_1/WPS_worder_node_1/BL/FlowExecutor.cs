@@ -200,7 +200,7 @@ namespace WPS_worder_node_1.BL
             request.Method = ParseMethod(method);
 
             // Set headers
-            foreach (KeyValuePair<string,string> header in headers)
+            foreach (KeyValuePair<string, string> header in headers)
             {
                 string headerValue = ProcessTemplateVariables(header.Value);
                 request.AddHeader(header.Key, headerValue);
@@ -231,7 +231,14 @@ namespace WPS_worder_node_1.BL
             {
                 ["status"] = (int)response.StatusCode,
                 ["statusText"] = response.StatusDescription,
-                ["headers"] = JObject.FromObject(response.Headers.ToDictionary(h => h.Name, h => h.Value?.ToString())),
+                ["headers"] = JObject.FromObject(
+                response.Headers
+                .GroupBy(h => h.Name) // Group headers by Name
+                .ToDictionary(
+                     g => g.Key,
+                     g => string.Join(", ", g.Select(h => h.Value?.ToString())) // Merge duplicate values
+                    )
+                ),
                 ["body"] = responseBody
             };
 
