@@ -7,6 +7,7 @@ import DashboardLayout from './scenes/DashboardLayout';
 import { ThemeProvider } from './components/ui/theme-provider';
 import ForgotPasswordPage from './scenes/ForgotPasswordPage';
 import ResetPasswordPage from './scenes/ResetPassword';
+import MicrosoftTeamsIntegration from './scenes/MicrosoftTeamsIntegration';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path='/dashboard/:rightAria' element={<DashboardLayout />} />
             <Route path='/forgotPassword' element={<ForgotPasswordPage />} />
             <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage />} />
+            <Route path='/integration/mstems' element={<MicrosoftTeamsIntegration />} />
             {/* <Route path='/createMonitorForm' element={<CreateMonitorForm />} /> */}
             {/* <Route path='/requestFlow' element={<WebPulseRequestFlowPage />} /> */}
             {/* <Route path='/requestFlow2' element={<RequestFlowCanvas />} /> */}
