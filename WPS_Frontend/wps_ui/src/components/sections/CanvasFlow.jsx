@@ -31,13 +31,6 @@ const NODE_TYPES = {
     inputs: ['condition'],
     outputs: ['true', 'false']
   },
-  TRANSFORM: {
-    name: 'Transform',
-    icon: <Database className="h-4 w-4" />,
-    color: 'bg-green-100 border-green-300',
-    inputs: ['input'],
-    outputs: ['output']
-  }
 };
 
 
