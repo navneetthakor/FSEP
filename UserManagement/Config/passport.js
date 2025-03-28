@@ -1,43 +1,55 @@
 const passport = require('passport');
 const MicrosoftStrategy = require('passport-microsoft').Strategy;
-const { saveUserToDatabase, getUserFromDatabase } = require('./database');
+const MTUser = require('../Models/MsTeams.model');
 
-// Microsoft Teams OAuth Strategy
 passport.use(new MicrosoftStrategy({
     clientID: process.env.MICROSOFT_CLIENT_ID,
     clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
     callbackURL: `${process.env.BACKEND_URL}/auth/teams/callback`,
     scope: ['user.read', 'offline_access', 'team.readbasic.all'],
-    passReqToCallback: true,  // Pass request object to callback
+    passReqToCallback: true // This allows us to access the request object
   },
-  async (req,accessToken, refreshToken, profile, done) => {
-    console.log(req.query.userId);
+  async (req, accessToken, refreshToken, profile, done) => {
     try {
-      const user = {
-        user_id : req.query.userId,
-        microsoftId: profile.id,
-        displayName: profile.displayName,
-        email: profile._json.mail,
-        accessToken,
-        refreshToken
-      };
+      // Get userId from query parameter
+      const userId = req.user.id;
+
+      if (!userId) {
+        return done(new Error('User ID is required'));
+      }
+
+      // Create or update MSTeams user entry
+      const msTeamsUser = await MTUser.findOneAndUpdate(
+        { microsoftId: profile.id },
+        {
+          userId: userId, // Store the existing User model's ID
+          microsoftId: profile.id,
+          accessToken,
+          refreshToken,
+          displayName: profile.displayName,
+          email: profile._json.mail
+        },
+        { 
+          upsert: true,  // Create if not exists
+          new: true      // Return updated document
+        }
+      );
       
-      const savedUser = await saveUserToDatabase(user);
-      return done(null, savedUser);
+      return done(null, msTeamsUser);
     } catch (error) {
       return done(error);
     }
   }
 ));
 
-// Serialize and deserialize user
+// Serialization remains the same
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user._id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await getUserFromDatabase(id);
+    const user = await MSTeamsUser.findById(id).populate('userId');
     done(null, user);
   } catch (error) {
     done(error);
