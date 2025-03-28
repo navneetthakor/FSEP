@@ -30,6 +30,13 @@ const NODE_TYPES = {
     color: 'bg-yellow-100 border-yellow-300',
     inputs: ['condition'],
     outputs: ['true', 'false']
+  },
+  TRANSFORM: {
+    name: 'Transform',
+    icon: <Database className="h-4 w-4" />,
+    color: 'bg-green-100 border-green-300',
+    inputs: ['input'],
+    outputs: ['output']
   }
 };
 
@@ -451,20 +458,13 @@ const RequestFlowCanvas = () => {
         </div>
       </div>
 
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative">
         <div
           ref={canvasRef}
           className="bg-gray-50 h-full w-full dark:bg-gray-800 overflow-auto relative"
           onClick={handleCanvasClick}
           onMouseMove={handleNodeDrag}
           onMouseUp={handleNodeDragEnd}
-          style={{ 
-            position: 'absolute', 
-            top: 0, 
-            left: 0, 
-            right: 0, 
-            bottom: 0 
-          }}
         >
           {nodes.map(renderNode)}
           {renderEdges()}
@@ -618,6 +618,21 @@ const RequestFlowCanvas = () => {
               </div>
             )}
 
+            {nodeConfig.type === 'TRANSFORM' && (
+              <div className="grid grid-cols-4 gap-4 items-center">
+                <label htmlFor="transform" className="text-right">Transform:</label>
+                <textarea
+                  id="transform"
+                  className="col-span-3 border p-2 rounded min-h-24"
+                  value={nodeConfig.properties?.transform || ''}
+                  onChange={(e) => setNodeConfig({
+                    ...nodeConfig,
+                    properties: { ...nodeConfig.properties, transform: e.target.value }
+                  })}
+                  placeholder="// Transform the data\nconst result = {...};\nreturn result;"
+                />
+              </div>
+            )}
           </div>
 
           <DialogFooter>

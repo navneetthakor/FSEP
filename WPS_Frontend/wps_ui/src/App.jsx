@@ -7,8 +7,6 @@ import DashboardLayout from './scenes/DashboardLayout';
 import { ThemeProvider } from './components/ui/theme-provider';
 import ForgotPasswordPage from './scenes/ForgotPasswordPage';
 import ResetPasswordPage from './scenes/ResetPassword';
-import RequestFlowCanvas from './components/sections/CanvasFlow';
-import RequestFlowCanvas2 from './unUsed/OldCalnvasFlow';
 
 
 function App() {
@@ -25,8 +23,8 @@ function App() {
             <Route path='/forgotPassword' element={<ForgotPasswordPage />} />
             <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage />} />
             {/* <Route path='/createMonitorForm' element={<CreateMonitorForm />} /> */}
-            <Route path='/requestFlow' element={<RequestFlowCanvas />} />
-            <Route path='/requestFlow2' element={<RequestFlowCanvas2 />} />
+            {/* <Route path='/requestFlow' element={<WebPulseRequestFlowPage />} /> */}
+            {/* <Route path='/requestFlow2' element={<RequestFlowCanvas />} /> */}
           </Route>
         </Routes>
 </ThemeProvider>

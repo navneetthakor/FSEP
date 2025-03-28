@@ -9,7 +9,7 @@ export default function DashboardLayout() {
   let {rightAria} = useParams();
 
   return (
-    <div className="flex bg-gray-100 dark:bg-gray-800 overflow-x-hidden">
+    <div className="flex bg-gray-100 h-screen dark:bg-gray-900 overflow-x-hidden">
             <Sidebar />
 
             {rightAria == "monitor" && <Dashboard />}

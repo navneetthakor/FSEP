@@ -41,7 +41,7 @@ const NODE_TYPES = {
   }
 };
 
-const RequestFlowCanvas2 = () => {
+const RequestFlowCanvas = () => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -547,4 +547,4 @@ const RequestFlowCanvas2 = () => {
   );
 };
 
-export default RequestFlowCanvas2;
+export default RequestFlowCanvas;
