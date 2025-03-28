@@ -12,7 +12,8 @@ passport.use(new MicrosoftStrategy({
   async (req, accessToken, refreshToken, profile, done) => {
     try {
       // Get userId from query parameter
-      const userId = req.user.id;
+      // const userId = req.user.id;
+      const userId = "67cab90cd3e2657d48948fab";
 
       if (!userId) {
         return done(new Error('User ID is required'));
