@@ -16,7 +16,7 @@ async function myCustomFlow(initialData = {}) {
   // Register undefined (1)
   requestQueue.push({
     id: '1',
-    name: 'undefined',
+    name: 'undefined', 
     type: 'REQUEST',
     properties: {
       "url": "https://google.com/",
