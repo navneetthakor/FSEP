@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -41,7 +42,7 @@ namespace WPS_worder_node_1.BL
         /// Constructor for FlowExecutor
         /// </summary>
         /// <param name="logger"></param>
-        public FlowExecutor(ILogger logger)
+        public FlowExecutor([FromServices] ILogger logger)
         {
             _logger = logger;
             _dataStore = new Dictionary<string, JObject>();

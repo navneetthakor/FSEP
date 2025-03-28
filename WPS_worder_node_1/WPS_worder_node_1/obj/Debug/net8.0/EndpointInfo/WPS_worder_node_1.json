@@ -34,6 +34,59 @@
         }
       }
     },
+    "/api/MasterPod/v2/register": {
+      "post": {
+        "tags": [
+          "MasterPod"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServerModal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/MasterPod/register": {
       "post": {
         "tags": [
@@ -140,6 +193,53 @@
       "get": {
         "tags": [
           "MasterPod"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MasterPod/RegisterAPIFlow": {
+      "post": {
+        "tags": [
+          "MasterPod"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "flow_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -381,7 +481,12 @@
           6,
           7,
           8,
-          9
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
         ],
         "type": "integer",
         "format": "int32"
@@ -1380,6 +1485,9 @@
               "$ref": "#/components/schemas/FlowEdge"
             },
             "nullable": true
+          },
+          "checkFrequency": {
+            "$ref": "#/components/schemas/CheckFrequency"
           }
         },
         "additionalProperties": false
@@ -2265,6 +2373,9 @@
           "statusCode": {
             "type": "integer",
             "format": "int32"
+          },
+          "other": {
+            "nullable": true
           }
         },
         "additionalProperties": false

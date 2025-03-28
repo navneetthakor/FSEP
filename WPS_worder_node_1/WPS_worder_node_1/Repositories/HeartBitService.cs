@@ -6,7 +6,7 @@ namespace WPS_worder_node_1.Repositories
     public class HeartBitService : IHeartBitService
     {
 
-        public async void HeartBit()
+        public async Task HeartBit()
         {
             try
             {

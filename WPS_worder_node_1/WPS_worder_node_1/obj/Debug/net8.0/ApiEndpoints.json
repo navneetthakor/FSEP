@@ -67,6 +67,37 @@
   },
   {
     "ContainingType": "WPS_worder_node_1.Controllers.MasterPodController",
+    "Method": "RegisterAPIFlow",
+    "RelativePath": "api/MasterPod/RegisterAPIFlow",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "client_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "flow_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WPS_worder_node_1.Modal.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WPS_worder_node_1.Controllers.MasterPodController",
     "Method": "RemoveServer",
     "RelativePath": "api/MasterPod/remove/{client_id}/{server_id}",
     "HttpMethod": "DELETE",
@@ -81,6 +112,32 @@
       {
         "Name": "server_id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WPS_worder_node_1.Modal.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WPS_worder_node_1.Controllers.MasterPodController",
+    "Method": "RegisterServerList",
+    "RelativePath": "api/MasterPod/v2/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serverModal",
+        "Type": "WPS_worder_node_1.Modal.ServerModal",
         "IsRequired": true
       }
     ],

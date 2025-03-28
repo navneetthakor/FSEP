@@ -2,6 +2,6 @@
 {
     public interface IHeartBitService
     {
-        void HeartBit();
+        Task HeartBit();
     }
 }

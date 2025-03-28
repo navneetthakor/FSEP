@@ -7,12 +7,17 @@ namespace WPS_worder_node_1.Modal
         /// <summary>
         /// Client id (who owns this server)
         /// </summary>
-        public int Client_id { get; set; }
+        public string Client_id { get; set; }
 
         /// <summary>
         /// server id (unique id for this server)
         /// </summary>
-        public int Server_id { get; set; }
+        public string Server_id { get; set; }
+
+        /// <summary>
+        /// flow id (used in alerting service)
+        /// </summary>
+        public string? flow_id { get; set; }
 
         /// <summary>
         /// worker_id
@@ -37,7 +42,7 @@ namespace WPS_worder_node_1.Modal
         ///<summary>
         /// status of the server
         /// </summary>
-        public ServerStatus Status { get; set; } = ServerStatus.R;
+        public ServerStatus? Status { get; set; } = ServerStatus.R;
 
         /// <summary>
         /// type of check
@@ -57,6 +62,6 @@ namespace WPS_worder_node_1.Modal
         /// <summary>
         /// List of status codes which response can contains.
         ///</summary>
-        public List<int> StatusCodes { get; set; } = new List<int>();
+        public List<int>? StatusCodes { get; set; } = new List<int>();
     }
 }

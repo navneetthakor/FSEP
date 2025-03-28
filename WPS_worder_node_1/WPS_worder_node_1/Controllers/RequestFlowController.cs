@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WPS_worder_node_1.BL;
+using WPS_worder_node_1.Modal.Enums;
 
 
 namespace WPS_worder_node_1.Controllers
@@ -64,6 +65,9 @@ namespace WPS_worder_node_1.Controllers
 
         [JsonProperty("edges")]
         public List<FlowEdge> Edges { get; set; }
+
+        [JsonProperty("checkFrequency")]
+        public CheckFrequency CheckFrequency { get; set; }
     }
 
     public class FlowNode

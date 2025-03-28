@@ -48,12 +48,12 @@ namespace WPS_worder_node_1
         public void Configure(WebApplication app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager)
         {
             // Schedule a recurring job that pushes metrics
-            IMyJobServices job = app.Services.GetRequiredService<IMyJobServices>();
-            recurringJobManager.AddOrUpdate("Checking-health", () => job.InvokCheck(), Cron.Minutely);
+            //IMyJobServices job = app.Services.GetRequiredService<IMyJobServices>();
+            //recurringJobManager.AddOrUpdate("Checking-health", () => job.InvokCheck(), Cron.Minutely);
 
             //Schedule a recurring job that sends a heartbeat
             IHeartBitService heartBitService = app.Services.GetRequiredService<IHeartBitService>();
-            //recurringJobManager.AddOrUpdate("HeartBit", () => heartBitService.HeartBit(), Cron.Minutely);
+            recurringJobManager.AddOrUpdate("HeartBit", () => heartBitService.HeartBit(), Cron.Minutely);
 
             if (env.IsDevelopment())
             {

@@ -19,7 +19,7 @@ namespace WPS_worder_node_1.BL
             "http_status_code_custom", "Count of HTTP status codes", "status_code"
         );
 
-        public static void PushMetrics(int Clinet_id, int Server_id, HealthCheckerModal healthCheckModal)
+        public static void PushMetrics(string Clinet_id, string Server_id, HealthCheckerModal healthCheckModal)
         {
             // Move pusher here (after defining registry & metrics)
             MetricPusher pusher = new MetricPusher(new MetricPusherOptions
