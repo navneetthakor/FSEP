@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using wps_master_pod_1.Modal.Enums;
 
 namespace wps_master_pod_1.Modal.POCOS
 {
+    [Table("mpd02")]
     public class MPD02
     {
         /// <summary>

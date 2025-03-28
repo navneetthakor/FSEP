@@ -47,11 +47,11 @@ namespace wps_master_pod_1
 
         }
 
-        public void Configure(WebApplication app, IWebHostEnvironment env)
+        public void Configure(WebApplication app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager)
         {
             // Schedule a recurring job that pushes metrics
-            //IMyJobServices job = app.Services.GetRequiredService<IMyJobServices>();
-            //recurringJobManager.AddOrUpdate("Checking-health", () => job.InvokCheck(), Cron.Minutely);
+            string? message = Configuration.GetValue<String>("AdminMessage");
+            recurringJobManager.AddOrUpdate("Checking-health", () => MyKafkaProducer.NotifyAdmin(message), "*/3 * * * *");
 
             if (env.IsDevelopment())
             {

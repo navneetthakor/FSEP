@@ -31,13 +31,13 @@ namespace wps_master_pod_1.Controllers
                 }
 
                 // adding entry to database 
-                Response dbResponse = dbUptimeWorker.AddServer(serverModal.Client_id, serverModal.Server_id, "00000001");
+                //Response dbResponse = dbUptimeWorker.AddServer(serverModal.Client_id, serverModal.Server_id, "00000001");
 
                 //if error occured
-                if (dbResponse.IsError)
-                {
-                    return dbResponse;
-                }
+                //if (dbResponse.IsError)
+                //{
+                //    return dbResponse;
+                //}
 
                 //return now 
                 return new Response() { Data = null, IsError = false, ErrorMessage = "successfull", StatusCode = 200 };
@@ -65,15 +65,51 @@ namespace wps_master_pod_1.Controllers
             }
 
             // removing entry to database 
-            Response dbResponse = dbUptimeWorker.RemoveServer(client_id, server_id);
+            //Response dbResponse = dbUptimeWorker.RemoveServer(client_id, server_id);
             //if error occured
-            if (dbResponse.IsError)
-            {
-                return dbResponse;
-            }
+            //if (dbResponse.IsError)
+            //{
+            //    return dbResponse;
+            //}
 
             //return now 
             return new Response() { Data = null, IsError = false, ErrorMessage = "successfull", StatusCode = 200 };
+        }
+
+        [HttpPost]
+        [Route("RegisterAPIFlow")]
+        public Response RegisterAPIFlow(int client_id, int flow_id)
+        {
+            try
+            {
+
+                //forward it to the worker pod
+                Response response = UptimeWorkerAPIs.RegsiterAPIFlow(client_id,flow_id);
+                Console.WriteLine("Response : " + response.Data);
+
+                //if error occured
+                if (response.IsError)
+                {
+                    return response;
+                }
+
+                // adding entry to database 
+                //Response dbResponse = dbUptimeWorker.AddServer(serverModal.Client_id, serverModal.Server_id, "00000001");
+
+                //if error occured
+                //if (dbResponse.IsError)
+                //{
+                //    return dbResponse;
+                //}
+
+                //return now 
+                return new Response() { Data = null, IsError = false, ErrorMessage = "successfull", StatusCode = 200 };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error : " + ex.Message);
+                return new Response() { Data = null, IsError = true, ErrorMessage = ex.Message, StatusCode = 500 };
+            }
         }
     }
 }

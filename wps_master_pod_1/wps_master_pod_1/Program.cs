@@ -14,10 +14,10 @@ namespace wps_master_pod_1
             startup.ConfigureServices(builder.Services);
 
             WebApplication app = builder.Build();
-            //IRecurringJobManager recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
-            //startup.Configure(app, builder.Environment, recurringJobManager);
+            IRecurringJobManager recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
+            startup.Configure(app, builder.Environment, recurringJobManager);
             //startup.Configure(app, builder.Environment);
-            startup.Configure(app, builder.Environment);
+            //startup.Configure(app, builder.Environment);
 
 
             app.MapGet("/", () => "Hello World!");

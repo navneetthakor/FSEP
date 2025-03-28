@@ -5,6 +5,7 @@ using wps_master_pod_1.Modal.Enums;
 
 namespace wps_master_pod_1.Modal.POCOS
 {
+    [Table("mpd03")]
     public class MPD03
     {
         /// <summary>
