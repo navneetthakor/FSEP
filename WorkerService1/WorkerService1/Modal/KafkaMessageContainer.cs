@@ -17,11 +17,33 @@ namespace WorkerService1.Modal
         /// <summary>
         /// health checker modal
         /// </summary>
-        public HealthCheckerModal healthCheckerModal { get; set; }
+        public HealthCheckerModal? healthCheckerModal { get; set; }
+
+        /// <summary>
+        /// flow execution result
+        /// </summary>
+        public FlowExecutionResult? flowExecutionResult { get; set; }
+
+        /// <summary>
+        /// Clinet information
+        /// </summary>
+        public ClientModal? clientModal { get; set; }
 
         /// <summary>
         /// is this test email.
         /// </summary>
-        public bool isTestEmail { get; set; }
+        public TypeOfEmail emailType  { get; set; }
+
+    }
+
+    public enum TypeOfEmail
+    {
+    EndpointTestEmail,
+    EndpointErrorEmail,
+    EndpointSuccessEmail,
+    APIFlowTestEmail,
+    APIFlowErrorEmail,
+    APIFlowSuccessEmail
     }
 }
+

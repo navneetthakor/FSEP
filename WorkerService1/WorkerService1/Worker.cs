@@ -36,7 +36,7 @@ namespace WorkerService1
                     ConsumeResult<Ignore,string> consumeResult = consumer.Consume();
 
                     //sending email 
-                    ErrorNotifier.NotifyError(consumeResult);
+                    EmailNotifier.NotifyError(consumeResult);
 
                     // logging info
                     _logger.LogInformation($"Consumed message '{consumeResult?.Message.Value}' at: '{consumeResult.Offset}'");

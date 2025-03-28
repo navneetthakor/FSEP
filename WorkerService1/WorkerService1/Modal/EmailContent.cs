@@ -1,18 +1,26 @@
-﻿namespace WorkerService1.Modal
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WorkerService1.Modal
 {
     internal class EmailContent
     {
         /// <summary>
-        /// Email subject
-        /// </summary>
-        public string Subject { get; set; }
-        /// <summary>
-        /// Email body
-        /// </summary>
-        public string Body { get; set; }
-        /// <summary>
-        /// Email to
+        /// Email address of the recipient
         /// </summary>
         public string To { get; set; }
+
+        /// <summary>
+        /// Subject of the email
+        /// </summary>
+        public string Subject { get; set; }
+
+        /// <summary>
+        /// Body of the email
+        /// </summary>
+        public string Body { get; set; }
     }
 }

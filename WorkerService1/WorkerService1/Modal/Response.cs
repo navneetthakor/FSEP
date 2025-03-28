@@ -23,5 +23,7 @@ namespace WPS_worder_node_1.Modal
         /// status code
         /// </summary>
         public int StatusCode { get; set; }
+
+        public dynamic? Other { get; set; }
     }
 }
