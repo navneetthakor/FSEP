@@ -1,10 +1,10 @@
 // src/components/Sidebar.jsx
 import React from 'react';
 import { BarChart2, Clock, AlertCircle, FileText, Link2, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
-  
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col bg-white border-gray-200 border-r h-screen position-fixed w-64 dark:bg-gray-800 dark:border-gray-700">
       <div className="flex border-b border-gray-200 p-4 dark:border-gray-700 items-center">
@@ -16,7 +16,7 @@ const Sidebar = () => {
       
       <nav className="flex-1 px-2 py-4 space-y-1">
         <SidebarItem icon={<BarChart2 className="h-5 w-5" />} label="Monitors" active />
-        <SidebarItem icon={<Clock className="h-5 w-5" />} label="API Flows" />
+        <SidebarItem onClick={() => navigate('/dashboard/createRequestFlow')} icon={<Clock className="h-5 w-5" />} label="API Flows" />
         <SidebarItem icon={<AlertCircle className="h-5 w-5" />} label="Incidents" badge="2" />
         <SidebarItem icon={<Link2 className="h-5 w-5" />} label="Integrations" hasChildren />
         <SidebarItem icon={<BarChart2 className="h-5 w-5" />} label="Reporting" />
@@ -37,9 +37,10 @@ const Sidebar = () => {
 };
 
 const SidebarItem = ({ icon, label, active = false, hasChildren = false, badge }) => {
+  const link = label != "Monitors" ? "createRequestFlow" : "monitor";
   return (
     <Link
-      to={"/dashboard/monitor"}
+      to={`/dashboard/${link}`}
       className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${
         active
           ? 'bg-gray-100 text-blue-600 dark:bg-gray-700 dark:text-blue-400'

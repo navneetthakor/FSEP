@@ -21,8 +21,8 @@ const NODE_TYPES = {
     name: 'HTTP Request',
     icon: <Server className="h-4 w-4" />,
     color: 'bg-blue-100 border-blue-300',
-    inputs: ['url', 'method', 'headers', 'body'],
-    outputs: ['response']
+    inputs: ['input'],
+    outputs: ['true']
   },
   CONDITION: {
     name: 'Condition',
@@ -308,11 +308,11 @@ const RequestFlowCanvas = () => {
         onClick={(e) => handleNodeClick(node, e)}
         onMouseDown={(e) => handleNodeDragStart(node, e)}
       >
-        <div className="flex bg-opacity-50 bg-white border-b border-gray-300 justify-between p-2 font-medium items-center">
-          <div className="flex gap-2 items-center">
+        <div className="flex bg-opacity-50 bg-white border-b border-gray-800 justify-between p-2 font-medium items-center">
+          <div className="flex gap-2 text-black items-center">
             {nodeType.icon}
             <div className="flex flex-col">
-              <span className="text-sm font-semibold truncate">{node.name}</span>
+              <span className="text-sm font-semibold text-black truncate">{node.name}</span>
               <span className="text-gray-500 text-xs">{nodeType.name}</span>
             </div>
           </div>
@@ -330,7 +330,7 @@ const RequestFlowCanvas = () => {
                 >
                   <div className="bg-gray-500 h-2 rounded-full w-2"></div>
                 </button>
-                <span className="ml-2">{input}</span>
+                <span className="ml-2 text-black">{input}</span>
               </div>
             ))}
           </div>
@@ -340,7 +340,7 @@ const RequestFlowCanvas = () => {
             <div className="text-gray-500 mb-1">Outputs:</div>
             {nodeType.outputs.map(output => (
               <div key={`${node.id}-out-${output}`} className="flex justify-between items-center mb-1">
-                <span className="mr-2">{output}</span>
+                <span className="mr-2 text-black">{output}</span>
                 <button
                   className={`w-4 h-4 rounded-full border border-gray-500 flex items-center justify-center bg-white hover:bg-blue-100 ${isCreatingEdge && startPort?.isOutput ? 'bg-blue-200' : ''}`}
                   onClick={(e) => handlePortClick(node, true, output, e)}
@@ -490,11 +490,11 @@ const RequestFlowCanvas = () => {
       </div>
       {/* for test dialog  */}
       <Dialog open={showTestDialog} onOpenChange={setShowTestDialog}>
-        <DialogContent>
           <DialogHeader>
             <DialogTitle>Test Results</DialogTitle>
           </DialogHeader>
 
+        <DialogContent  style={{overflow: "scroll", height: "20vh"}}>
           {testResult && testResult.length > 0 ? (
             testResult.map((response, index) => {
               console.log("Rendering test result:", response);
@@ -517,7 +517,7 @@ const RequestFlowCanvas = () => {
                           <TabsTrigger value="headers">Headers</TabsTrigger>
                         </TabsList>
                         <TabsContent value="response" className="mt-2">
-                          <pre className="bg-gray-100 p-4 rounded-md text-sm font-mono overflow-x-auto">
+                          <pre className="bg-gray-100 text-black p-4 rounded-md text-sm font-mono overflow-x-auto">
                             {response.data && (
                               typeof response.data === 'object'
                                 ? JSON.stringify(response.data, null, 2)
@@ -526,7 +526,7 @@ const RequestFlowCanvas = () => {
                           </pre>
                         </TabsContent>
                         <TabsContent value="headers" className="mt-2">
-                          <div className="bg-gray-100 p-4 rounded-md">
+                          <div className="bg-gray-100 text-black p-4 rounded-md">
                             {response.headers && Object.entries(response.headers).map(([key, value]) => (
                               <div key={key} className="mb-1">
                                 <span className="font-medium">{key}:</span> {value}
@@ -541,7 +541,7 @@ const RequestFlowCanvas = () => {
               );
             })
           ) : (
-            <div className="p-4 text-center">
+            <div className="p-4 text-center ">
               <p>No test results available or test execution failed.</p>
             </div>
           )}
@@ -610,22 +610,6 @@ const RequestFlowCanvas = () => {
                 />
               </div>
             )}
-
-            {nodeConfig.type === 'TRANSFORM' && (
-              <div className="grid grid-cols-4 gap-4 items-center">
-                <label htmlFor="transform" className="text-right">Transform:</label>
-                <textarea
-                  id="transform"
-                  className="col-span-3 border p-2 rounded min-h-24"
-                  value={nodeConfig.properties?.transform || ''}
-                  onChange={(e) => setNodeConfig({
-                    ...nodeConfig,
-                    properties: { ...nodeConfig.properties, transform: e.target.value }
-                  })}
-                  placeholder="// Transform the data\nconst result = {...};\nreturn result;"
-                />
-              </div>
-            )}
           </div>
 
           <DialogFooter>
@@ -646,7 +630,7 @@ const RequestFlowCanvas = () => {
             <DialogTitle>Generated Flow Code</DialogTitle>
           </DialogHeader>
 
-          <div className="bg-gray-100 p-4 rounded max-h-96 overflow-auto">
+          <div className="bg-gray-100 p-4 text-black rounded max-h-96 overflow-auto">
             <pre className="text-sm whitespace-pre-wrap">
               {generatedCode}
             </pre>
