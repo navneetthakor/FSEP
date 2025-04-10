@@ -1,4 +1,4 @@
-class WebPulseFlowGenerator {
+export default class WebPulseNodeFlowGenerator {
     constructor() {
       this.nodes = [];
       this.edges = [];
@@ -172,7 +172,7 @@ class WebPulseFlowGenerator {
   
   // Example usage
   function createSampleFlow() {
-    const flow = new WebPulseFlowGenerator();
+    const flow = new WebPulseNodeFlowGenerator();
     
     // Add request node to get user data
     flow.addRequestNode(

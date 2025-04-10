@@ -825,7 +825,7 @@ const CreateMonitorForm = () => {
   };
 
   return (
-    <div className="container p-4 max-w-2xl mx-auto">
+    <div className="container p-4 max-w-2xl mx-auto h-[95vh] overflow-y-scroll">
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Create Monitor</CardTitle>
@@ -998,7 +998,7 @@ const CreateMonitorForm = () => {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="UBU">URL Becomes Unavailable</SelectItem>
-                        <SelectItem value="URHSCOT">URL Response Has Specific Content of Type</SelectItem>
+                        <SelectItem value="URHSCOT">URL Returns Status Codes Other Then</SelectItem>
                         <SelectItem value="UCK">URL Contains Keyword</SelectItem>
                         <SelectItem value="UNCK">URL Not Contains Keyword</SelectItem>
                         <SelectItem value="URTGT">URL Response Time Greater Than</SelectItem>

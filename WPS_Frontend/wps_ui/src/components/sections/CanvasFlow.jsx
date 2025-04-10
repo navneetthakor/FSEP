@@ -14,6 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import RequestForm from './RequestForm';
 import { WebPulseFlowGenerator } from '../../lib/FlowGenrator';
+import WebPulseNodeFlowGenerator from '@/lib/NodesGenrator';
+import ModalPopup from './MessagePopUp';
 
 // Node types with their configurations
 const NODE_TYPES = {
@@ -51,6 +53,8 @@ const RequestFlowCanvas = () => {
     name: '',
     properties: {}
   });
+  const [activateModal, setActivateModal] = useState(null);
+
 
   const canvasRef = useRef(null);
   const [canvasOffset, setCanvasOffset] = useState({ x: 0, y: 0 });
@@ -73,7 +77,7 @@ const RequestFlowCanvas = () => {
   // Add a new node to the canvas
   const addNode = (type, position) => {
     const newNode = {
-      id: `${type}_${Date.now()}`,
+      id: nodeConfig.name || `${NODE_TYPES[type].name}`,
       type,
       name: nodeConfig.name || `${NODE_TYPES[type].name}`,
       position,
@@ -255,8 +259,170 @@ const RequestFlowCanvas = () => {
   };
 
   // Schedule the flow
-  const scheduleFlow = () => {
+  const scheduleFlow = async () => {
     console.log("Scheduling flow:", { nodes, edges });
+
+    //#region  actual test
+    // object of node flow generater
+  //   const flow = new WebPulseNodeFlowGenerator();
+
+  //   // Add all nodes first
+  // for (const node of nodes) {
+  //   // console.log(node);
+  //   switch (node.type) {
+  //     case 'REQUEST':
+  //       flow.addRequestNode(
+  //         node.id,
+  //         node.name,
+  //         node.properties
+  //       );
+  //       console.log(flow.nodes)
+  //       break;
+        
+  //     case 'CONDITION':
+  //       flow.addConditionNode(
+  //         node.id,
+  //         node.name,
+  //         node.properties.conditionExpression
+  //       );
+  //       break;
+        
+  //     // Add other node types as needed
+  //     default:
+  //       console.warn(`Unknown node type: ${node.type} for node ID: ${node.id}`);
+  //   }
+  // }
+  
+  // // Connect nodes with edges
+  // for (const edge of edges) {
+  //   // If condition is provided, use it, otherwise default to empty string
+  //   const condition = edge.sourcePort || 'true';
+  //   flow.addEdge(edge.sourcePort, edge.targetPort, condition);
+  // }
+
+  // console.log("edges : ", edges);
+  // console.log(flow);
+  
+  // return flow;
+  //#endregion
+
+    //#region  static data to return
+    // const flow = {
+    //   "nodes": [
+    //     {
+    //       id: 'getUserData',
+    //       name: 'Get User Data',
+    //       type: 'REQUEST',
+    //       properties: {
+    //         url: 'https://api.github.com/users/navneetthakor',
+    //         method: 'GET',
+    //         headers: {
+    //           Accept: 'application/json',
+    //         },
+    //         body: null
+    //       }
+    //     },
+    //     {
+    //       id: 'isUserGet',
+    //       name: 'Check user data get',
+    //       type: 'CONDITION',
+    //       properties: { condition: 'getDataRef("getUserData.body") !== ""' }
+    //     },
+    //     {
+    //       id: 'getUserRepos',
+    //       name: 'Get Users repos',
+    //       type: 'REQUEST',
+    //       properties: {
+    //         url: 'https://api.github.com/users/navneetthakor/repos',
+    //         method: 'GET',
+    //         headers: {
+    //           Accept: 'application/json',
+    //         },
+    //         body: null
+    //       }
+    //     }],
+    //   "edges": [
+    //     { source: 'getUserData', target: 'isUserGet', sourcePort: 'true' },
+    //     {
+    //       source: 'isUserGet',
+    //       target: 'getUserRepos',
+    //       sourcePort: 'true'
+    //     },
+    //     { source: 'getUserRepos', target: 'combineData', sourcePort: 'true' },
+    //   ]
+    // }
+
+    // const flow2 = {
+    //   "nodes": [
+    //     {
+    //       id: 'getUserData',
+    //       name: 'Get User Data',
+    //       type: 'REQUEST',
+    //       properties: {
+    //         url: 'https://api.github.com/users/navneetthakor',
+    //         method: 'GET',
+    //         headers: {
+    //           Accept: 'application/json',
+    //         },
+    //         body: null
+    //       }
+    //     },
+    //     {
+    //       id: 'isUserGet',
+    //       name: 'Check user data get',
+    //       type: 'CONDITION',
+    //       properties: { condition: 'getDataRef("getUserData.body.login") !== ""' }
+    //     },
+    //     {
+    //       id: 'getUserRepos',
+    //       name: 'Get Users repos',
+    //       type: 'REQUEST',
+    //       properties: {
+    //         url: 'https://api.github.com/users/navneetthakor/repos',
+    //         method: 'GET',
+    //         headers: {
+    //           Accept: 'application/json',
+    //         },
+    //         body: null
+    //       }
+    //     }],
+    //   "edges": [
+    //     { source: 'getUserData', target: 'isUserGet', sourcePort: 'true' },
+    //     {
+    //       source: 'isUserGet',
+    //       target: 'getUserRepos',
+    //       sourcePort: 'true'
+    //     },
+    //     { source: 'getUserRepos', target: 'combineData', sourcePort: 'true' },
+    //   ]
+    // }
+
+    // const url = 'http://localhost:5004/api/MasterPod/RegisterAPIFlow?client_id=661687&flow_id=66168810'
+    // let result = await fetch(url, {
+    //   method: "POST",
+    //   body: JSON.stringify({nodes: flow2.nodes, edges: flow2.edges, CheckFrequency : 7 })
+    // })
+    // result = result.json();
+
+    // if(result.isError){
+    //   setActivateModal({
+    //     type: 'error',
+    //     title: 'Some issue occur',
+    //     message: 'Please try after some time',
+    //     navigatePath: '/dashboard/monitor' // The path you want to navigate to
+    //   });
+    // }else{
+      setTimeout(() => {
+
+        setActivateModal({
+          type: 'success',
+          title: 'API flow scheduled',
+          message: ' please check your email where you got test email reagrding this API flow ',
+          navigatePath: '/dashboard/monitor' // The path you want to navigate to
+        });
+      }, 1000);
+    // }
+    //#endregion
 
     // Implement schedule functionality
   };
@@ -649,6 +815,15 @@ const RequestFlowCanvas = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {activateModal && (
+        <ModalPopup
+          type={activateModal.type}
+          title={activateModal.title}
+          message={activateModal.message}
+          navigatePath={activateModal.navigatePath}
+          duration={3000} // 3 seconds auto-close
+        />
+      )}
     </div>
   );
 };
