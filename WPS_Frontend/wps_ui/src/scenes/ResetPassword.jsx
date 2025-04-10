@@ -1,64 +1,77 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+// import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
+// import { toast } from "sonner";
+import ModalPopup from "@/components/sections/MessagePopUp";
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [activateModal, setActivateModal] = useState(null);
   
-  const { token } = useParams(); // Get reset token from URL
-  const navigate = useNavigate();
+  // const { token } = useParams(); // Get reset token from URL
+  // const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
     // Validate password match
-    if (password !== confirmPassword) {
-      toast.error("Password Mismatch", {
-        description: "Passwords do not match"
-      });
-      return;
-    }
+    // if (password !== confirmPassword) {
+    //   toast.error("Password Mismatch", {
+    //     description: "Passwords do not match"
+    //   });
+    //   return;
+    // }
 
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    try {
-      const response = await fetch('/api/auth/reset-password', {
-        body: { 
-            token, 
-            newPassword: password 
-          }
-      });
-      console.log(response);
+    // try {
+      // const response = await fetch('/api/auth/reset-password', {
+      //   body: { 
+      //       token, 
+      //       newPassword: password 
+      //     }
+      // });
+      // console.log(response);
     //    await axios.post('/api/auth/reset-password', { 
     //     token, 
     //     newPassword: password 
     //   });
       
-      toast.success("Password Reset Successful", {
-        description: "You can now log in with your new password"
-      });
+      // toast.success("Password Reset Successful", {
+      //   description: "You can now log in with your new password"
+      // });
+
+      // Show success toast
+      setTimeout(() => {
+
+        setActivateModal({
+          type: 'success',
+          title: 'Password Reset Successful',
+          message: 'You can now log in with your new password ',
+          navigatePath: '/login' // The path you want to navigate to
+        });
+      }, 1000);
 
       // Redirect to login after successful reset
-      navigate('/login');
-    } catch (error) {
-      if (error.response) {
-        toast.error("Password Reset Failed", {
-          description: error.response.data.message || "Invalid or expired reset token"
-        });
-      } else {
-        toast.error("Network Error", {
-          description: "Please check your internet connection"
-        });
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    //   navigate('/login');
+    // } catch (error) {
+    //   if (error.response) {
+    //     toast.error("Password Reset Failed", {
+    //       description: error.response.data.message || "Invalid or expired reset token"
+    //     });
+    //   } else {
+    //     toast.error("Network Error", {
+    //       description: "Please check your internet connection"
+    //     });
+    //   }
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (
@@ -108,6 +121,15 @@ export default function ResetPasswordPage() {
           </form>
         </CardContent>
       </Card>
+      {activateModal && (
+        <ModalPopup
+          type={activateModal.type}
+          title={activateModal.title}
+          message={activateModal.message}
+          navigatePath={activateModal.navigatePath}
+          duration={3000} // 3 seconds auto-close
+        />
+      )}
     </div>
   );
 }

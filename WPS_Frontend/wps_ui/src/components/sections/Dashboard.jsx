@@ -6,8 +6,8 @@ import { Input } from '../ui/input';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  // used for navigation 
   const navigate = useNavigate();
+  // used for navigation 
   return (
     <div className="flex-1 overflow-auto">
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
@@ -36,16 +36,17 @@ const Dashboard = () => {
           </h2>
 
           <div className="space-y-4">
-            <MonitorItem 
+            {/* <MonitorItem 
               name="cimoguls.com" 
               status="down" 
               time="12d 14h 47m" 
               incident={true} 
-            />
+            /> */}
             <MonitorItem 
               name="betterstack.com" 
               status="up" 
               time="1mo 13d 19h 52m" 
+              
             />
           </div>
         </div>
@@ -58,17 +59,14 @@ const Dashboard = () => {
               title="Create your first monitor" 
               completed={true} 
               icon={<span className="text-white bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center">✓</span>}
+              onclick={ () => navigate('/dashboard/createMonitor')}
             />
             <OnboardingItem 
               title="Connect Slack or Microsoft Teams" 
               description="Get alerted about new incidents, and acknowledge and resolve incidents directly from Slack."
               completed={false} 
               icon={<span className="text-gray-400 border border-gray-300 dark:border-gray-600 rounded-full w-6 h-6 flex items-center justify-center">2</span>}
-            />
-            <OnboardingItem 
-              title="Invite colleagues" 
-              completed={false} 
-              icon={<span className="text-gray-400 border border-gray-300 dark:border-gray-600 rounded-full w-6 h-6 flex items-center justify-center">3</span>}
+              onclick={ () => navigate('/integration/mstems')}
             />
           </div>
           
@@ -83,8 +81,10 @@ const Dashboard = () => {
 
 const MonitorItem = ({ name, status, time, incident = false }) => {
   const isDown = status === "down";
+  const navigate = useNavigate();
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center justify-between">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center justify-between"
+    >
       <div className="flex items-center">
         <div className={`w-3 h-3 rounded-full ${isDown ? 'bg-red-500' : 'bg-green-500'} mr-3`}></div>
         <div>
@@ -105,15 +105,15 @@ const MonitorItem = ({ name, status, time, incident = false }) => {
           <Clock className="w-4 h-4 mr-1 text-gray-400" />
           <span className="text-sm text-gray-600 dark:text-gray-400">3m</span>
         </div>
-        <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">•••</button>
+        <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" onClick={() => navigate('/dashboard/responseTimeGraph')} >•••</button>
       </div>
     </div>
   );
 };
 
-const OnboardingItem = ({ title, description, completed, icon }) => {
+const OnboardingItem = ({ title, description, completed, icon, onclick }) => {
   return (
-    <div className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+    <div className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg shadow" onClick={onclick}>
       <div className="mr-4 mt-1">
         {icon}
       </div>

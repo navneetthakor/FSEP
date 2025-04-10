@@ -8,6 +8,7 @@ import { ThemeProvider } from './components/ui/theme-provider';
 import ForgotPasswordPage from './scenes/ForgotPasswordPage';
 import ResetPasswordPage from './scenes/ResetPassword';
 import MicrosoftTeamsIntegration from './scenes/MicrosoftTeamsIntegration';
+import RightSideDashBoard from './components/sections/RightSideDashBoard';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<SignupPage />} />
             <Route path='/dashboard/:rightAria' element={<DashboardLayout />} />
+            <Route path='/responseTimeGraph' element={<RightSideDashBoard />} />
             <Route path='/forgotPassword' element={<ForgotPasswordPage />} />
             <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage />} />
             <Route path='/integration/mstems' element={<MicrosoftTeamsIntegration />} />

@@ -6,27 +6,37 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner"; // Assuming you're using sonner for notifications
 import Navbar from "@/components/sections/Navbar";
-// import axios from "axios"; // For making HTTP requests
+import ModalPopup from "@/components/sections/MessagePopUp";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [activateModal, setActivateModal] = useState(null);
+
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/auth/forgot-password', {
+      const response = await fetch('http://localhost:5002/User/forgotPassword', {
+        method: 'POST',
         body: {email : email}
       } )
     //   await axios.post('/api/auth/forgot-password', { email });
       console.log(response);
 
       // Show success toast
-      toast.success("Password reset link sent", {
-        description: "Check your email for instructions to reset your password."
-      });
+      setTimeout(() => {
+
+        setActivateModal({
+          type: 'success',
+          title: 'Password reset link sent',
+          message: ' Check your email for instructions to reset your password. ',
+          navigatePath: '/' // The path you want to navigate to
+        });
+      }, 1000);
+
     } catch (error) {
       // Handle error scenarios
       if (error.response) {
@@ -87,6 +97,15 @@ export default function ForgotPasswordPage() {
           </Link>
         </CardFooter>
       </Card>
+      {activateModal && (
+        <ModalPopup
+          type={activateModal.type}
+          title={activateModal.title}
+          message={activateModal.message}
+          navigatePath={activateModal.navigatePath}
+          duration={3000} // 3 seconds auto-close
+        />
+      )}
     </div>
     </>
   );

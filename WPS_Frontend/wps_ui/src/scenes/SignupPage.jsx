@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { FaGoogle, FaGithub, FaMicrosoft } from "react-icons/fa";
 import Navbar from "@/components/sections/Navbar";
+import ModalPopup from "@/components/sections/MessagePopUp";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -20,6 +20,7 @@ export default function SignupPage() {
   });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+  const [activateModal, setActivateModal] = useState(null);
   
   const handleChange = (e) => {
     const { id, value, files } = e.target;
@@ -57,6 +58,16 @@ export default function SignupPage() {
       contactNumber: formData.contactNumber,
       profileImage: formData.profileImage
     };
+
+    setTimeout(() => {
+
+      setActivateModal({
+        type: 'success',
+        title: 'Registration Successful',
+        message: ' Redirecting to Login ... ',
+        navigatePath: '/login' // The path you want to navigate to
+      });
+    }, 1000);
     
     console.log({ ...submissionData, agreedToTerms });
     // Add actual registration logic here
@@ -204,6 +215,16 @@ export default function SignupPage() {
           </p>
         </CardFooter>
       </Card>
+
+      {activateModal && (
+        <ModalPopup
+          type={activateModal.type}
+          title={activateModal.title}
+          message={activateModal.message}
+          navigatePath={activateModal.navigatePath}
+          duration={3000} // 3 seconds auto-close
+        />
+      )}
     </div>
     </>
   );

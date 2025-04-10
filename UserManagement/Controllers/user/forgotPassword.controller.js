@@ -10,19 +10,19 @@ const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
     // Find user by email
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json(createResponse("", true, "No account found with this email", 404, ""));
-    }
+    // const user = await User.findOne({ email });
+    // if (!user) {
+    //   return res.status(404).json(createResponse("", true, "No account found with this email", 404, ""));
+    // }
 
     // Generate reset token
     const resetToken = crypto.randomBytes(32).toString('hex');
-    const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now (mili seconds)
+    // const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now (mili seconds)
 
     // Save token to user document
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = resetTokenExpiry;
-    await user.save();
+    // user.resetPasswordToken = resetToken;
+    // user.resetPasswordExpires = resetTokenExpiry;
+    // await user.save();
 
     // Construct reset URL
     const resetURL = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
@@ -30,7 +30,7 @@ const forgotPassword = async (req, res) => {
     // Send email
     await transporter.sendMail({
       from: '"WebPulse Stack" <noreply@webpulsestack.com>',
-      to: user.email,
+      to: 'codewithnavneet@gmail.com',
       subject: 'Password Reset Request',
       html: `
         <h2>Password Reset</h2>

@@ -10,12 +10,20 @@ const MonitorState = (props)=>{
         setMonitorLst(response);
     }
 
+    const LoginHelper = async (userData) => {
+      
+    }
+
+    const RegisterHelper = (userData) => {
+
+    }
+
     useEffect(() => {
         // send fetch reqeust and set data to state
     });
     
     return (
-        <MonitorContext.Provider value={{ monitorLst, updateMonitors, }}>
+        <MonitorContext.Provider value={{ monitorLst, updateMonitors, LoginHelper, RegisterHelper }}>
           {props.children}
         </MonitorContext.Provider>
       )

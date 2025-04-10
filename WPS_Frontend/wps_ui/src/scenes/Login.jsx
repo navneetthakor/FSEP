@@ -7,15 +7,28 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FaGoogle, FaGithub, FaMicrosoft } from "react-icons/fa";
 import Navbar from "@/components/sections/Navbar";
+import ModalPopup from "@/components/sections/MessagePopUp";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [activateModal, setActivateModal] = useState(null);
+
   
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ email, password });
     // Add authentication logic here
+
+    setTimeout(() => {
+
+      setActivateModal({
+        type: 'success',
+        title: 'Login Successful',
+        message: ' Redirecting to Dashboard ... ',
+        navigatePath: '/dashboard/monitor' // The path you want to navigate to
+      });
+    }, 1000);
   };
   
   return (
@@ -104,6 +117,15 @@ export default function LoginPage() {
           </CardFooter>
         </Card>
       </div>
+      {activateModal && (
+        <ModalPopup
+          type={activateModal.type}
+          title={activateModal.title}
+          message={activateModal.message}
+          navigatePath={activateModal.navigatePath}
+          duration={3000} // 3 seconds auto-close
+        />
+      )}
     </div>
     </>
   );
