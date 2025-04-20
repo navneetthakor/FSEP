@@ -420,7 +420,7 @@ const RequestFlowCanvas = () => {
           message: ' please check your email where you got test email reagrding this API flow ',
           navigatePath: '/dashboard/monitor' // The path you want to navigate to
         });
-      }, 1000);
+      }, 5000);
     // }
     //#endregion
 

@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
           message: 'You can now log in with your new password ',
           navigatePath: '/login' // The path you want to navigate to
         });
-      }, 1000);
+      }, 2500);
 
       // Redirect to login after successful reset
     //   navigate('/login');

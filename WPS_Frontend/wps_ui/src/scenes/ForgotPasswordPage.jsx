@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
           message: ' Check your email for instructions to reset your password. ',
           navigatePath: '/' // The path you want to navigate to
         });
-      }, 1000);
+      }, 3000);
 
     } catch (error) {
       // Handle error scenarios

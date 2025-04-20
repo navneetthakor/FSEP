@@ -28,7 +28,7 @@ export default function LoginPage() {
         message: ' Redirecting to Dashboard ... ',
         navigatePath: '/dashboard/monitor' // The path you want to navigate to
       });
-    }, 1000);
+    }, 3000);
   };
   
   return (

@@ -67,7 +67,7 @@ export default function SignupPage() {
         message: ' Redirecting to Login ... ',
         navigatePath: '/login' // The path you want to navigate to
       });
-    }, 1000);
+    }, 3000);
     
     console.log({ ...submissionData, agreedToTerms });
     // Add actual registration logic here
