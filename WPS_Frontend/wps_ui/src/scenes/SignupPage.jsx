@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,20 +8,27 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { FaGoogle, FaGithub, FaMicrosoft } from "react-icons/fa";
 import Navbar from "@/components/sections/Navbar";
 import ModalPopup from "@/components/sections/MessagePopUp";
+import UserContext from "@/context/UserContext";
 
 export default function SignupPage() {
+
+  // state variable to store form data 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-    contactNumber: "",
+    contact_num: "",
     profileImage: File || null
   });
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
+
+  // state variable to set activstate of modal 
   const [activateModal, setActivateModal] = useState(null);
+
+  // accessing userContext
+  const {RegisterHelper} = useContext(UserContext);
   
+  // handler to handle onChange event for each entry of form
   const handleChange = (e) => {
     const { id, value, files } = e.target;
     
@@ -38,39 +45,52 @@ export default function SignupPage() {
     }
   };
   
-  const handleSubmit = (e) => {
+  // hanler for onSubmiting event of form
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Password validation
     if (formData.password !== formData.confirmPassword) {
-      setPasswordError("Passwords do not match");
+      alert("Passwords do not match");
       return;
-    }
-    
-    // Clear any previous password errors
-    setPasswordError("");
+    } 
     
     // Prepare form data for submission
     const submissionData = {
       username: formData.username,
       email: formData.email,
       password: formData.password,
-      contactNumber: formData.contactNumber,
+      contact_num: formData.contact_num,
       profileImage: formData.profileImage
     };
 
-    setTimeout(() => {
+    let isSuccess = await RegisterHelper(submissionData);
 
+    if(isSuccess){
       setActivateModal({
         type: 'success',
         title: 'Registration Successful',
         message: ' Redirecting to Login ... ',
         navigatePath: '/login' // The path you want to navigate to
       });
-    }, 3000);
-    
-    console.log({ ...submissionData, agreedToTerms });
-    // Add actual registration logic here
+      setTimeout(()=>{
+        setActivateModal(null);
+
+      },3000);
+    }else{
+      setActivateModal({
+        type: 'error',
+        title: 'Registration UnSuccessful',
+        message: 'Please Try again',
+        navigatePath: null // The path you want to navigate to
+      });
+      setTimeout(()=>{
+        setActivateModal(null);
+
+      },3000);
+    }
+
+
   };
   
   return (<>
@@ -139,9 +159,6 @@ export default function SignupPage() {
                 required
                 placeholder="Repeat your password"
               />
-              {passwordError && (
-                <p className="text-red-500 text-sm mt-1">{passwordError}</p>
-              )}
             </div>
             
             <div className="space-y-2">
@@ -163,21 +180,6 @@ export default function SignupPage() {
                 accept="image/*"
                 onChange={handleChange}
               />
-            </div>
-            
-            <div className="flex items-start pt-2 space-x-2">
-              <Checkbox 
-                id="terms" 
-                checked={agreedToTerms} 
-                onCheckedChange={setAgreedToTerms}
-                required
-              />
-              <Label 
-                htmlFor="terms" 
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                I agree to the Terms of Service and Privacy Policy
-              </Label>
             </div>
             
             <Button type="submit" className="w-full">

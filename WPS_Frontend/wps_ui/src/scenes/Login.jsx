@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,27 +8,53 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { FaGoogle, FaGithub, FaMicrosoft } from "react-icons/fa";
 import Navbar from "@/components/sections/Navbar";
 import ModalPopup from "@/components/sections/MessagePopUp";
+import UserContext from "@/context/UserContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activateModal, setActivateModal] = useState(null);
 
+  let {LoginHelper} = useContext(UserContext)
+
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({ email, password });
     // Add authentication logic here
 
-    setTimeout(() => {
+    // Prepare form data for submission
+    const submissionData = {
+      email: email,
+      password: password,
+    };
 
+    let isSuccess = await LoginHelper(submissionData);
+
+    if(isSuccess){
       setActivateModal({
         type: 'success',
         title: 'Login Successful',
-        message: ' Redirecting to Dashboard ... ',
+        message: ' Redirecting to Dashboard ...',
         navigatePath: '/dashboard/monitor' // The path you want to navigate to
       });
-    }, 3000);
+      setTimeout(()=>{
+        setActivateModal(null);
+
+      },3000);
+    }else{
+      setActivateModal({
+        type: 'error',
+        title: 'Login UnSuccessful',
+        message: 'Please Try later',
+        navigatePath: null // The path you want to navigate to
+      });
+      setTimeout(()=>{
+        setActivateModal(null);
+
+      },3000);
+    }
+
   };
   
   return (

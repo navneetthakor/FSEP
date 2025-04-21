@@ -39,7 +39,15 @@ const userLogin = async (req,res) => {
         }
         const jwt_secret = process.env.JWT_SECRET;
         const usertoken = jwt.sign(data,jwt_secret);
-        return res.json({usertoken: usertoken, signal: "green"});
+
+        // preparing user data to, display in dashboard of user 
+        const userData = {
+            username : user.username,
+            email: user.email,
+            contact_num: user.contact_num,
+            image: user.image
+        }
+        return res.json({usertoken: usertoken, userData : userData, signal: "green"});
     
         } catch (error) {
         console.log(error);
