@@ -1,17 +1,33 @@
 // src/components/Dashboard.jsx
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Search, Plus, AlertCircle, Clock } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { useNavigate } from 'react-router-dom';
+import MonitorContext from '@/context/MonitorContext';
+import UserContext from '@/context/UserContext';
 
-const Dashboard = () => {
+const Monitors = () => {
+  // for navigation 
   const navigate = useNavigate();
+
+  // user's monitor context 
+  const { monitorLst, updateMonitors} = useContext(MonitorContext);
+
+  // user context
+  const {user} = useContext(UserContext);
+
+
+  useEffect(() => {
+    let result = updateMonitors();
+    if(!result) navigate('/');
+  },[]);
+
   // used for navigation 
   return (
     <div className="flex-1 overflow-auto">
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Hey there, NAVNEETKUMAR</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Hey there, {user?.username && user.username} </h1>
         <div className="flex items-center space-x-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -36,18 +52,15 @@ const Dashboard = () => {
           </h2>
 
           <div className="space-y-4">
-            {/* <MonitorItem 
-              name="cimoguls.com" 
-              status="down" 
-              time="12d 14h 47m" 
-              incident={true} 
-            /> */}
-            <MonitorItem 
-              name="betterstack.com" 
-              status="up" 
-              time="1mo 13d 19h 52m" 
-              
-            />
+            {
+              monitorLst?.length > 0 ?
+
+             ( monitorLst?.map((ele) => 
+              <MonitorItem 
+              name= {ele.server_name}
+              status= {ele.status === 'R' ? "up" : "down"} 
+              />)) : <span className='m-1 text-blue-500'>You have no server/endpoint to monitor!!</span>
+            }
           </div>
         </div>
 
@@ -68,10 +81,6 @@ const Dashboard = () => {
               icon={<span className="text-gray-400 border border-gray-300 dark:border-gray-600 rounded-full w-6 h-6 flex items-center justify-center">2</span>}
               onclick={ () => navigate('/integration/mstems')}
             />
-          </div>
-          
-          <div className="mt-4 flex items-center text-sm text-gray-500">
-            <span className="text-blue-600">5</span> out of <span>6 </span> steps left
           </div>
         </div>
       </main>
@@ -130,4 +139,4 @@ const OnboardingItem = ({ title, description, completed, icon, onclick }) => {
   );
 };
 
-export default Dashboard;
+export default Monitors;

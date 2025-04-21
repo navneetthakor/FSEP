@@ -12,11 +12,15 @@ const pushServer = require("../Controllers/server/pushServer.controller.js");
 const deleteServer = require("../Controllers/server/deleteServer.controller.js");
 const updateServer = require("../Controllers/server/updateServer.controller.js");
 const startServer = require("../Controllers/server/startServer.controller.js");
+const getAllServer = require("../Controllers/server/getAllServer.controller.js")
 
 // -------------------- Route:1 adding server ---------------
 router.post('/addServer',fetchUser, addServer);
 
-// -------------------- Route:2 get seerver info ------------
+// ------------------- Route:2.1 get all servers list ---------------
+router.get('/getAllServer',fetchUser,getAllServer);
+
+// -------------------- Route:2.2 get seerver info ------------
 router.get('/getServerInfo/:server_id',fetchUser, getServer);
 
 // -------------------- Route: 3 push server -------------
