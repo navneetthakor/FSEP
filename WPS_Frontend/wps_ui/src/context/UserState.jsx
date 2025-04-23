@@ -42,6 +42,38 @@ const UserState = (props)=>{
         return false;
     }
 
+    const AuthLoginHelper = async () => {
+      if(!localStorage.getItem('usertoken')){
+        return false;
+      }
+        // preparing url 
+        // eslint-disable-next-line no-undef
+        let url = `${import.meta.env.VITE_BACKEND_URL}/User/userAuthtokenLogin`;
+
+        const response = await fetch(url, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "usertoken": localStorage.getItem('usertoken')
+          }
+        });
+  
+        const jsonResp = await response.json()
+        console.log("register response");
+  
+        if (jsonResp.signal === 'green') {
+          // set user info to show in dashboard
+          setUser(jsonResp.user);
+
+          // login successful
+          return true;
+        }
+  
+        // login unsuccessful
+        return false;
+    }
+
     const RegisterHelper = async (userData) => {
       // preparing url 
       // eslint-disable-next-line no-undef
@@ -79,7 +111,7 @@ const UserState = (props)=>{
     });
     
     return (
-        <UserContext.Provider value={{ user, LoginHelper, RegisterHelper }}>
+        <UserContext.Provider value={{ user, LoginHelper, RegisterHelper, AuthLoginHelper }}>
           {props.children}
         </UserContext.Provider>
       )

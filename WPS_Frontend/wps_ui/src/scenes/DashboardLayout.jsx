@@ -10,17 +10,17 @@ import { useNavigate } from 'react-router-dom';
 
 export default function DashboardLayout() {
   let {rightAria} = useParams();
-  let {user, LoginHelper} = useContext(UserContext);
+  let {user, AuthLoginHelper} = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if(localStorage.getItem('usertoken')){
-      LoginHelper();
+      AuthLoginHelper();
     }
     else{
       navigate('/')
     }
-  })
+  },[])
   return (
     <>
     {user &&

@@ -1,7 +1,7 @@
 // src/components/Sidebar.jsx
 import React, { useContext, useState } from 'react';
 import { BarChart2, Clock, AlertCircle, FileText, Link2, Users } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ModalPopup from './MessagePopUp';
 import UserContext from '@/context/UserContext';
 
@@ -68,10 +68,10 @@ const Sidebar = () => {
       <div className="border-gray-200 border-t p-4 dark:border-gray-700">
         <div className="flex items-center">
           <div className="flex bg-blue-600 h-8 justify-center rounded-full text-white w-8 items-center">
-            <span className="text-sm font-bold">{user && user.username.charAt(0).toUpperCase()}</span>
+            <span className="text-sm font-bold">{user && user?.username?.charAt(0).toUpperCase()}</span>
           </div>
           <div className="ml-3">
-            <p className="text-gray-700 text-sm dark:text-gray-300 font-medium">{user && (user.username.charAt(0).toUpperCase() + user.username.slice(1))}</p>
+            <p className="text-gray-700 text-sm dark:text-gray-300 font-medium">{user && (user?.username?.charAt(0).toUpperCase() + user?.username?.slice(1))}</p>
           </div>
         </div>
       </div>

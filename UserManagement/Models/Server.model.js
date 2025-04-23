@@ -43,7 +43,7 @@ const ServerSchema = new Schema({
 
     status: {
         type: String,
-
+        default: 'R',
         //U : unkonwn, R: Running, P: Pushed, 'D': Destroyed
         enum: ['U', 'R', 'P', 'D'],
         required: true

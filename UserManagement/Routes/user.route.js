@@ -39,7 +39,7 @@ router.post('/userlogin',
 userLogin);
 
 // --------------------------ROUTE:3 login to accoutn with authtoken ( previous login not require) ----------------------------------------------------------
-router.post('/userAuthtokenLogin', 
+router.get('/userAuthtokenLogin', 
 fetchUser , 
 userAuthtokenLogin);
 

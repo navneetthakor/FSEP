@@ -12,79 +12,88 @@ const Monitors = () => {
   const navigate = useNavigate();
 
   // user's monitor context 
-  const { monitorLst, updateMonitors} = useContext(MonitorContext);
+  const { monitorLst, updateMonitors } = useContext(MonitorContext);
 
   // user context
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
 
   useEffect(() => {
-    let result = updateMonitors();
-    if(!result) navigate('/');
-  },[]);
+    const fetchMonitors = async () => {
+      const result = await updateMonitors();
+      if (!result) navigate('/');
+      // else setLoading(false);
+    };
+    fetchMonitors();
+  }, []);
 
   // used for navigation 
   return (
-    <div className="flex-1 overflow-auto">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Hey there, {user?.username && user.username} </h1>
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              type="text"
-              placeholder="Search"
-              className="pl-10 w-64"
-            />
-          </div>
-          <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate("/dashboard/createMonitor")}>
-            <Plus className="h-4 w-4 mr-2" />
-            Create monitor
-          </Button>
+    <>
+      {/* {!loading && */}
+        <div className="flex-1 overflow-auto">
+          <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Hey there, {user?.username && user.username} </h1>
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  type="text"
+                  placeholder="Search"
+                  className="pl-10 w-64"
+                />
+              </div>
+              <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate("/dashboard/createMonitor")}>
+                <Plus className="h-4 w-4 mr-2" />
+                Create monitor
+              </Button>
+            </div>
+          </header>
+
+          <main className="p-6">
+            <div className="mb-8">
+              <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4 flex items-center">
+                <span>Monitors</span>
+                <span className="ml-1 text-gray-400">›</span>
+              </h2>
+
+              <div className="space-y-4">
+                {
+                  monitorLst?.length > 0 ?
+
+                    (monitorLst?.map((ele) =>{
+                      console.log(ele);
+                      return <MonitorItem
+                        name={ele.server_name}
+                        status={ele.status === 'R' ? "up" : "down"}
+                      />})) : <span className='m-1 text-blue-500'>You have no server/endpoint to monitor!!</span>
+                }
+              </div>
+            </div>
+
+            <div className="mb-8">
+              <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">Get the most out of Better Stack</h2>
+
+              <div className="space-y-4">
+                <OnboardingItem
+                  title="Create your first monitor"
+                  completed={true}
+                  icon={<span className="text-white bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center">✓</span>}
+                  onclick={() => navigate('/dashboard/createMonitor')}
+                />
+                <OnboardingItem
+                  title="Connect Slack or Microsoft Teams"
+                  description="Get alerted about new incidents, and acknowledge and resolve incidents directly from Slack."
+                  completed={false}
+                  icon={<span className="text-gray-400 border border-gray-300 dark:border-gray-600 rounded-full w-6 h-6 flex items-center justify-center">2</span>}
+                  onclick={() => navigate('/integration/mstems')}
+                />
+              </div>
+            </div>
+          </main>
         </div>
-      </header>
-
-      <main className="p-6">
-        <div className="mb-8">
-          <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4 flex items-center">
-            <span>Monitors</span>
-            <span className="ml-1 text-gray-400">›</span>
-          </h2>
-
-          <div className="space-y-4">
-            {
-              monitorLst?.length > 0 ?
-
-             ( monitorLst?.map((ele) => 
-              <MonitorItem 
-              name= {ele.server_name}
-              status= {ele.status === 'R' ? "up" : "down"} 
-              />)) : <span className='m-1 text-blue-500'>You have no server/endpoint to monitor!!</span>
-            }
-          </div>
-        </div>
-
-        <div className="mb-8">
-          <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">Get the most out of Better Stack</h2>
-          
-          <div className="space-y-4">
-            <OnboardingItem 
-              title="Create your first monitor" 
-              completed={true} 
-              icon={<span className="text-white bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center">✓</span>}
-              onclick={ () => navigate('/dashboard/createMonitor')}
-            />
-            <OnboardingItem 
-              title="Connect Slack or Microsoft Teams" 
-              description="Get alerted about new incidents, and acknowledge and resolve incidents directly from Slack."
-              completed={false} 
-              icon={<span className="text-gray-400 border border-gray-300 dark:border-gray-600 rounded-full w-6 h-6 flex items-center justify-center">2</span>}
-              onclick={ () => navigate('/integration/mstems')}
-            />
-          </div>
-        </div>
-      </main>
-    </div>
+      {/* } */}
+    </>
   );
 };
 

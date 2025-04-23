@@ -25,7 +25,7 @@ const MonitorState = (props)=>{
   
         if (!jsonResp.IsError) {
           // update server list
-          setMonitorLst(jsonResp.userData);
+          setMonitorLst(jsonResp.Data);
 
           // login successful
           return true;
