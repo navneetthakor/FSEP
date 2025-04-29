@@ -113,7 +113,7 @@ const CreateMonitorForm = () => {
           type: 'success',
           title: 'Login Successful',
           message: ' Redirecting to Dashboard ...',
-          navigatePath: '/dashboard/monitor' // The path you want to navigate to
+          navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
         });
         setTimeout(() => {
           setActivateModal(null);

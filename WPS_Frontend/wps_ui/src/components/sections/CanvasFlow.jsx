@@ -409,7 +409,7 @@ const RequestFlowCanvas = () => {
     //     type: 'error',
     //     title: 'Some issue occur',
     //     message: 'Please try after some time',
-    //     navigatePath: '/dashboard/monitor' // The path you want to navigate to
+    //     navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
     //   });
     // }else{
       setTimeout(() => {
@@ -418,7 +418,7 @@ const RequestFlowCanvas = () => {
           type: 'success',
           title: 'API flow scheduled',
           message: ' please check your email where you got test email reagrding this API flow ',
-          navigatePath: '/dashboard/monitor' // The path you want to navigate to
+          navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
         });
       }, 5000);
     // }

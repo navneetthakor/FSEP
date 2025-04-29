@@ -23,7 +23,7 @@ const Sidebar = () => {
         type: 'error',
         title: 'No Incident Found!',
         message: 'This tab is only accessible after any incident occurs ',
-        navigatePath: '/dashboard/monitor' // The path you want to navigate to
+        navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
       });
       setTimeout(()=>{
         setActivateModal(null);
@@ -40,7 +40,7 @@ const Sidebar = () => {
         type: 'error',
         title: 'No Integration Found!',
         message: 'Integrate MS teams or Slack',
-        navigatePath: '/dashboard/monitor' // The path you want to navigate to
+        navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
       });
       setTimeout(()=>{
         setActivateModal(null);
@@ -59,9 +59,9 @@ const Sidebar = () => {
       </div>
       
       <nav className="flex-1 px-2 py-4 space-y-1">
-        <SidebarItem onclick={() => navigate('/dashboard/monitor')} icon={<BarChart2 className="h-5 w-5" />} label="Monitors" active />
-        <SidebarItem onclick={() => navigate('/dashboard/createRequestFlow')} icon={<Clock className="h-5 w-5" />} label="API Flows" />
-        <SidebarItem onClick={handleIncidentClick} icon={<AlertCircle className="h-5 w-5" />} label="Incidents" badge="0" onclick={handleIncidentClick} />
+        <SidebarItem onclick={() => navigate('/dashboard/monitorsHome')} icon={<BarChart2 className="h-5 w-5" />} label="Monitors" active />
+        <SidebarItem onclick={() => navigate('/dashboard/APIFlowHome')} icon={<Clock className="h-5 w-5" />} label="API Flows" />
+        {/* <SidebarItem onClick={handleIncidentClick} icon={<AlertCircle className="h-5 w-5" />} label="Incidents" badge="0" onclick={handleIncidentClick} /> */}
         <SidebarItem onclick={handleIntegrationClick} icon={<Link2 className="h-5 w-5" />} label="Integrations" hasChildren />
       </nav>
       

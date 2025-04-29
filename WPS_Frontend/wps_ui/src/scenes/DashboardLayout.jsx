@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom'
 import CreateMonitorForm from '../components/sections/MonitoringForm';
 import RequestFlowCanvas from '../components/sections/CanvasFlow';
 import RightSideDashBoard from '@/components/sections/RightSideDashBoard';
-import Monitors from '../components/sections/Monitors';
+import MonitorsHome from '../components/sections/MonitorsHome';
 import UserContext from '@/context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import APIFlowHome from '@/components/sections/APIFlowHome';
 
 export default function DashboardLayout() {
   let {rightAria} = useParams();
@@ -27,9 +28,10 @@ export default function DashboardLayout() {
     <div className="flex bg-gray-100 h-screen dark:bg-gray-900 overflow-x-hidden">
             <Sidebar />
 
-            {rightAria == "monitor" && <Monitors />}
+            {rightAria == "monitorsHome" && <MonitorsHome />}
             {rightAria == "createMonitor" && <CreateMonitorForm />}
-            {rightAria == "createRequestFlow" && <RequestFlowCanvas />}
+            {rightAria == "createAPIFlow" && <RequestFlowCanvas />}
+            {rightAria == "APIFlowHome" && <APIFlowHome />}
             {rightAria == "responseTimeGraph" && <RightSideDashBoard />}
     </div>}
       </>

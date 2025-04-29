@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import MonitorContext from '@/context/MonitorContext';
 import UserContext from '@/context/UserContext';
 
-const Monitors = () => {
+const MonitorsHome = () => {
   // for navigation 
   const navigate = useNavigate();
 
@@ -35,14 +35,6 @@ const Monitors = () => {
           <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Hey there, {user?.username && user.username} </h1>
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  type="text"
-                  placeholder="Search"
-                  className="pl-10 w-64"
-                />
-              </div>
               <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate("/dashboard/createMonitor")}>
                 <Plus className="h-4 w-4 mr-2" />
                 Create monitor
@@ -148,4 +140,4 @@ const OnboardingItem = ({ title, description, completed, icon, onclick }) => {
   );
 };
 
-export default Monitors;
+export default MonitorsHome;
