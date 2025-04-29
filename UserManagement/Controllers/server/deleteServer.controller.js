@@ -15,6 +15,16 @@ const pushServer = async (req, res) => {
         .json(createResponse("", true, "User Not Exists", 400, ""));
     }
 
+    // delete reccuring job
+    const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/removeServer/${user._id}/${req.params.server_id}`
+    const wsResponse = await axios.delete(URL = backendUrl, Headers = {
+      Accept: 'application/json'
+    });
+
+    if(wsResponse.data.IsErro){
+      throw new Error("WorkerPod not responding");
+    }
+
     // delete entry from database 
     const deletedServer = await Server.findByIdAndDelete(req.params.server_id);
 

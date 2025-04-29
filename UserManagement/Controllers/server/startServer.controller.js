@@ -15,6 +15,58 @@ const startServer = async (req, res) => {
         .json(createResponse("", true, "User Not Exists", 400, ""));
     }
 
+    const newServerData = await Server.findById(req.params.server_id);
+
+    //add new reccuring job
+    // serverModal for workerPod
+    const ServerModal = {
+      // Client id (who owns this server)
+      Client_id: user_id, // string
+    
+      // Server id (unique id for this server)
+      Server_id: newServerData._id, // string
+    
+      // Flow id (used in alerting service) - optional
+      flow_id: null, // string | null
+    
+      // Worker id
+      Method: newServerData.method, // string
+    
+      // Server URL
+      Server_url: newServerData.server_url, // string
+    
+      // Headers (simulating Dictionary<string, string>)
+      Headers: newServerData.Headers, // Object (Dictionary in C#)
+    
+      // Body - optional
+      Body: newServerData.body, // string | null
+    
+      // Status of the server (simulating ServerStatus enum)
+      Status: newServerData.status, // string (R for Running, other statuses can be defined)
+    
+      // Type of check (simulating TypeOFCheck enum)
+      typeOFCheck: newServerData.type_of_check, // string (GET, POST, etc.)
+    
+      // Check Frequency (simulating CheckFrequency enum)
+      CheckFrequency: newServerData.check_frequency, // string (e.g., THRM for hourly)
+    
+      // Keyword to find or not find on the page
+      Keyword: newServerData.keyword, // string | null
+    
+      // List of status codes which response can contain
+      StatusCodes: newServerData.status_codes // Array of integers (e.g., [200, 404])
+    };
+
+    // making request to the worker server
+    backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/register`
+    wsResponse = await axios.post(URL = backendUrl, Headers = {
+      Accept: 'application/json'
+    }, data = ServerModal);
+
+    if(wsResponse.data.IsErro){
+      throw new Error("WorkerPod not responding");
+    }
+
     // retrive data from database
     const updatedServer = await Server.findByIdAndUpdate(
         req.params.server_id,
