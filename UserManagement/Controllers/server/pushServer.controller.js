@@ -19,9 +19,7 @@ const pushServer = async (req, res) => {
 
     // making request to the worker server
     const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/removeServer/${user._id}/${req.params.server_id}`
-    const wsResponse = await axios.delete(URL = backendUrl, Headers = {
-      Accept: 'application/json'
-    });
+    const wsResponse = await axios.delete( backendUrl);
 
     if(wsResponse.data.IsErro){
       throw new Error("WorkerPod not responding");

@@ -19,6 +19,12 @@ const startServer = async (req, res) => {
 
     const newServerData = await Server.findById(req.params.server_id);
 
+    // for headers (here we have header as array but backend wants dictionary so)
+    const headersObject = newServerData.Headers?.reduce((obj, item) => {
+      obj[item.key] = item.values;
+      return obj;
+    }, {});
+
     //add new reccuring job
     // serverModal for workerPod
     const ServerModal = {
@@ -38,7 +44,7 @@ const startServer = async (req, res) => {
       Server_url: newServerData.server_url, // string
     
       // Headers (simulating Dictionary<string, string>)
-      Headers: newServerData.Headers, // Object (Dictionary in C#)
+      Headers: headersObject, // Object (Dictionary in C#)
     
       // Body - optional
       Body: newServerData.body, // string | null
@@ -61,9 +67,9 @@ const startServer = async (req, res) => {
 
     // making request to the worker server
     backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/register`
-    wsResponse = await axios.post(URL = backendUrl, Headers = {
+    wsResponse = await axios.post(backendUrl,ServerModal,{
       Accept: 'application/json'
-    }, data = ServerModal);
+    });
 
     if(wsResponse.data.IsErro){
       throw new Error("WorkerPod not responding");
