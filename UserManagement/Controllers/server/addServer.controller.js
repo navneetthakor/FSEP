@@ -2,8 +2,9 @@
 const Server = require("../../Models/Server.model");
 const User = require("../../Models/User.model");
 const createResponse = require("../../Response");
+const axios = require('axios');
 
-const serverId = -1;
+let serverId = -1;
 
 const addServer = async (req, res) => {
   try {
@@ -37,43 +38,49 @@ const addServer = async (req, res) => {
     // save this entry
     newServer.save();
 
+    // for headers (here we have header as array but backend wants dictionary so)
+    const headersObject = newServer.Headers?.reduce((obj, item) => {
+      obj[item.key] = item.values;
+      return obj;
+    }, {});
+
     // serverModal for workerPod
     const ServerModal = {
       // Client id (who owns this server)
-      Client_id: user_id, // string
+      client_id: user._id, // string
     
       // Server id (unique id for this server)
-      Server_id: newServer._id, // string
+      server_id: newServer._id, // string
     
       // Flow id (used in alerting service) - optional
       flow_id: null, // string | null
     
       // Worker id
-      Method: newServer.method, // string
+      method: newServer.method, // string
     
       // Server URL
-      Server_url: newServer.server_url, // string
+      server_url: newServer.server_url, // string
     
       // Headers (simulating Dictionary<string, string>)
-      Headers: newServer.Headers, // Object (Dictionary in C#)
+      headers: headersObject, // Object (Dictionary in C#)
     
       // Body - optional
-      Body: newServer.body, // string | null
+      body: newServer.body, // string | null
     
       // Status of the server (simulating ServerStatus enum)
-      Status: newServer.status, // string (R for Running, other statuses can be defined)
+      status: newServer.status, // string (R for Running, other statuses can be defined)
     
       // Type of check (simulating TypeOFCheck enum)
       typeOFCheck: newServer.type_of_check, // string (GET, POST, etc.)
     
       // Check Frequency (simulating CheckFrequency enum)
-      CheckFrequency: newServer.check_frequency, // string (e.g., THRM for hourly)
+      checkFrequency: newServer.check_frequency, // string (e.g., THRM for hourly)
     
       // Keyword to find or not find on the page
-      Keyword: newServer.keyword, // string | null
+      keyword: newServer.keyword, // string | null
     
       // List of status codes which response can contain
-      StatusCodes: newServer.status_codes // Array of integers (e.g., [200, 404])
+      statusCodes: newServer.status_codes // Array of integers (e.g., [200, 404])
     };
 
     //set global id for server
@@ -81,9 +88,15 @@ const addServer = async (req, res) => {
 
     // making request to the worker server
     const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/register`
-    const wsResponse = await axios.post(URL = backendUrl, Headers = {
-      Accept: 'application/json'
-    }, data = ServerModal);
+    const wsResponse = await axios.post(
+      backendUrl,
+      ServerModal, // this is the POST body
+      {
+        headers: {
+          Accept: 'application/json'
+        }
+      }
+    );
 
     if(!wsResponse.data.IsError){
       // return response
@@ -99,7 +112,7 @@ const addServer = async (req, res) => {
       await Server.findByIdAndDelete(serverId);
     }
 
-    console.log("addServer error : ", error);
+    console.dir(error);
     return res.status(200).json(createResponse(
         "",
         true,

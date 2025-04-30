@@ -2,6 +2,8 @@
 const Server = require("../../Models/Server.model");
 const User = require("../../Models/User.model");
 const createResponse = require("../../Response");
+const axios = require('axios');
+
 
 const updateServer = async (req, res) => {
   try {
@@ -47,7 +49,7 @@ const updateServer = async (req, res) => {
     // serverModal for workerPod
     const ServerModal = {
       // Client id (who owns this server)
-      Client_id: user_id, // string
+      Client_id: user._id, // string
     
       // Server id (unique id for this server)
       Server_id: updatedData._id, // string
