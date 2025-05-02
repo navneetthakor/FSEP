@@ -82,7 +82,8 @@ const RightSideDashBoard = () => {
 
       {/* Graph component would go here, but we're using your previously generated component */}
       <div style={{margin : '0vh 1vw'}}>
-        <ResponseTimeGraph />
+        {/* <ResponseTimeGraph /> */}
+        <iframe src="https://codewithnavneet.grafana.net/d-solo/74e29e4a-16ed-4511-9e0c-766c295272ba/sampleuserdsbd?orgId=1&from=1746019942648&to=1746041542648&timezone=browser&theme=dark&panelId=1&__feature.dashboardSceneSolo" width="450" height="200" frameborder="0"></iframe>
       </div>
     </div>
   );

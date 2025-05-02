@@ -42,11 +42,13 @@ app.use(express.urlencoded({ extended: true }));
 const userRoutes = require("./Routes/user.route.js");
 const serverRoutes = require("./Routes/server.route.js");
 const integrationRoutes = require("./Routes/integration.route.js");
+const GrafanaRoutes = require("./Routes/grafana.route.js");
 
 // placing middlewares for router
 app.use("/User",userRoutes);
 app.use("/Server", serverRoutes);
-app.use("/auth", integrationRoutes)
+app.use("/auth", integrationRoutes);
+app.use("/grafana",GrafanaRoutes);
 
 // default routes
 app.get("/", (req, res) => res.json({ signal: "green" }));
