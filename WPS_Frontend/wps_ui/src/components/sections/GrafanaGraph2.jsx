@@ -27,8 +27,6 @@ const GrafanaGraphs = ({ jobId = "default-job" }) => {
     { label: 'Last 6 hours', value: '6h' },
     { label: 'Last 12 hours', value: '12h' },
     { label: 'Last 24 hours', value: '24h' },
-    { label: 'Last 3 days', value: '3d' },
-    { label: 'Last 7 days', value: '7d' }
   ];
 
   // Fetch data from backend
