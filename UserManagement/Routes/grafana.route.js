@@ -5,31 +5,37 @@ const router = express.Router();
 const fetchUser = require("../Middelwares/fetchUser.middelware");
 const axios = require("axios");
 
+const createResponse = require("../Response");
+
+
 // Route to fetch metrics based on instance ID
-router.get('/serverGraph/:jobId', fetchUser, async (req, res) => {
+router.get('/serverGraph/:jobId/:timeRange', fetchUser, async (req, res) => {
     try {
 
         const instanceId = req.user.id;
 
-        const { jobId } = req.params;
+        const { jobId, timeRange } = req.params;
         const { start, end } = req.query;
+
+        // to generate start and end time 
+        const times = generateTimeRangeFromParam(timeRange)
 
 
         // Fetch CPU usage data
-        const cpuQuery = `http_Gauge_response_time_custom`;
-        const resTimeData = await fetchPrometheusData(cpuQuery, start, end);
+        const cpuQuery = `http_Gauge_response_time_custom{instance="${instanceId}",job="${jobId}"}`;
+        const resTimeData = await fetchPrometheusData(cpuQuery, times.startTime, times.endTime);
 
         // Fetch memory usage data
-        const memoryQuery = `http_status_code_custom{instance_id="${instanceId}",}`;
-        const statusCodeData = await fetchPrometheusData(memoryQuery, start, end);
+        const memoryQuery = `http_status_code_custom{instance="${instanceId}",job="${jobId}"}`;
+        const statusCodeData = await fetchPrometheusData(memoryQuery, times.startTime, times.endTime);
 
-        res.json({
-            instanceId,
-            metrics: {
-                resTimeData: formatMetricData(resTimeData),
-                statusCodeData: formatMetricData(statusCodeData)
-            }
-        });
+        // const data to send 
+        Data = {
+            resTimeData: formatMetricData(resTimeData),
+            statusCodeData: formatMetricData(statusCodeData)
+        }
+        return res.status(200).json(createResponse(Data, false, "", 200, ""))
+        
     } catch (error) {
         console.error('Error fetching instance metrics:', error);
         res.status(500).json({ error: 'Failed to fetch instance metrics' });
@@ -43,12 +49,12 @@ async function fetchPrometheusData(query, start, end) {
     const GRAFANA_URL = process.env.GRAFANA_URL;
     const GRAFANA_API_KEY = process.env.GRAFANA_API_KEY;
 
-    // const startTime = start || (Math.floor(Date.now() / 1000) - 3600000); // Default to last hour
-    // const endTime = end || Math.floor(Date.now() / 1000) - 360000;
     const now = Math.floor(Date.now() / 1000);
     const startTime = start || (now - 172800); // Default to 48 hours ago
     const endTime = end || now;                // Default to current time
 
+    console.log(startTime);
+    console.log(endTime);
 
     const response = await axios.get(`${GRAFANA_URL}/api/datasources/proxy/9/api/v1/query_range`, {
         params: {
@@ -85,6 +91,45 @@ function formatMetricData(prometheusData) {
         };
     });
 }
+
+function generateTimeRangeFromParam(timeRange) {
+    const now = Math.floor(Date.now() / 1000); // Current time in seconds
+    let startTime;
+    
+    // Default in case of parsing failure
+    startTime = now - (24 * 60 * 60); // Default to 24 hours
+    
+    if (timeRange) {
+      // Extract the numeric part and the unit
+      const matches = timeRange.match(/^(\d+)([mhdw])$/);
+      
+      if (matches && matches.length === 3) {
+        const value = parseInt(matches[1]);
+        const unit = matches[2];
+        
+        // Calculate start time based on unit
+        switch (unit) {
+          case 'm': // minutes
+            startTime = now - (value * 60);
+            break;
+          case 'h': // hours
+            startTime = now - (value * 60 * 60);
+            break;
+          case 'd': // days
+            startTime = now - (value * 24 * 60 * 60);
+            break;
+          case 'w': // weeks
+            startTime = now - (value * 7 * 24 * 60 * 60);
+            break;
+        }
+      }
+    }
+    
+    return {
+      startTime,
+      endTime: now
+    };
+  }
 
 module.exports = router;
 

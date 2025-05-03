@@ -32,7 +32,7 @@ export default function DashboardLayout() {
             {rightAria == "createMonitor" && <CreateMonitorForm />}
             {rightAria == "createAPIFlow" && <RequestFlowCanvas />}
             {rightAria == "APIFlowHome" && <APIFlowHome />}
-            {rightAria == "responseTimeGraph" && <RightSideDashBoard />}
+            {rightAria.startsWith('responseTimeGraph') && <RightSideDashBoard />}
     </div>}
       </>
   )

@@ -261,8 +261,7 @@ const MonitorItem = ({server_id ,name, status, time, incident = false,setIsLoadi
         
         <button 
           className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" 
-          // onClick={() => navigate(`/dashboard/responseTimeGraph/${server_id}`)}
-          onClick={() => navigate(`/dashboard/responseTimeGraph`)}
+          onClick={() => navigate(`/dashboard/responseTimeGraph/${server_id}`)}
         >
           •••
         </button>

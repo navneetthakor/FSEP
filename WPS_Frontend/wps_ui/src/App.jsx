@@ -22,7 +22,8 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<SignupPage />} />
             <Route path='/dashboard/:rightAria' element={<DashboardLayout />} />
-            <Route path='/responseTimeGraph' element={<RightSideDashBoard />} />
+            <Route path='/dashboard/:rightAria/:server_id' element={<DashboardLayout />} />
+            <Route path='/responseTimeGraph/:server_id' element={<RightSideDashBoard />} />
             <Route path='/forgotPassword' element={<ForgotPasswordPage />} />
             <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage />} />
             <Route path='/integration/mstems' element={<MicrosoftTeamsIntegration />} />
