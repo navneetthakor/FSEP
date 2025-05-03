@@ -35,6 +35,8 @@ const generateStaticData = () => {
       formattedDate: time.toLocaleDateString([], { month: 'short', day: 'numeric' })
     });
   }
+
+  console.log(data);
   
   return data;
 };

@@ -16,18 +16,18 @@ router.get('/serverGraph/:jobId', fetchUser, async (req, res) => {
 
 
         // Fetch CPU usage data
-        const cpuQuery = `http_Gauge_response_time_custom{instance_id="${instanceId}",job_id="${jobId}"}`;
-        const cpuData = await fetchPrometheusData(cpuQuery, start, end);
+        const cpuQuery = `http_Gauge_response_time_custom`;
+        const resTimeData = await fetchPrometheusData(cpuQuery, start, end);
 
         // Fetch memory usage data
         const memoryQuery = `http_status_code_custom{instance_id="${instanceId}",}`;
-        const memoryData = await fetchPrometheusData(memoryQuery, start, end);
+        const statusCodeData = await fetchPrometheusData(memoryQuery, start, end);
 
         res.json({
             instanceId,
             metrics: {
-                cpu: formatMetricData(cpuData),
-                memory: formatMetricData(memoryData)
+                resTimeData: formatMetricData(resTimeData),
+                statusCodeData: formatMetricData(statusCodeData)
             }
         });
     } catch (error) {
@@ -61,6 +61,8 @@ async function fetchPrometheusData(query, start, end) {
             'Authorization': `Bearer ${GRAFANA_API_KEY}`
         }
     });
+
+    console.log(response.data);
 
     return response.data;
 }
