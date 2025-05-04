@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Pause, Trash } from 'lucide-react';
+import { Pause, Play, Trash } from 'lucide-react';
 import ResponseTimeGraph from './GrafanaGraph2';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loader from './Loader';
+import { Button } from '../ui/button';
 
 const RightSideDashBoard = () => {
+
+  // for navigation
+  const navigate = useNavigate();
 
   //to get id from url
   let { server_id } = useParams();
 
   // to show loader 
-  const [loader, setLoader] = useState(true);
+  const [loader, setIsLoading] = useState(true);
 
   // data regarding monitor
   const [monitor, setMonitor] = useState({});
@@ -49,13 +53,90 @@ const RightSideDashBoard = () => {
     if (!jsonResp.IsError) {
       // set current Monitor
       setMonitor(jsonResp.Data)
-      setLoader(false);
-      console.log('fine');
+      setIsLoading(false);
     }
 
   }
 
-  useEffect(()=> getMonitor, []);
+  const handlePush = async () => {
+    // set loader
+    setIsLoading(true);
+    // Implement push functionality
+    let url = `${import.meta.env.VITE_BACKEND_URL}/Server/pushServer/${server_id}`;
+
+    const response = await fetch(url, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "usertoken": localStorage.getItem('usertoken')
+      },
+    })
+
+    const jsonResp = await response.json()
+    console.log("HandlePush");
+
+    if (!jsonResp.IsError) {
+
+      // update server list
+      await getMonitor();
+
+    }
+  };
+
+  const handleDelete = async () => {
+    // set loader
+    setIsLoading(true);
+
+    // Implement push functionality
+    let url = `${import.meta.env.VITE_BACKEND_URL}/Server/deleteServer/${server_id}`;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "usertoken": localStorage.getItem('usertoken')
+      },
+    })
+
+    const jsonResp = await response.json()
+    console.log("handleDelete");
+
+    if (!jsonResp.IsError) {
+
+      // update server list
+      navigate('/dashboard/monitorsHome');
+    }
+  };
+
+  const handleStart = async () => {
+    // set loader
+    setIsLoading(true);
+
+    // Implement push functionality
+    let url = `${import.meta.env.VITE_BACKEND_URL}/Server/startServer/${server_id}`;
+
+    const response = await fetch(url, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "usertoken": localStorage.getItem('usertoken')
+      },
+    })
+
+    const jsonResp = await response.json()
+    console.log("handleStart");
+
+    if (!jsonResp.IsError) {
+
+      // update server list
+      await getMonitor();
+    }
+  };
+
+  useEffect(() => getMonitor, []);
 
   return (
     <>
@@ -65,7 +146,7 @@ const RightSideDashBoard = () => {
           {/* Top header with website info */}
           <div className="flex flex-col items-start px-4 py-6">
             <div className="flex items-center">
-              <div className="h-3 w-3 rounded-full ${monitor.status == 'R' ? bg-green-500 : bg-red-500} mr-3"></div>
+              <div className={`h-3 w-3 rounded-full ${monitor.status == 'R' ? 'bg-green-500' : monitor.status == 'P' ? 'bg-yellow-500' : 'bg-red-500'} mr-3`}></div>
               <h1 className="text-white text-2xl font-medium">{monitor.server_name}</h1>
             </div>
             <div className="text-gray-400 text-sm mt-1 ml-6">
@@ -75,17 +156,50 @@ const RightSideDashBoard = () => {
 
           {/* Action buttons */}
           <div className="flex items-center space-x-4 px-4 pb-4">
+            {/* Conditional buttons based on status */}
+            <div className="flex space-x-2">
+              {/* Show Push button when status is up */}
+              {monitor.status === 'R' && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex items-center text-blue-500 border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900"
+                  onClick={handlePush}
+                >
+                  {/* <Upload className="w-4 h-4 mr-1" /> */}
+                  <Play className="w-4 h-4 mr-1" />
+                  Push
+                </Button>
+              )}
 
-            <button className="flex items-center py-1.5 px-3 rounded bg-gray-950 hover:bg-gray-700 text-gray-300 text-sm">
-              <Pause className="w-4 h-4 mr-2" />
-              Pause
-            </button>
+              {/* Show Start button when status is down */}
+              {monitor.status !== 'R' && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex items-center text-green-500 border-green-500 hover:bg-green-50 dark:hover:bg-green-900"
+                  onClick={handleStart}
+                >
+                  <Play className="w-4 h-4 mr-1" />
+                  Start
+                </Button>
+              )}
 
-            <button className="flex items-center py-1.5 px-3 rounded bg-gray-950 hover:bg-gray-700 text-gray-300 text-sm">
-              <Trash className="w-4 h-4 mr-1" />
-              Delete
-            </button>
+              {/* Always show Delete button */}
+              <Button
+                size="sm"
+                variant="outline"
+                className="flex items-center text-red-500 border-red-500 hover:bg-red-50 dark:hover:bg-red-900"
+                onClick={handleDelete}
+              >
+                <Trash className="w-4 h-4 mr-1" />
+                Delete
+              </Button>
+            </div>
+
           </div>
+
+
 
           {/* Response times header */}
           <div className="flex justify-between items-center px-4 pb-3">
@@ -99,7 +213,7 @@ const RightSideDashBoard = () => {
             <ResponseTimeGraph />
           </div>
         </div>
-        
+
       }
     </>
   );

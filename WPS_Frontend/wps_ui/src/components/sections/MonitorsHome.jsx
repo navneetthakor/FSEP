@@ -62,7 +62,7 @@ const MonitorsHome = () => {
                       return <MonitorItem
                         server_id={ele._id}
                         name={ele.server_name}
-                        status={ele.status === 'R' ? "up" : "down"}
+                        status={ele.status}
                         setIsLoading={setIsLoading}
                         isLoading={isLoading}
                       />})) : <span className='m-1 text-blue-500'>You have no server/endpoint to monitor!!</span>
@@ -101,7 +101,6 @@ const MonitorsHome = () => {
 };
 
 const MonitorItem = ({server_id ,name, status, time, incident = false,setIsLoading}) => {
-  const isDown = status === "down";
   const navigate = useNavigate();
   
    // user's monitor context 
@@ -196,11 +195,11 @@ const MonitorItem = ({server_id ,name, status, time, incident = false,setIsLoadi
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center justify-between">
       <div className="flex items-center">
-        <div className={`w-3 h-3 rounded-full ${isDown ? 'bg-red-500' : 'bg-green-500'} mr-3`}></div>
+        <div className={`w-3 h-3 rounded-full ${status == 'R' ? 'bg-green-500' : status == 'P' ? 'bg-yellow-500' : 'bg-red-500'} mr-3`}></div>
         <div>
           <h3 className="font-medium text-gray-900 dark:text-white">{name}</h3>
-          <p className={`text-sm ${isDown ? 'text-red-500' : 'text-green-500'}`}>
-            {isDown ? 'Down' : 'Up'} · {time}
+          <p className={`text-sm ${status == 'R' ? 'text-green-500' : status == 'P' ? 'text-yellow-500' : 'text-red-500'}`}>
+          {status == 'R' ? 'UP' : status == 'P' ? 'Pushed' : 'Down'}
           </p>
         </div>
       </div>
@@ -221,7 +220,7 @@ const MonitorItem = ({server_id ,name, status, time, incident = false,setIsLoadi
         {/* Conditional buttons based on status */}
         <div className="flex space-x-2">
           {/* Show Push button when status is up */}
-          {!isDown && (
+          {status === 'R' && (
             <Button 
               size="sm" 
               variant="outline" 
@@ -235,7 +234,7 @@ const MonitorItem = ({server_id ,name, status, time, incident = false,setIsLoadi
           )}
           
           {/* Show Start button when status is down */}
-          {isDown && (
+          {status !== 'R' && (
             <Button 
               size="sm" 
               variant="outline" 

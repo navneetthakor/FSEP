@@ -27,7 +27,7 @@ const getServer = async (req, res) => {
     // return response
     return res.status(200).json(createResponse(server, false, "", 200, ""));
   } catch (error) {
-    console.log("getServer error : ", e);
+    console.log("getServer error : ", error);
     return res.status(200).json(createResponse(
         "",
         true,
