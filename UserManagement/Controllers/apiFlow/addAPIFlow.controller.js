@@ -1,14 +1,17 @@
 // to connect with server collection
-const { body } = require("express-validator");
 const APIFlow = require("../../Models/APIFlow.model");
 const User = require("../../Models/User.model");
 const createResponse = require("../../Response");
+const { Error } = require("mongoose");
+const axios = require('axios');
+
 
 // used for deletion of APIFlow document from relation in case of any failure
 let apiFlowId = -1;
 
 const addAPIFlow = async (req, res) => {
   try {
+    console.log("entred");
     // check user exists or not
     const user = await User.findById(req.user.id);
 
@@ -22,7 +25,7 @@ const addAPIFlow = async (req, res) => {
     // now add this entry to server modal
     const data = req.body;
     const newAPIFlow = new APIFlow({
-      user_id: data.user_id,
+      user_id: user._id,
       api_flow_name: data.api_flow_name,
       status: data.status,
       nodes: data.nodes,
@@ -31,36 +34,46 @@ const addAPIFlow = async (req, res) => {
     });
 
     // save this entry
-    newAPIFlow.save();
+    await newAPIFlow.save();
 
     //set global id for server
     apiFlowId = newAPIFlow._id;
 
+    console.log("Starting");
     // making request to the worker server
-    const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/RegisterAPIFlow/${user._id}/${newAPIFlow._id}`
-    const wsResponse = await axios.post(
-      backendUrl
-    );
+    // const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/RegisterAPIFlow/${user._id}/${newAPIFlow._id}`
+    // const wsResponse = await axios.post(
+    //   backendUrl
+    // );
+    let wsResponse;
+    try {
+      const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/RegisterAPIFlow/${user._id}/${newAPIFlow._id}`
+      wsResponse = await axios.post(backendUrl)
+      // Handle successful response
+    } catch (error) {
+      console.error('Worker pod request failed:', error.message)
+      // Implement fallback behavior or appropriate error handling
+    }
 
-    if (wsResponse.data.IsError) {
+    if (wsResponse.data.isError) {
 
       // delete this record 
       await APIFlow.findByIdAndDelete(apiFlowId);
 
       // return response
-      return res.status(500).json(createResponse("", true, "", 500, ""));
+      return res.status(500).json(createResponse(wsResponse.data.errorMessage, true, "", 500, ""));
     }
     return res.status(200).json(createResponse(newAPIFlow, false, "", 200, ""));
 
 
   } catch (error) {
-    console.log("addServer error : ", e);
+    console.log("AddAPIFlow error : ", Error);
     // delete this record 
     await APIFlow.findByIdAndDelete(apiFlowId);
     return res.status(200).json(createResponse(
       "",
       true,
-      e,
+      error,
       500,
       ""
     ));

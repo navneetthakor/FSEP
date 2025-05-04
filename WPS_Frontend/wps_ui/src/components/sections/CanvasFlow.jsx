@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { PlusCircle, Trash2, Code, Database, FileJson, Server } from 'lucide-react';
+import { PlusCircle, Trash2, Code, FileJson, Server } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Card, CardHeader, CardContent, CardTitle } from '../ui/card';
 import {
   Dialog,
   DialogContent,
@@ -10,11 +9,11 @@ import {
   DialogFooter
 } from '../ui/dialog';
 import { Input } from '../ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import RequestForm from './RequestForm';
 import WebPulseNodeFlowGenerator from '@/lib/NodesGenrator';
 import ModalPopup from './MessagePopUp';
+import Loader from './Loader';
 
 // Node types with their configurations
 const NODE_TYPES = {
@@ -45,7 +44,8 @@ const RequestFlowCanvas = () => {
   const [startNode, setStartNode] = useState(null);
   const [startPort, setStartPort] = useState(null);
   const [showNodeDialog, setShowNodeDialog] = useState(false);
-  const [showCodeDialog, setShowCodeDialog] = useState(false);
+  const [flowName, setFlowName] = useState("Default Flow Name");
+  const [checkFrequency, setCheckFrequency] = useState('OH');
   const [nodeConfig, setNodeConfig] = useState({
     type: 'REQUEST',
     id: '',
@@ -53,17 +53,13 @@ const RequestFlowCanvas = () => {
     properties: {}
   });
   const [activateModal, setActivateModal] = useState(null);
+  const [loading, setLoading] = useState(false);
 
 
   const canvasRef = useRef(null);
   const [canvasOffset, setCanvasOffset] = useState({ x: 0, y: 0 });
   const [draggedNode, setDraggedNode] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [generatedCode, setGeneratedCode] = useState('');
-
-  // for testing flow 
-  const [showTestDialog, setShowTestDialog] = useState(false);
-  const [testResult, setTestResult] = useState([]);
 
   // for canvas setup 
   useEffect(() => {
@@ -259,7 +255,9 @@ const RequestFlowCanvas = () => {
 
   // Schedule the flow
   const scheduleFlow = async () => {
-    console.log("Scheduling flow:", { nodes, edges });
+
+    try{
+    setLoading(true);
 
     //#region  actual test
     // object of node flow generater
@@ -293,134 +291,66 @@ const RequestFlowCanvas = () => {
     }
 
     // // Connect nodes with edges
-    // for (const edge of edges) {
-    //   // If condition is provided, use it, otherwise default to empty string
-    //   const condition = edge.sourcePort || 'true';
-    //   flow.addEdge(edge.sourcePort, edge.targetPort, condition);
-    // }
+    for (const edge of edges) {
+      // If condition is provided, use it, otherwise default to empty string
+      const condition = edge.sourcePort || 'true';
+      flow.addEdge(edge.sourceId, edge.targetId, condition);
+    }
 
     // console.log("edges : ", edges);
-    // console.log(flow);
+    console.log(flow);
 
     // return flow;
     //#endregion
 
-    //#region  static data to return
-    // const flow = {
-    //   "nodes": [
-    //     {
-    //       id: 'getUserData',
-    //       name: 'Get User Data',
-    //       type: 'REQUEST',
-    //       properties: {
-    //         url: 'https://api.github.com/users/navneetthakor',
-    //         method: 'GET',
-    //         headers: {
-    //           Accept: 'application/json',
-    //         },
-    //         body: null
-    //       }
-    //     },
-    //     {
-    //       id: 'isUserGet',
-    //       name: 'Check user data get',
-    //       type: 'CONDITION',
-    //       properties: { condition: 'getDataRef("getUserData.body") !== ""' }
-    //     },
-    //     {
-    //       id: 'getUserRepos',
-    //       name: 'Get Users repos',
-    //       type: 'REQUEST',
-    //       properties: {
-    //         url: 'https://api.github.com/users/navneetthakor/repos',
-    //         method: 'GET',
-    //         headers: {
-    //           Accept: 'application/json',
-    //         },
-    //         body: null
-    //       }
-    //     }],
-    //   "edges": [
-    //     { source: 'getUserData', target: 'isUserGet', sourcePort: 'true' },
-    //     {
-    //       source: 'isUserGet',
-    //       target: 'getUserRepos',
-    //       sourcePort: 'true'
-    //     },
-    //     { source: 'getUserRepos', target: 'combineData', sourcePort: 'true' },
-    //   ]
-    // }
+    // url of backend     
+    const url = `${import.meta.env.VITE_BACKEND_URL}/apiFlow/add`;
 
-    // const flow2 = {
-    //   "nodes": [
-    //     {
-    //       id: 'getUserData',
-    //       name: 'Get User Data',
-    //       type: 'REQUEST',
-    //       properties: {
-    //         url: 'https://api.github.com/users/navneetthakor',
-    //         method: 'GET',
-    //         headers: {
-    //           Accept: 'application/json',
-    //         },
-    //         body: null
-    //       }
-    //     },
-    //     {
-    //       id: 'isUserGet',
-    //       name: 'Check user data get',
-    //       type: 'CONDITION',
-    //       properties: { condition: 'getDataRef("getUserData.body.login") !== ""' }
-    //     },
-    //     {
-    //       id: 'getUserRepos',
-    //       name: 'Get Users repos',
-    //       type: 'REQUEST',
-    //       properties: {
-    //         url: 'https://api.github.com/users/navneetthakor/repos',
-    //         method: 'GET',
-    //         headers: {
-    //           Accept: 'application/json',
-    //         },
-    //         body: null
-    //       }
-    //     }],
-    //   "edges": [
-    //     { source: 'getUserData', target: 'isUserGet', sourcePort: 'true' },
-    //     {
-    //       source: 'isUserGet',
-    //       target: 'getUserRepos',
-    //       sourcePort: 'true'
-    //     },
-    //     { source: 'getUserRepos', target: 'combineData', sourcePort: 'true' },
-    //   ]
-    // }
+    let body = {
+      nodes: flow.nodes,
+      edges: flow.edges,
+      api_flow_name: flowName,
+      status: 'R',
+      check_frequency: checkFrequency || 'OH'
+    }
 
-    // const url = 'http://localhost:5004/api/MasterPod/RegisterAPIFlow?client_id=661687&flow_id=66168810'
-    // let result = await fetch(url, {
-    //   method: "POST",
-    //   body: JSON.stringify({nodes: flow2.nodes, edges: flow2.edges, CheckFrequency : 7 })
-    // })
-    // result = result.json();
+    // send request to backend to register apiFlow testing service 
+    let result = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "usertoken": localStorage.getItem('usertoken')
+      },
+      body: JSON.stringify(body)
+    })
+    result = result.json();
 
-    // if(result.isError){
-    //   setActivateModal({
-    //     type: 'error',
-    //     title: 'Some issue occur',
-    //     message: 'Please try after some time',
-    //     navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
-    //   });
-    // }else{
-    setTimeout(() => {
+    setLoading(false);
 
+
+    if (result.IsError) {
       setActivateModal({
-        type: 'success',
-        title: 'API flow scheduled',
-        message: ' please check your email where you got test email reagrding this API flow ',
-        navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
+        type: 'error',
+        title: result.ErrorMessage,
+        message: 'Please try after some time',
+        navigatePath: '/dashboard/APIFlowHome' // The path you want to navigate to
       });
-    }, 5000);
-    // }
+    } else {
+      setTimeout(() => {
+
+        setActivateModal({
+          type: 'success',
+          title: 'API flow scheduled',
+          message: ' please check your email where you got test email reagrding this API flow ',
+          navigatePath: '/dashboard/APIFlowHome' // The path you want to navigate to
+        });
+      }, 5000);
+    }
+  }catch(e){
+    console.log(e);
+    setLoading(false);
+  }
     //#endregion
 
     // Implement schedule functionality
@@ -432,27 +362,6 @@ const RequestFlowCanvas = () => {
     setEdges([]);
     setSelectedNode(null);
     setSelectedEdge(null);
-  };
-
-  // Generate code
-  const generateCode = () => {
-    const myFlow = {
-      nodes: nodes || [],
-      edges: edges || []
-    };
-
-    const generator = new WebPulseFlowGenerator();
-    generator.importFlow(myFlow);
-
-    const code = generator.generateCode({
-      includeComments: true,
-      includeExampleUsage: true,
-      functionName: 'myCustomFlow',
-      errorHandling: 'advanced'
-    });
-
-    setGeneratedCode(code);
-    setShowCodeDialog(true);
   };
 
   // Render the node
@@ -605,14 +514,6 @@ const RequestFlowCanvas = () => {
             <Trash2 className="h-4 w-4 mr-2" />
             Delete {selectedEdge ? "Edge" : selectedNode ? "Node" : ""}
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={generateCode}
-          >
-            <Code className="h-4 w-4 mr-2" />
-            Generate Code
-          </Button>
         </div>
       </div>
 
@@ -633,13 +534,6 @@ const RequestFlowCanvas = () => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={testFlow}
-          >
-            Test
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
             onClick={scheduleFlow}
           >
             Schedule
@@ -653,65 +547,6 @@ const RequestFlowCanvas = () => {
           </Button>
         </div>
       </div>
-      {/* for test dialog  */}
-      <Dialog open={showTestDialog} onOpenChange={setShowTestDialog}>
-        <DialogHeader>
-          <DialogTitle>Test Results</DialogTitle>
-        </DialogHeader>
-
-        <DialogContent style={{ overflow: "scroll", height: "20vh" }}>
-          {testResult && testResult.length > 0 ? (
-            testResult.map((response, index) => {
-              console.log("Rendering test result:", response);
-              return (
-                <div key={index}>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle>
-                        Response {response.status !== undefined && (
-                          <span className={response.status < 400 ? "text-green-500" : "text-red-500"}>
-                            {response.status} {response.statusText}
-                          </span>
-                        )}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <Tabs defaultValue="response">
-                        <TabsList>
-                          <TabsTrigger value="response">Body</TabsTrigger>
-                          <TabsTrigger value="headers">Headers</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="response" className="mt-2">
-                          <pre className="bg-gray-100 text-black p-4 rounded-md text-sm font-mono overflow-x-auto">
-                            {response.data && (
-                              typeof response.data === 'object'
-                                ? JSON.stringify(response.data, null, 2)
-                                : response.data
-                            )}
-                          </pre>
-                        </TabsContent>
-                        <TabsContent value="headers" className="mt-2">
-                          <div className="bg-gray-100 text-black p-4 rounded-md">
-                            {response.headers && Object.entries(response.headers).map(([key, value]) => (
-                              <div key={key} className="mb-1">
-                                <span className="font-medium">{key}:</span> {value}
-                              </div>
-                            ))}
-                          </div>
-                        </TabsContent>
-                      </Tabs>
-                    </CardContent>
-                  </Card>
-                </div>
-              );
-            })
-          ) : (
-            <div className="p-4 text-center ">
-              <p>No test results available or test execution failed.</p>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
 
       {/* Node Configuration Dialog */}
       <Dialog open={showNodeDialog} onOpenChange={setShowNodeDialog}>
@@ -788,32 +623,6 @@ const RequestFlowCanvas = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Generated Code Dialog */}
-      <Dialog open={showCodeDialog} onOpenChange={setShowCodeDialog}>
-        <DialogContent className="max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>Generated Flow Code</DialogTitle>
-          </DialogHeader>
-
-          <div className="bg-gray-100 p-4 text-black rounded max-h-96 overflow-auto">
-            <pre className="text-sm whitespace-pre-wrap">
-              {generatedCode}
-            </pre>
-          </div>
-
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowCodeDialog(false)}>
-              Close
-            </Button>
-            <Button onClick={() => {
-              navigator.clipboard.writeText(generatedCode);
-              // You would show a toast here
-            }}>
-              Copy to Clipboard
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
       {activateModal && (
         <ModalPopup
           type={activateModal.type}
@@ -823,6 +632,8 @@ const RequestFlowCanvas = () => {
           duration={3000} // 3 seconds auto-close
         />
       )}
+
+      {loading && (<Loader isLoading={loading} />)}
     </div>
   );
 };

@@ -88,7 +88,6 @@ const APIFlowSchema = new Schema({
         },
         targetPort: {
             type: String,
-            required: true
         }
     }],
 

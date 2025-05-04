@@ -4,6 +4,7 @@ const createResponse = require("../../Response");
 
 const wgetAPIFlow = async (req, res) => {
   try {
+    console.log("Fired")
     // take params from url
     const {client_id, flow_id} = req.params;
 
@@ -26,6 +27,7 @@ const wgetAPIFlow = async (req, res) => {
     }
 
     // return response
+    console.log("respoindig fired event")
     return res.status(200).json(createResponse(flow, false, "", 200, ""));
   } catch (error) {
     console.log("getServer error : ", error);
