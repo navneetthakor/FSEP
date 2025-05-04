@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 const APIFlowSchema = new Schema({
-    user_id : {
+    user_id: {
         type: mongoose.Schema.Types.ObjectId,  // Reference to User
         ref: 'User',
         required: true,
@@ -16,8 +16,8 @@ const APIFlowSchema = new Schema({
     status: {
         type: String,
         default: 'R',
-        //U : unkonwn, R: Running, P: Pushed, 'D': Destroyed
-        enum: ['U', 'R', 'P', 'D'],
+        //R: Running, P: Pushed, 'D': Down
+        enum: ['R', 'P', 'D'],
         required: true
     },
 
@@ -37,43 +37,59 @@ const APIFlowSchema = new Schema({
         },
         properties: {
             url: {
-              type: String,
+                type: String,
             },
             method: {
-              type: String,
-              enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Extend as necessary
+                type: String,
+                enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Extend as necessary
             },
             headers: {
-              type: Map,
-              of: String,
-              default: {}
+                type: Map,
+                of: String,
+                default: {}
             },
             body: {
-              type: mongoose.Schema.Types.Mixed,
-              default: null
+                type: mongoose.Schema.Types.Mixed,
+                default: null
             },
             condition: {
                 type: String,
             }
-          },
-        edges: [{
-            source: {
-                type:String,
-                required: true
-            },
-            sourcePort: {
-                type: String,
-                required: true
-            },
-            target: {
-                type: String,
-                required: true
-            },
-            targetPort: {
-                type: String,
-                required: true
-            }
-        }]
+        },
+
+        // used for frontend side logic only ----
+        //   no involvement in executing this nodes
+        //   actually this data we will get when some error occured while executing node 
+        status: {
+            type: String,
+            default: 'R',
+            // R: Running, N: Not Executed, 'D': Down
+            enum: ['R', 'N', 'D'],
+            required: true
+        },
+
+        response : {
+            type:  Schema.Types.Mixed
+        }
+
+    }],
+    edges: [{
+        source: {
+            type: String,
+            required: true
+        },
+        sourcePort: {
+            type: String,
+            required: true
+        },
+        target: {
+            type: String,
+            required: true
+        },
+        targetPort: {
+            type: String,
+            required: true
+        }
     }],
 
 
@@ -84,7 +100,7 @@ const APIFlowSchema = new Schema({
             HAFH: half Hours
             OH: one Hours
         */
-        enum: ['HAFH', 'OH', 'THH', 'SXH', 'NNH','TWH','TFH'],
+        enum: ['HAFH', 'OH', 'THH', 'SXH', 'NNH', 'TWH', 'TFH'],
         required: true
     },
 

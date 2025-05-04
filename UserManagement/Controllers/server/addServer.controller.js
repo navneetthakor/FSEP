@@ -102,6 +102,8 @@ const addServer = async (req, res) => {
       // return response
       return res.status(200).json(createResponse(newServer, false, "", 200, ""));
     }else{
+      // delete record first 
+      await Server.findByIdAndDelete(serverId);
       return res.status(500).json(createResponse(newServer, true, "", 500, ""));
     }
 

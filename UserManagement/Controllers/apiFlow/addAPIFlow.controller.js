@@ -1,9 +1,13 @@
 // to connect with server collection
-const Server = require("../../Models/Server.model");
+const { body } = require("express-validator");
+const APIFlow = require("../../Models/APIFlow.model");
 const User = require("../../Models/User.model");
 const createResponse = require("../../Response");
 
-const addServer = async (req, res) => {
+// used for deletion of APIFlow document from relation in case of any failure
+let apiFlowId = -1;
+
+const addAPIFlow = async (req, res) => {
   try {
     // check user exists or not
     const user = await User.findById(req.user.id);
@@ -17,36 +21,50 @@ const addServer = async (req, res) => {
 
     // now add this entry to server modal
     const data = req.body;
-    const newServer = new Server({
-      user_id: req.user.id,
-      server_name: data.server_name,
-      method: data.method,
-      server_url: data.server_url,
-      Headers: data.Headers,
-      body: data.body,
+    const newAPIFlow = new APIFlow({
+      user_id: data.user_id,
+      api_flow_name: data.api_flow_name,
       status: data.status,
-      type_of_check: data.type_of_check,
-      desired_response_time: data.desired_response_time,
-      check_frequency: data.check_frequency,
-      keyword: data.keyword,
-      status_codes: data.status_codes,
+      nodes: data.nodes,
+      edges: data.edges,
+      check_frequency: data.check_frequency
     });
 
     // save this entry
-    newServer.save();
+    newAPIFlow.save();
 
-    // return response
-    return res.status(200).json(createResponse(newServer, false, "", 200, ""));
+    //set global id for server
+    apiFlowId = newAPIFlow._id;
+
+    // making request to the worker server
+    const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/RegisterAPIFlow/${user._id}/${newAPIFlow._id}`
+    const wsResponse = await axios.post(
+      backendUrl
+    );
+
+    if (wsResponse.data.IsError) {
+
+      // delete this record 
+      await APIFlow.findByIdAndDelete(apiFlowId);
+
+      // return response
+      return res.status(500).json(createResponse("", true, "", 500, ""));
+    }
+    return res.status(200).json(createResponse(newAPIFlow, false, "", 200, ""));
+
+
   } catch (error) {
     console.log("addServer error : ", e);
+    // delete this record 
+    await APIFlow.findByIdAndDelete(apiFlowId);
     return res.status(200).json(createResponse(
-        "",
-        true,
-        e,
-        500,
-        ""
+      "",
+      true,
+      e,
+      500,
+      ""
     ));
   }
 };
 
-module.exports = addServer;
+module.exports = addAPIFlow;

@@ -15,7 +15,6 @@ router.get('/serverGraph/:jobId/:timeRange', fetchUser, async (req, res) => {
         const instanceId = req.user.id;
 
         const { jobId, timeRange } = req.params;
-        const { start, end } = req.query;
 
         // to generate start and end time 
         const times = generateTimeRangeFromParam(timeRange)

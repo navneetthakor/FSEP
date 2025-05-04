@@ -13,7 +13,6 @@ import { Input } from '../ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import RequestForm from './RequestForm';
-import { WebPulseFlowGenerator } from '../../lib/FlowGenrator';
 import WebPulseNodeFlowGenerator from '@/lib/NodesGenrator';
 import ModalPopup from './MessagePopUp';
 
@@ -226,37 +225,37 @@ const RequestFlowCanvas = () => {
   };
 
   // Test the flow
-  const testFlow = async () => {
-    console.log("Testing flow:", { nodes, edges });
-    // const flow configuration
-    const myFlow = {
-      nodes: nodes || [],
-      edges: edges || []
-    }
+  // const testFlow = async () => {
+  //   console.log("Testing flow:", { nodes, edges });
+  //   // const flow configuration
+  //   const myFlow = {
+  //     nodes: nodes || [],
+  //     edges: edges || []
+  //   }
 
-    const generator = new WebPulseFlowGenerator();
-    generator.importFlow(myFlow);
+  //   const generator = new WebPulseFlowGenerator();
+  //   generator.importFlow(myFlow);
 
-    // generating code
-    const code = generator.generateCode({
-      includeComments: true,
-      includeExampleUsage: true,
-      functionName: 'myCustomFlow',
-      errorHandling: 'advanced'
-    });
+  //   // generating code
+  //   const code = generator.generateCode({
+  //     includeComments: true,
+  //     includeExampleUsage: true,
+  //     functionName: 'myCustomFlow',
+  //     errorHandling: 'advanced'
+  //   });
 
-    // show code in ui component 
-    setGeneratedCode(code);
-    setShowCodeDialog(false);
-    let eval_result = await eval(code);
-    eval_result = Array.of(eval_result);
-    console.log("eval completed : ", eval_result);
+  //   // show code in ui component 
+  //   setGeneratedCode(code);
+  //   setShowCodeDialog(false);
+  //   let eval_result = await eval(code);
+  //   eval_result = Array.of(eval_result);
+  //   console.log("eval completed : ", eval_result);
 
-    setShowTestDialog(true);
-    setTestResult(eval_result || []);
-    console.dir(eval_result.length);
-    // Implement test functionality
-  };
+  //   setShowTestDialog(true);
+  //   setTestResult(eval_result || []);
+  //   console.dir(eval_result.length);
+  //   // Implement test functionality
+  // };
 
   // Schedule the flow
   const scheduleFlow = async () => {
@@ -264,47 +263,47 @@ const RequestFlowCanvas = () => {
 
     //#region  actual test
     // object of node flow generater
-  //   const flow = new WebPulseNodeFlowGenerator();
+    const flow = new WebPulseNodeFlowGenerator();
 
-  //   // Add all nodes first
-  // for (const node of nodes) {
-  //   // console.log(node);
-  //   switch (node.type) {
-  //     case 'REQUEST':
-  //       flow.addRequestNode(
-  //         node.id,
-  //         node.name,
-  //         node.properties
-  //       );
-  //       console.log(flow.nodes)
-  //       break;
-        
-  //     case 'CONDITION':
-  //       flow.addConditionNode(
-  //         node.id,
-  //         node.name,
-  //         node.properties.conditionExpression
-  //       );
-  //       break;
-        
-  //     // Add other node types as needed
-  //     default:
-  //       console.warn(`Unknown node type: ${node.type} for node ID: ${node.id}`);
-  //   }
-  // }
-  
-  // // Connect nodes with edges
-  // for (const edge of edges) {
-  //   // If condition is provided, use it, otherwise default to empty string
-  //   const condition = edge.sourcePort || 'true';
-  //   flow.addEdge(edge.sourcePort, edge.targetPort, condition);
-  // }
+    // Add all nodes first
+    for (const node of nodes) {
+      // console.log(node);
+      switch (node.type) {
+        case 'REQUEST':
+          flow.addRequestNode(
+            node.id,
+            node.name,
+            node.properties
+          );
+          console.log(flow.nodes)
+          break;
 
-  // console.log("edges : ", edges);
-  // console.log(flow);
-  
-  // return flow;
-  //#endregion
+        case 'CONDITION':
+          flow.addConditionNode(
+            node.id,
+            node.name,
+            node.properties.conditionExpression
+          );
+          break;
+
+        // Add other node types as needed
+        default:
+          console.warn(`Unknown node type: ${node.type} for node ID: ${node.id}`);
+      }
+    }
+
+    // // Connect nodes with edges
+    // for (const edge of edges) {
+    //   // If condition is provided, use it, otherwise default to empty string
+    //   const condition = edge.sourcePort || 'true';
+    //   flow.addEdge(edge.sourcePort, edge.targetPort, condition);
+    // }
+
+    // console.log("edges : ", edges);
+    // console.log(flow);
+
+    // return flow;
+    //#endregion
 
     //#region  static data to return
     // const flow = {
@@ -412,15 +411,15 @@ const RequestFlowCanvas = () => {
     //     navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
     //   });
     // }else{
-      setTimeout(() => {
+    setTimeout(() => {
 
-        setActivateModal({
-          type: 'success',
-          title: 'API flow scheduled',
-          message: ' please check your email where you got test email reagrding this API flow ',
-          navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
-        });
-      }, 5000);
+      setActivateModal({
+        type: 'success',
+        title: 'API flow scheduled',
+        message: ' please check your email where you got test email reagrding this API flow ',
+        navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
+      });
+    }, 5000);
     // }
     //#endregion
 
@@ -656,11 +655,11 @@ const RequestFlowCanvas = () => {
       </div>
       {/* for test dialog  */}
       <Dialog open={showTestDialog} onOpenChange={setShowTestDialog}>
-          <DialogHeader>
-            <DialogTitle>Test Results</DialogTitle>
-          </DialogHeader>
+        <DialogHeader>
+          <DialogTitle>Test Results</DialogTitle>
+        </DialogHeader>
 
-        <DialogContent  style={{overflow: "scroll", height: "20vh"}}>
+        <DialogContent style={{ overflow: "scroll", height: "20vh" }}>
           {testResult && testResult.length > 0 ? (
             testResult.map((response, index) => {
               console.log("Rendering test result:", response);
