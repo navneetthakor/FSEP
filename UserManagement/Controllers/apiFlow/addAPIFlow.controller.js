@@ -61,7 +61,8 @@ const addAPIFlow = async (req, res) => {
   } catch (error) {
     console.log("AddAPIFlow error : ", Error);
     // delete this record 
-    await APIFlow.findByIdAndDelete(apiFlowId);
+    if(apiFlowId > 0)
+      await APIFlow.findByIdAndDelete(apiFlowId);
     return res.status(200).json(createResponse(
       "",
       true,

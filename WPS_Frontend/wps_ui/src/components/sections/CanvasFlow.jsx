@@ -263,6 +263,7 @@ const RequestFlowCanvas = () => {
 
   // Schedule the flow
   const scheduleFlow = async () => {
+    setLoading(true);
 
     try{
     //#region  actual test
@@ -315,7 +316,7 @@ const RequestFlowCanvas = () => {
     let body = {
       nodes: flow.nodes,
       edges: flow.edges,
-      api_flow_name: flowName,
+      api_flow_name: flowName || "default",
       status: 'R',
       check_frequency: checkFrequency || 'OH'
     }
@@ -662,7 +663,7 @@ const RequestFlowCanvas = () => {
                 id="nodeName"
                 className="col-span-3"
                 value={flowName}
-                onChange={(e) => setFlowName(e)}
+                onChange={(e) => setFlowName(e.value)}
               />
             </div>
           </div>
