@@ -1,30 +1,34 @@
 // src/components/Dashboard.jsx
-import React, { useContext, useEffect } from 'react';
-import { Search, Plus, AlertCircle, Clock } from 'lucide-react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AlertCircle, Clock, Play, Trash, Upload, Plus } from "lucide-react";
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import { useNavigate } from 'react-router-dom';
-import MonitorContext from '@/context/MonitorContext';
 import UserContext from '@/context/UserContext';
+import ApiFlowContext from '@/context/ApiFlowContext';
+import PopupLoader from './Loader';
+
 
 const APIFlowHome = () => {
   // for navigation 
   const navigate = useNavigate();
 
   // user's monitor context 
-  const { monitorLst, updateMonitors } = useContext(MonitorContext);
+  const {apiFlowLst, updateApiFlowLsts} = useContext(ApiFlowContext);
 
   // user context
   const { user } = useContext(UserContext);
 
+    //for loader
+    const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchMonitors = async () => {
-      const result = await updateMonitors();
+    const fetchAPIFlows = async () => {
+      setIsLoading(true)
+      const result = await updateApiFlowLsts();
       if (!result) navigate('/');
-      // else setLoading(false);
+      setIsLoading(false);
     };
-    fetchMonitors();
+    fetchAPIFlows();
   }, []);
 
   // used for navigation 
@@ -51,13 +55,15 @@ const APIFlowHome = () => {
 
               <div className="space-y-4">
                 {
-                  monitorLst?.length > 0 ?
+                  apiFlowLst?.length > 0 ?
 
-                    (monitorLst?.map((ele) =>{
+                    (apiFlowLst?.map((ele) =>{
                       console.log(ele);
                       return <MonitorItem
-                        name={ele.server_name}
-                        status={ele.status === 'R' ? "up" : "down"}
+                        flow_id={ele._id}
+                        name={ele.api_flow_name}
+                        status={ele.status}
+                        setIsLoading={setIsLoading}
                       />})) : <span className='m-1 text-blue-500'>You have no server/endpoint to monitor!!</span>
                 }
               </div>
@@ -83,27 +89,122 @@ const APIFlowHome = () => {
               </div>
             </div>
           </main>
+
+          {/* loader when isLoading === true  */}
+          <PopupLoader 
+          isLoading={isLoading} 
+          text="Processing your request..." 
+         />
         </div>
       {/* } */}
     </>
   );
 };
 
-const MonitorItem = ({ name, status, time, incident = false }) => {
-  const isDown = status === "down";
+const MonitorItem = ({flow_id ,name, status, time, incident = false,setIsLoading}) => {
   const navigate = useNavigate();
+  
+   // user's monitor context 
+   const { updateApiFlowLsts } = useContext(ApiFlowContext);
+
+  const handlePush = async() => {
+    // set loader
+    setIsLoading(true);
+    // Implement push functionality
+    let url = `${import.meta.env.VITE_BACKEND_URL}/apiFlow/push/${flow_id}`;
+
+        const response = await fetch(url, {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "usertoken" : localStorage.getItem('usertoken')
+          },
+        })
+  
+        const jsonResp = await response.json()
+        console.log("HandlePush");
+  
+        if (!jsonResp.IsError) {
+
+          // update flow list
+          await updateApiFlowLsts();
+
+          // of loader
+          setIsLoading(false);
+        }
+  };
+
+  const handleDelete = async() => {
+    // set loader
+    setIsLoading(true);
+
+    // Implement push functionality
+    let url = `${import.meta.env.VITE_BACKEND_URL}/apiFlow/delete/${flow_id}`;
+
+        const response = await fetch(url, {
+          method: "DELETE",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "usertoken" : localStorage.getItem('usertoken')
+          },
+        })
+  
+        const jsonResp = await response.json()
+        console.log("handleDelete");
+  
+        if (!jsonResp.IsError) {
+
+          // update flow list
+          await updateApiFlowLsts();
+
+          // of loader
+          setIsLoading(false);
+        }
+  };
+
+  const handleStart = async() => {
+    // set loader
+    setIsLoading(true);
+
+    // Implement push functionality
+    let url = `${import.meta.env.VITE_BACKEND_URL}/apiFlow/start/${flow_id}`;
+
+    const response = await fetch(url, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "usertoken" : localStorage.getItem('usertoken')
+      },
+    })
+
+    const jsonResp = await response.json()
+    console.log("handleStart");
+
+    if (!jsonResp.IsError) {
+
+      // update flow list
+      await updateApiFlowLsts();
+
+      // of loader
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center justify-between"
-    >
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center justify-between">
       <div className="flex items-center">
-        <div className={`w-3 h-3 rounded-full ${isDown ? 'bg-red-500' : 'bg-green-500'} mr-3`}></div>
+        <div className={`w-3 h-3 rounded-full ${status == 'R' ? 'bg-green-500' : status == 'P' ? 'bg-yellow-500' : 'bg-red-500'} mr-3`}></div>
         <div>
           <h3 className="font-medium text-gray-900 dark:text-white">{name}</h3>
-          <p className={`text-sm ${isDown ? 'text-red-500' : 'text-green-500'}`}>
-            {isDown ? 'Down' : 'Up'} · {time}
+          <p className={`text-sm ${status == 'R' ? 'text-green-500' : status == 'P' ? 'text-yellow-500' : 'text-red-500'}`}>
+          {status == 'R' ? 'UP' : status == 'P' ? 'Pushed' : 'Down'}
           </p>
         </div>
       </div>
+      
       <div className="flex items-center space-x-4">
         {incident && (
           <span className="flex items-center text-sm text-red-500">
@@ -111,15 +212,64 @@ const MonitorItem = ({ name, status, time, incident = false }) => {
             Ongoing incident
           </span>
         )}
-        <div className="flex items-center">
+        
+        {/* <div className="flex items-center">
           <Clock className="w-4 h-4 mr-1 text-gray-400" />
           <span className="text-sm text-gray-600 dark:text-gray-400">3m</span>
+        </div> */}
+        
+        {/* Conditional buttons based on status */}
+        <div className="flex space-x-2">
+          {/* Show Push button when status is up */}
+          {status === 'R' && (
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="flex items-center text-blue-500 border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900"
+              onClick={handlePush}
+            >
+              {/* <Upload className="w-4 h-4 mr-1" /> */}
+              <Play className="w-4 h-4 mr-1" />
+              Push
+            </Button>
+          )}
+          
+          {/* Show Start button when status is down */}
+          {status !== 'R' && (
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="flex items-center text-green-500 border-green-500 hover:bg-green-50 dark:hover:bg-green-900"
+              onClick={handleStart}
+            >
+              <Play className="w-4 h-4 mr-1" />
+              Start
+            </Button>
+          )}
+          
+          {/* Always show Delete button */}
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="flex items-center text-red-500 border-red-500 hover:bg-red-50 dark:hover:bg-red-900"
+            onClick={handleDelete}
+          >
+            <Trash className="w-4 h-4 mr-1" />
+            Delete
+          </Button>
         </div>
-        <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" onClick={() => navigate('/dashboard/responseTimeGraph')} >•••</button>
+        
+        <button 
+          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" 
+          onClick={() => navigate(`/dashboard/APIFlowStatus/${flow_id}`)}
+        >
+          •••
+        </button>
       </div>
     </div>
   );
 };
+
 
 const OnboardingItem = ({ title, description, completed, icon, onclick }) => {
   return (

@@ -8,6 +8,7 @@ import MonitorsHome from '../components/sections/MonitorsHome';
 import UserContext from '@/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import APIFlowHome from '@/components/sections/APIFlowHome';
+import APIFlowStatus from '@/components/sections/APIFlowStatus';
 
 export default function DashboardLayout() {
   let {rightAria} = useParams();
@@ -33,6 +34,7 @@ export default function DashboardLayout() {
             {rightAria == "createAPIFlow" && <RequestFlowCanvas />}
             {rightAria == "APIFlowHome" && <APIFlowHome />}
             {rightAria.startsWith('responseTimeGraph') && <RightSideDashBoard />}
+            {rightAria.startsWith('APIFlowStatus') && <APIFlowStatus />}
     </div>}
       </>
   )

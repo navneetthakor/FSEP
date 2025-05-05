@@ -155,7 +155,7 @@ const RightSideDashBoard = () => {
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center space-x-4 px-4 pb-4">
+          <div className="flex items-center space-x-4 px-4 pb-4  mx-6">
             {/* Conditional buttons based on status */}
             <div className="flex space-x-2">
               {/* Show Push button when status is up */}

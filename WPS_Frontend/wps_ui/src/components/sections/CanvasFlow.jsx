@@ -46,6 +46,7 @@ const RequestFlowCanvas = () => {
   const [showNodeDialog, setShowNodeDialog] = useState(false);
   const [flowName, setFlowName] = useState("Default Flow Name");
   const [checkFrequency, setCheckFrequency] = useState('OH');
+  const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const [nodeConfig, setNodeConfig] = useState({
     type: 'REQUEST',
     id: '',
@@ -60,6 +61,13 @@ const RequestFlowCanvas = () => {
   const [canvasOffset, setCanvasOffset] = useState({ x: 0, y: 0 });
   const [draggedNode, setDraggedNode] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  // used in shedule 
+  const checkFrequencyOptions = {
+    HAFH: '30 minutes',
+    OH: '1 Hour'
+  }
+  let isSubmit = false;
 
   // for canvas setup 
   useEffect(() => {
@@ -257,8 +265,6 @@ const RequestFlowCanvas = () => {
   const scheduleFlow = async () => {
 
     try{
-    setLoading(true);
-
     //#region  actual test
     // object of node flow generater
     const flow = new WebPulseNodeFlowGenerator();
@@ -294,7 +300,7 @@ const RequestFlowCanvas = () => {
     for (const edge of edges) {
       // If condition is provided, use it, otherwise default to empty string
       const condition = edge.sourcePort || 'true';
-      flow.addEdge(edge.sourceId, edge.targetId, condition);
+      flow.addEdge(edge.source, edge.target, condition);
     }
 
     // console.log("edges : ", edges);
@@ -534,7 +540,7 @@ const RequestFlowCanvas = () => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={scheduleFlow}
+            onClick={() => setShowSubmitDialog(true)}
           >
             Schedule
           </Button>
@@ -618,6 +624,60 @@ const RequestFlowCanvas = () => {
             </Button>
             <Button onClick={saveNodeConfig}>
               {selectedNode ? 'Update' : 'Add'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Submit dialog */}
+      <Dialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Submit Dialog</DialogTitle>
+          </DialogHeader>
+
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <label htmlFor="nodeType" className="text-right">Check Frequency :</label>
+              <Select
+                value={checkFrequency}
+                onValueChange={(value) => setCheckFrequency(value)}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.keys(checkFrequencyOptions).map(key => (
+                    <SelectItem key={key} value={key}>
+                      {checkFrequencyOptions[key]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <label htmlFor="nodeName" className="text-right">Name: </label>
+              <Input
+                id="nodeName"
+                className="col-span-3"
+                value={flowName}
+                onChange={(e) => setFlowName(e)}
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => {
+              setShowSubmitDialog(false);
+              }}>
+              Cancel
+            </Button>
+            <Button onClick={() => {
+              setShowSubmitDialog(false);
+              scheduleFlow();
+              }}>
+              Submit
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,6 +1,7 @@
 // to connect with server collection
 const APIFlow = require("../../Models/APIFlow.model");
 const createResponse = require("../../Response");
+const User = require("../../Models/User.model");
 
 const wgetAPIFlow = async (req, res) => {
     try {
@@ -28,11 +29,11 @@ const wgetAPIFlow = async (req, res) => {
         // return response
         return res.status(200).json(createResponse(flow, false, "", 200, ""));
     } catch (error) {
-        console.log("getServer error : ", error);
+        console.log("getAPIFlow error : ", error);
         return res.status(200).json(createResponse(
             "",
             true,
-            e,
+            error,
             500,
             ""
         ));

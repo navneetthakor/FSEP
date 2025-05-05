@@ -31,7 +31,7 @@ const getServer = async (req, res) => {
     return res.status(200).json(createResponse(
         "",
         true,
-        e,
+        error,
         500,
         ""
     ));

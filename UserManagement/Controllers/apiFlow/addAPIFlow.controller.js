@@ -11,7 +11,6 @@ let apiFlowId = -1;
 
 const addAPIFlow = async (req, res) => {
   try {
-    console.log("entred");
     // check user exists or not
     const user = await User.findById(req.user.id);
 
@@ -39,20 +38,13 @@ const addAPIFlow = async (req, res) => {
     //set global id for server
     apiFlowId = newAPIFlow._id;
 
-    console.log("Starting");
-    // making request to the worker server
-    // const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/RegisterAPIFlow/${user._id}/${newAPIFlow._id}`
-    // const wsResponse = await axios.post(
-    //   backendUrl
-    // );
     let wsResponse;
     try {
-      const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/RegisterAPIFlow/${user._id}/${newAPIFlow._id}`
+      const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/registerAPIFlow/${user._id}/${newAPIFlow._id}`
       wsResponse = await axios.post(backendUrl)
       // Handle successful response
     } catch (error) {
       console.error('Worker pod request failed:', error.message)
-      // Implement fallback behavior or appropriate error handling
     }
 
     if (wsResponse.data.isError) {
