@@ -24,13 +24,10 @@ const wgetAPIFlow = async (req, res) => {
 
     // setting status to down
     flow.status = 'D';
-    console.dir(req.body.executedNodes);
-    console.log(req.body.executedNodes);
+    console.dir(req.body);
 
     // update nodes
-    flow.nodes.forEach((value, index, arr) => {
-      console.log(value.id);
-      
+    flow.nodes.forEach((value, index, arr) => {      
       // first add status 
       if (Object.keys(req.body.errors).includes(value.id)) {
         value.status = 'D';
@@ -42,8 +39,6 @@ const wgetAPIFlow = async (req, res) => {
       } else {
         value.status = 'N';
       }
-
-      console.log(value.status);
     });
     
 
