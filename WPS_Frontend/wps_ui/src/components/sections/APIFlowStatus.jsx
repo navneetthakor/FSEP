@@ -41,7 +41,12 @@ const APIFlowStatus = () => {
   // Frequncy Converter
   const FreqConverter = {
     HAFH: '30 minutes',
-    OH: '1 Hour'
+    OH: '1 Hours',
+    THH: '3 Hours',
+    SXH: '6 Hours',
+    NNH: '9 Hours',
+    TWH: '12 Hours',
+    TFH: '24 Hours'
   }
 
   // send request to backend and get data set it over here
@@ -286,7 +291,7 @@ const APIFlowStatus = () => {
                     <CardTitle className="text-red-500">Error</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p>{response}</p>
+                    <p>{response.body}</p>
                   </CardContent>
                 </Card>
               }
@@ -316,11 +321,11 @@ const ApiItem = ({ item, setIsError, setIsResponse, setResponse, setIsDialogOpen
   return (
     <div className="mx-10 my-2 bg-white dark:bg-gray-900 rounded-lg shadow p-4 flex items-center justify-between w-[40vw]">
       <div className="flex items-center">
-        <div className={`w-3 h-3 rounded-full ${status == 'R' ? 'bg-green-500' : status == 'P' ? 'bg-yellow-500' : 'bg-red-500'} mr-3`}></div>
+        <div className={`w-3 h-3 rounded-full ${status == 'R' ? 'bg-green-500' : status == 'N' ? 'bg-gray-500' : 'bg-red-500'} mr-3`}></div>
         <div>
           <h3 className="font-medium text-gray-900 dark:text-white">{name}</h3>
-          <p className={`text-sm ${status == 'R' ? 'text-green-500' : status == 'P' ? 'text-yellow-500' : 'text-red-500'}`}>
-            {status == 'R' ? 'UP ' : status == 'P' ? 'Pushed ' : 'Down '}
+          <p className={`text-sm ${status == 'R' ? 'text-green-500' : status == 'N' ? 'text-gray-500' : 'text-red-500'}`}>
+            {status == 'R' ? 'UP ' : status == 'N' ? 'Not Executed ' : 'Down '}
             {/* <div className={`h-1 w-1 rounded-full ${status == 'R' ? 'bg-green-500' : status == 'P' ? 'bg-yellow-500' : 'bg-red-500'} mr-3 inline-block`}></div> */}
             : {type == 'REQUEST' ? ' Request Node' : ' Condition Node'}
           </p>

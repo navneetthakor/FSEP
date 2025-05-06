@@ -31,7 +31,7 @@ const wgetAPIFlow = async (req, res) => {
       // first add status 
       if (Object.keys(req.body.Errors).includes(value.id)) {
         value.status = 'D';
-        value.response = req.body.Errors[value.id];
+        value.response.body = req.body.Errors[value.id];
       }
       else if (req.body.NodeResults[value.id]) {
         value.status = 'R';

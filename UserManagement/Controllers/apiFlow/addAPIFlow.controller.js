@@ -61,7 +61,7 @@ const addAPIFlow = async (req, res) => {
       // first add status 
       if (Object.keys(nr.errors).includes(value.id)) {
         value.status = 'D';
-        value.response = nr.errors[value.id];
+        value.response.body = nr.errors[value.id];
       }
       else if (nr.nodeResults[value.id]) {
         value.status = 'R';

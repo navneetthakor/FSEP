@@ -65,7 +65,12 @@ const RequestFlowCanvas = () => {
   // used in shedule 
   const checkFrequencyOptions = {
     HAFH: '30 minutes',
-    OH: '1 Hour'
+    OH: '1 Hours',
+    THH: '3 Hours',
+    SXH: '6 Hours',
+    NNH: '9 Hours',
+    TWH: '12 Hours',
+    TFH: '24 Hours'
   }
   let isSubmit = false;
 
@@ -557,7 +562,7 @@ const RequestFlowCanvas = () => {
 
       {/* Node Configuration Dialog */}
       <Dialog open={showNodeDialog} onOpenChange={setShowNodeDialog}>
-        <DialogContent>
+        <DialogContent className="h-[90vh] w-[40vw] overflow-auto border-2">
           <DialogHeader>
             <DialogTitle>{selectedNode ? 'Edit Node' : 'Add New Node'}</DialogTitle>
           </DialogHeader>

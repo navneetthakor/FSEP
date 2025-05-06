@@ -329,10 +329,7 @@ const CreateMonitorForm = () => {
                           <SelectValue placeholder="Select check frequency" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="TS">Ten Seconds</SelectItem>
-                          <SelectItem value="FFS">Fifteen Seconds</SelectItem>
                           <SelectItem value="OM">One Minute</SelectItem>
-                          <SelectItem value="TWOM">Two Minutes</SelectItem>
                           <SelectItem value="THRM">Three Minutes</SelectItem>
                           <SelectItem value="FIVM">Five Minutes</SelectItem>
                           <SelectItem value="TENM">Ten Minutes</SelectItem>

@@ -69,7 +69,7 @@ const RequestForm = (props) => {
       if (method !== 'GET' && method !== 'HEAD') {
         if (bodyType === 'json' && body.trim()) {
           try {
-            requestBody = JSON.parse(body);
+            requestBody = body;
             contentTypeHeader = 'application/json';
           } catch (e) {
             console.log(e);
@@ -306,15 +306,15 @@ const RequestForm = (props) => {
                 <TabsTrigger value="response">Body</TabsTrigger>
                 <TabsTrigger value="headers">Headers</TabsTrigger>
               </TabsList>
-              <TabsContent value="response" className="mt-2">
-                <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm font-mono">
+              <TabsContent value="response" className="mt-2 ">
+                <div className="p-4 rounded-md overflow-x-auto text-sm font-mono h-[20vh] w-[30vw] border-5 overflow-y-scroll">
                   {typeof response.data === 'object'
                     ? JSON.stringify(response.data, null, 2)
                     : response.data}
-                </pre>
+                </div>
               </TabsContent>
-              <TabsContent value="headers" className="mt-2">
-                <div className="bg-gray-100 p-4 rounded-md">
+              <TabsContent value="headers" className="mt-2 h-[10vh] w-[30vw] overflow-y-auto">
+                <div className="p-4 rounded-md">
                   {Object.entries(response.headers).map(([key, value]) => (
                     <div key={key} className="mb-1">
                       <span className="font-medium">{key}:</span> {value}
