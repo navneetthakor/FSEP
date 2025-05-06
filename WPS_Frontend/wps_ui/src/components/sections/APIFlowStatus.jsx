@@ -263,7 +263,7 @@ const APIFlowStatus = () => {
                           {response.body && JSON.stringify(response.body)}
                         </p>
                       </TabsContent>
-                      <TabsContent value="headers" className="mt-2 h-[30vh] overflow-y-auto">
+                      <TabsContent value="headers" className="mt-2 h-[30vh] w-[30vw] overflow-y-auto">
                         <div className=" p-4 rounded-md">
                           {response.headers && Object.entries(response.headers).map(([key, value]) => (
                             <div key={key} className="mb-1">

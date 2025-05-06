@@ -34,7 +34,7 @@ const navigate = useNavigate();
       if (navigatePath) {
         navigate(navigatePath);
       }
-    }, 300); // Allow time for exit animation
+    }, 1000); // Allow time for exit animation
   };
 
   if (!isVisible && !document.getElementById('modal-portal')) {

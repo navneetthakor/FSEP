@@ -19,23 +19,21 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <a href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Home
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <a href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Features
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <a href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Pricing
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <a href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Documentation
             </a>
-            <Link to={"/dashboard/monitor"}>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <a href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               About Us
             </a>
-            </Link>
           </div>
 
           {/* Auth Buttons */}

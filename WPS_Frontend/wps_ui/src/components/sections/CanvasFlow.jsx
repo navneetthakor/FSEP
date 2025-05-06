@@ -347,15 +347,12 @@ const RequestFlowCanvas = () => {
         navigatePath: '/dashboard/APIFlowHome' // The path you want to navigate to
       });
     } else {
-      setTimeout(() => {
-
         setActivateModal({
           type: 'success',
           title: 'API flow scheduled',
           message: ' please check your email where you got test email reagrding this API flow ',
           navigatePath: '/dashboard/APIFlowHome' // The path you want to navigate to
         });
-      }, 5000);
     }
   }catch(e){
     console.log(e);

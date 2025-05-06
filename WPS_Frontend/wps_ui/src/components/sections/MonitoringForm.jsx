@@ -111,7 +111,7 @@ const CreateMonitorForm = () => {
       if (!jsonResp.IsError) {
         setActivateModal({
           type: 'success',
-          title: 'Login Successful',
+          title: 'Monitor scheduled Successfully',
           message: ' Redirecting to Dashboard ...',
           navigatePath: '/dashboard/monitorsHome' // The path you want to navigate to
         });
@@ -121,7 +121,7 @@ const CreateMonitorForm = () => {
       } else {
         setActivateModal({
           type: 'error',
-          title: 'Login UnSuccessful',
+          title: 'Scheduling went UnSuccessful',
           message: 'Please Try later',
           navigatePath: null // The path you want to navigate to
         });
