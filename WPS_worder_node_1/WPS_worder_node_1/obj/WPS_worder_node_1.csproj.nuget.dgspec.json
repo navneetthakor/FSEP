@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\1\\Projects\\college\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj": {}
+    "D:\\Projects\\College\\FSEP\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj": {}
   },
   "projects": {
-    "D:\\1\\Projects\\college\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj": {
+    "D:\\Projects\\College\\FSEP\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\1\\Projects\\college\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj",
+        "projectUniqueName": "D:\\Projects\\College\\FSEP\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj",
         "projectName": "WPS_worder_node_1",
-        "projectPath": "D:\\1\\Projects\\college\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "D:\\1\\Projects\\college\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\obj\\",
+        "projectPath": "D:\\Projects\\College\\FSEP\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\WPS_worder_node_1.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\College\\FSEP\\FSEP\\WPS_worder_node_1\\WPS_worder_node_1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -114,7 +115,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

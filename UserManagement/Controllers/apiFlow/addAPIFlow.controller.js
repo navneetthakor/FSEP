@@ -38,14 +38,8 @@ const addAPIFlow = async (req, res) => {
     //set global id for server
     apiFlowId = newAPIFlow._id;
 
-    let wsResponse;
-    try {
-      const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/registerAPIFlow/${user._id}/${newAPIFlow._id}`
-      wsResponse = await axios.post(backendUrl)
-      // Handle successful response
-    } catch (error) {
-      console.error('Worker pod request failed:', error.message)
-    }
+    const backendUrl = `${process.env.WORKER_POD_URL}/api/MasterPod/registerAPIFlow/${user._id}/${newAPIFlow._id}`
+    let wsResponse = await axios.post(backendUrl)
 
     if (wsResponse.data.isError) {
 
@@ -62,8 +56,8 @@ const addAPIFlow = async (req, res) => {
     const flow = await APIFlow.findById(newAPIFlow._id);
     console.log(flow);
     console.log(wsResponse);
-    
-    flow.nodes.forEach((value, index, arr) => {      
+
+    flow.nodes.forEach((value, index, arr) => {
       // first add status 
       if (Object.keys(nr.errors).includes(value.id)) {
         value.status = 'D';
@@ -80,14 +74,14 @@ const addAPIFlow = async (req, res) => {
       }
     });
 
-    newAPIFlow.save();
+    flow.save();
     return res.status(200).json(createResponse(newAPIFlow, false, "", 200, ""));
 
 
   } catch (error) {
     console.log("AddAPIFlow error : ", Error);
     // delete this record 
-    if(apiFlowId > 0)
+    if (apiFlowId > 0)
       await APIFlow.findByIdAndDelete(apiFlowId);
     return res.status(200).json(createResponse(
       "",
