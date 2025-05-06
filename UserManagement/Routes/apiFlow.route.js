@@ -13,7 +13,8 @@ const wgetAPIFlow = require("../Controllers/apiFlow/wgetAPIFlow.controller.js");
 const pushAPIFlow = require("../Controllers/apiFlow/pushAPIFlow.controller.js");
 const deleteAPIFlow = require("../Controllers/apiFlow/deleteAPIFlow.controller.js");
 // const updateAPIFlow = require("../Controllers/apiFlow/updateAPIFlow.controller.js");
-const startAPIFlow = require("../Controllers/apiFlow/startAPIFlow.controller.js")
+const startAPIFlow = require("../Controllers/apiFlow/startAPIFlow.controller.js");
+const wUpdateAPIFlow = require("../Controllers/apiFlow/wUpdateAPIFlow.controller.js");
 
 // -------------------- Route:1 adding server ---------------
 router.post('/add',fetchUser, addAPIFlow);
@@ -39,6 +40,7 @@ router.put('/start/:flow_id', fetchUser, startAPIFlow);
 
 // ---------------------------------Routes for WorkerPod---------------------------------
 router.get('/getInfo/:client_id/:flow_id',wgetAPIFlow)
+router.put('/updateFlowStatus/:client_id/:flow_id', wUpdateAPIFlow);
 
 
 module.exports = router;

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Pause, Play, Trash } from 'lucide-react';
-import ResponseTimeGraph from './GrafanaGraph2';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from './Loader';
 import { Button } from '../ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
 
 const APIFlowStatus = () => {
 
@@ -18,6 +25,18 @@ const APIFlowStatus = () => {
 
   // data regarding monitor
   const [apiFlow, setApiFlow] = useState({});
+
+  // for opening up popups 
+  const [isError, setIsError] = useState(false);
+  const [isRespopnse, setIsResponse] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [response, setResponse] = useState({});
+
+  const closeDialog = () =>{
+    setIsDialogOpen(false);
+    setIsError(false);
+    setIsResponse(false);
+  }
 
   // Frequncy Converter
   const FreqConverter = {
@@ -162,7 +181,7 @@ const APIFlowStatus = () => {
                   onClick={handlePush}
                 >
                   {/* <Upload className="w-4 h-4 mr-1" /> */}
-                  <Play className="w-4 h-4 mr-1" />
+                  <Pause className="w-4 h-4 mr-1" />
                   Push
                 </Button>
               )}
@@ -209,20 +228,92 @@ const APIFlowStatus = () => {
               apiFlow.nodes?.map((item) => (
                 <ApiItem
                   item={item}
+                  setIsError={setIsError}
+                  setIsResponse={setIsResponse}
+                  setResponse={setResponse}
+                  setIsDialogOpen={setIsDialogOpen}
                 />
               ))
             }
           </div>
-        </div>
 
+          <Dialog open={isDialogOpen} onOpenChange={() => closeDialog()}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Response Dialog</DialogTitle>
+              </DialogHeader>
+              {/* response Dialog  */}
+              {isRespopnse && response && response.status &&
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle>
+                      Response <span className={response.status < 400 ? "text-green-500" : "text-red-500"}>
+                        {response.status} {response.statusText}
+                      </span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Tabs defaultValue="response">
+                      <TabsList>
+                        <TabsTrigger value="response" className='mx-3 bg-gray-100 text-black p-1 rounded'>Body</TabsTrigger>
+                        <TabsTrigger value="headers" className='bg-gray-100 text-black p-1 rounded'>Headers</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="response" className="mt-2 h-[30vh] overflow-y-auto">
+                        <pre className=" p-4 rounded-md overflow-x-auto text-sm font-mono">
+                          {typeof response.data === 'object'
+                            ? JSON.stringify(response.data, null, 2)
+                            : response.data}
+                        </pre>
+                      </TabsContent>
+                      <TabsContent value="headers" className="mt-2 h-[30vh] overflow-y-auto">
+                        <div className=" p-4 rounded-md">
+                          {response.headers && Object.entries(response.headers).map(([key, value]) => (
+                            <div key={key} className="mb-1">
+                              <span className="font-medium">{key}:</span> {value}
+                            </div>
+                          ))}
+                        </div>
+                      </TabsContent>
+                    </Tabs>
+                  </CardContent>
+                </Card>
+              }
+
+              {/* Error dialog */}
+              {
+                isError &&
+
+                <Card className="border-red-300 w-[30vw]">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-red-500">Error</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>{response}</p>
+                  </CardContent>
+                </Card>
+              }
+            </DialogContent>
+          </Dialog>
+        </div>
       }
     </>
   );
 };
 
-const ApiItem = ({ item }) => {
+const ApiItem = ({ item, setIsError, setIsResponse, setResponse, setIsDialogOpen }) => {
 
   const { name, status, type, response, properties } = item;
+
+  const handleClick = () => {
+    if (status == 'D') {
+      setIsError(true);
+    }
+    else if (status == 'R') {
+      setIsResponse(true)
+    }
+    setResponse(response);
+    setIsDialogOpen(true);
+  }
 
   return (
     <div className="mx-10 my-2 bg-white dark:bg-gray-900 rounded-lg shadow p-4 flex items-center justify-between w-[40vw]">
@@ -238,14 +329,18 @@ const ApiItem = ({ item }) => {
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <button
-          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-        // onClick={() => navigate(`/dashboard/APIFlowStatus/${flow_id}`)}
-        >
-          •••
-        </button>
-      </div>
+      {
+        status != 'N' &&
+
+        <div className="flex items-center space-x-4">
+          <button
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            onClick={handleClick}
+          >
+            •••
+          </button>
+        </div>
+      }
     </div>
   );
 };

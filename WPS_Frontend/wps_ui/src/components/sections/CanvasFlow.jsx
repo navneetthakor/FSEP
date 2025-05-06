@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { PlusCircle, Trash2, Code, FileJson, Server } from 'lucide-react';
+import { PlusCircle, Trash2, FileJson, Server } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -320,6 +320,9 @@ const RequestFlowCanvas = () => {
       status: 'R',
       check_frequency: checkFrequency || 'OH'
     }
+
+    console.log("body - api_flow_name : ", body.api_flow_name);
+    console.log("api_flow_name : ", flowName);
 
     // send request to backend to register apiFlow testing service 
     let result = await fetch(url, {
@@ -663,7 +666,7 @@ const RequestFlowCanvas = () => {
                 id="nodeName"
                 className="col-span-3"
                 value={flowName}
-                onChange={(e) => setFlowName(e.value)}
+                onChange={(e) => setFlowName(e.target.value)}
               />
             </div>
           </div>

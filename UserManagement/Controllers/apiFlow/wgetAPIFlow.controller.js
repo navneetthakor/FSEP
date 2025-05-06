@@ -14,12 +14,6 @@ const wgetAPIFlow = async (req, res) => {
     // retrive data from database
     const flow = await APIFlow.findById(flow_id);
 
-    if(flow.user_id != client_id){
-        return res
-        .status(200)
-        .json(createResponse("", true, "User Not have defined api flow", 400, ""));
-    }
-
     if(!flow){
         return res
         .status(200)
@@ -34,7 +28,7 @@ const wgetAPIFlow = async (req, res) => {
     return res.status(200).json(createResponse(
         "",
         true,
-        e,
+        error,
         500,
         ""
     ));
