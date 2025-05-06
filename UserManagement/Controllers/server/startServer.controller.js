@@ -36,6 +36,8 @@ const startServer = async (req, res) => {
     
       // Flow id (used in alerting service) - optional
       flow_id: null, // string | null
+
+      server_name: newServerData.server_name,
     
       // Worker id
       Method: newServerData.method, // string

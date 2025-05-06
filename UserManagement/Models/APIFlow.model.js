@@ -69,7 +69,10 @@ const APIFlowSchema = new Schema({
         },
 
         response : {
-            type:  Schema.Types.Mixed
+            status: Number,
+            statusText: String,
+            headers: Object,
+            body: String
         }
 
     }],

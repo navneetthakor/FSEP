@@ -37,6 +37,6 @@ router.put('/updateServer/:server_id', fetchUser, updateServer);
 router.put('/startServer/:server_id', fetchUser, startServer);
 
 // ---------------------------- Worker pod routes ----------
-router.put('/pushServer/:Client_id/:Server_id',wUpdateServer);
+router.put('/pushServer/:client_id/:server_id',wUpdateServer);
 
 module.exports = router;

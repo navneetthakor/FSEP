@@ -258,12 +258,10 @@ const APIFlowStatus = () => {
                         <TabsTrigger value="response" className='mx-3 bg-gray-100 text-black p-1 rounded'>Body</TabsTrigger>
                         <TabsTrigger value="headers" className='bg-gray-100 text-black p-1 rounded'>Headers</TabsTrigger>
                       </TabsList>
-                      <TabsContent value="response" className="mt-2 h-[30vh] overflow-y-auto">
-                        <pre className=" p-4 rounded-md overflow-x-auto text-sm font-mono">
-                          {typeof response.data === 'object'
-                            ? JSON.stringify(response.data, null, 2)
-                            : response.data}
-                        </pre>
+                      <TabsContent value="response" className="mt-2 h-[30vh] w-[30vw] border-5 overflow-y-auto">
+                        <p className=" p-4 rounded-md overflow-x-auto text-sm font-mono">
+                          {response.body && JSON.stringify(response.body)}
+                        </p>
                       </TabsContent>
                       <TabsContent value="headers" className="mt-2 h-[30vh] overflow-y-auto">
                         <div className=" p-4 rounded-md">

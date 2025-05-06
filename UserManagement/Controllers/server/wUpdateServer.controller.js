@@ -8,7 +8,6 @@ const axios = require('axios');
 const wUpdateServer = async (req, res) => {
   try {
     // check user exists or not
-    const user = await User.findById(req.user.id);
 
     // skiping user validattion 
     // but can be added if need ariases 

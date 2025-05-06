@@ -55,6 +55,32 @@ const addAPIFlow = async (req, res) => {
       // return response
       return res.status(500).json(createResponse(wsResponse.data.errorMessage, true, "", 500, ""));
     }
+
+    // update nodes
+    let nr = wsResponse.data.other; //node result
+
+    const flow = await APIFlow.findById(newAPIFlow._id);
+    console.log(flow);
+    console.log(wsResponse);
+    
+    flow.nodes.forEach((value, index, arr) => {      
+      // first add status 
+      if (Object.keys(nr.errors).includes(value.id)) {
+        value.status = 'D';
+        value.response = nr.errors[value.id];
+      }
+      else if (nr.nodeResults[value.id]) {
+        value.status = 'R';
+        value.response.status = nr.nodeResults[value.id].status;
+        value.response.statusText = nr.nodeResults[value.id].statusText;
+        value.response.headers = nr.nodeResults[value.id].headers;
+        value.response.body = JSON.stringify(nr.nodeResults[value.id].body);
+      } else {
+        value.status = 'N';
+      }
+    });
+
+    newAPIFlow.save();
     return res.status(200).json(createResponse(newAPIFlow, false, "", 200, ""));
 
 

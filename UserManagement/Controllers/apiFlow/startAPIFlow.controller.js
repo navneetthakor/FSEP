@@ -29,11 +29,33 @@ const startAPIFlow = async (req, res) => {
     }
 
     // retrive data from database
-    const updatedServer = await APIFlow.findByIdAndUpdate(
-        req.params.flow_id,
-        {$set : {status : 'R'}},
-        {new :  true}
-    );
+    const updatedServer = await APIFlow.findById(req.params.flow_id);
+
+
+    // update node data 
+    let nr = wsResponse.data.other;
+    console.log(nr);
+    updatedServer.nodes.forEach((value,index,arr) => value.status = 'R');
+
+    updatedServer.status = 'R';
+
+    updatedServer.nodes.forEach((value, index, arr) => {      
+      // first add status 
+      if (Object.keys(nr.errors).includes(value.id)) {
+        value.status = 'D';
+        value.response = nr.errors[value.id];
+      }
+      else if (nr.nodeResults[value.id]) {
+        value.status = 'R';
+        value.response.status = nr.nodeResults[value.id].status;
+        value.response.statusText = nr.nodeResults[value.id].statusText;
+        value.response.headers = nr.nodeResults[value.id].headers;
+        value.response.body = JSON.stringify(nr.nodeResults[value.id].body);
+      } else {
+        value.status = 'N';
+      }
+    });
+    await updatedServer.save();
 
     if(!updatedServer){
         return res

@@ -24,18 +24,21 @@ const wgetAPIFlow = async (req, res) => {
 
     // setting status to down
     flow.status = 'D';
-    console.dir(req.body);
-
+    console.log(req.body);
+  
     // update nodes
     flow.nodes.forEach((value, index, arr) => {      
       // first add status 
-      if (Object.keys(req.body.errors).includes(value.id)) {
+      if (Object.keys(req.body.Errors).includes(value.id)) {
         value.status = 'D';
-        value.response = req.body.errors[value.id];
+        value.response = req.body.Errors[value.id];
       }
-      else if (req.body.nodeResults[value.id]) {
+      else if (req.body.NodeResults[value.id]) {
         value.status = 'R';
-        value.response = req.body.nodeResults[value.id];
+        value.response.status = req.body.NodeResults[value.id].status;
+        value.response.statusText = req.body.NodeResults[value.id].statusText;
+        value.response.headers = req.body.NodeResults[value.id].headers;
+        value.response.body = JSON.stringify(req.body.NodeResults[value.id].body);
       } else {
         value.status = 'N';
       }

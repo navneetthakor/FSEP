@@ -18,6 +18,7 @@ const userAuthtokenLogin = require('../Controllers/user/userAuthtokenLogin.contr
 const updateUser = require('../Controllers/user/updateUser.controller.js');
 const forgotPassword = require('../Controllers/user/forgotPassword.controller.js');
 const resetPassword = require('../Controllers/user/passwordReset.controller.js');
+const getUserInfo = require('../Controllers/user/getUserInfo.controller.js')
 
 
 // --------------------------ROUTE:1 create user account ----------------------------------------------------------
@@ -59,6 +60,7 @@ router.post('/resetPassword',
 resetPassword
 );
 
-// -------------------------Route:7 addding other ocmmunication medium -----------------------
+// -------------------------Route for Worker Pod to access user data-----------------------
+router.put('/getUserInfo/:user_id',getUserInfo);
 
 module.exports = router;
