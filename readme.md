@@ -18,7 +18,7 @@ FSEPWorkerPod
 
 ## tools that required
 
-    ```
+```
     Node.js
     Visual Studio (with asp.net core and .NET tools)
     Prometheus
@@ -26,7 +26,7 @@ FSEPWorkerPod
     Docker
     Kafka (as docker image)
     ZooKeeper (as docker image)
-    ```
+```
 
 ## for email sending purpose
 
