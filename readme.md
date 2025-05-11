@@ -30,10 +30,22 @@ FSEPWorkerPod
 
 ## External required setup
 
-- Here we need to genrate APP Key for any of our Google Email address, so that our backend can use this to send enails.
-- detail steps can be found easly on google (here not providing because this instructions changes frequently).
+- Email (APP key from google)
+    - Here we need to genrate APP Key for any of our Google Email address, so that our backend can use this to send enails.
+    - detail steps can be found easly on google (here not providing because this instructions changes frequently).
 
-
+- Azure account
+    - create account on Azure and get following id and secrets ready which used in Email service
+        - Tenant ID
+        - client ID
+        - client secret
+- Cloudinary
+    - Create account on Cloudinary and get following infor used in user-management service
+        - cloud_name
+        - api_key
+        - api_secret
+- Grana related secrets you can generate my creating account setup on grafana but that is very 
+    difficult therefore those secrets i am sharing with email. (Only ment for my supervices)
 
 
 # frontend setup
@@ -207,3 +219,33 @@ FSEPWorkerPod
     ```
 
 - now run this system
+
+## alerting service
+- Go to the following path
+    ```
+    FSEPAlertSystem
+    ```
+- double  click on ```.sln``` file and open it with ```visual studio```
+
+- create ```.env``` file and put following data in that,
+    ```
+    APP_PASSWORDS=<put-your-data-email-APP_PASSWORD>
+    MY_EMAIL=<put-your-data-email>
+    MY_USER_SERVICE_URL=http://localhost:3000
+    AZURE_CLIENT_ID=<put-your-data-azure-client-id>
+    AZURE_CLIENT_SECRET=<put-your-data-azuer-client-secret>
+    AZURE_TENANT_ID=<put-your-data-azure-tenant-id>
+    ```
+
+- now run this system
+
+
+## Master Service (optional)
+- This service is just checking that every other is working or not so if you not have enough place then you can left out it
+
+- Go to the following path
+    ```
+    FSEPMasterPod
+    ```
+- double  click on ```.sln``` file and open it with ```visual studio```
+- run this solution
