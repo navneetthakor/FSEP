@@ -44,7 +44,7 @@ FSEPWorkerPod
         - cloud_name
         - api_key
         - api_secret
-- Grana related secrets you can generate my creating account setup on grafana but that is very 
+- Grafana related secrets you can generate my creating account setup on grafana but that is very 
     difficult therefore those secrets i am sharing with email. (Only ment for my supervices)
 
 
