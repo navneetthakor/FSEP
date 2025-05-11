@@ -233,39 +233,6 @@ const RequestFlowCanvas = () => {
     setSelectedEdge(edge);
   };
 
-  // Test the flow
-  // const testFlow = async () => {
-  //   console.log("Testing flow:", { nodes, edges });
-  //   // const flow configuration
-  //   const myFlow = {
-  //     nodes: nodes || [],
-  //     edges: edges || []
-  //   }
-
-  //   const generator = new WebPulseFlowGenerator();
-  //   generator.importFlow(myFlow);
-
-  //   // generating code
-  //   const code = generator.generateCode({
-  //     includeComments: true,
-  //     includeExampleUsage: true,
-  //     functionName: 'myCustomFlow',
-  //     errorHandling: 'advanced'
-  //   });
-
-  //   // show code in ui component 
-  //   setGeneratedCode(code);
-  //   setShowCodeDialog(false);
-  //   let eval_result = await eval(code);
-  //   eval_result = Array.of(eval_result);
-  //   console.log("eval completed : ", eval_result);
-
-  //   setShowTestDialog(true);
-  //   setTestResult(eval_result || []);
-  //   console.dir(eval_result.length);
-  //   // Implement test functionality
-  // };
-
   // Schedule the flow
   const scheduleFlow = async () => {
     setLoading(true);
@@ -292,7 +259,7 @@ const RequestFlowCanvas = () => {
           flow.addConditionNode(
             node.id,
             node.name,
-            node.properties.conditionExpression
+            node.properties.condition
           );
           break;
 
