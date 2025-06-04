@@ -86,7 +86,7 @@ FSEPWorkerPod
 - create ```.env``` file and put following content in it at root level
     Here, where <put-your-data> is there at those places put your data.
     ```
-    MONGO_URI= 'mongodb+srv://webdevwithnavneet:tonystarkismyrolemodel@usermanagementwps.j0isw.mongodb.net/?retryWrites=true&w=majority&appName=UserManagementWPS'
+    MONGO_URI= 'mongodb+srv://<username>:<password>@usermanagementwps.j0isw.mongodb.net/?retryWrites=true&w=majority&appName=UserManagementWPS'
     JWT_SECRET = 'TonyStark-is-my-role-model'
     SELF_URL = 'http://localhost:5002'
     PORT = '5002'
